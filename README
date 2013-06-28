@@ -1,0 +1,40 @@
+
+========
+ TOKENS
+========
+INDEFINITE_ARTICLE              a(n)?|A(N)?
+IS                              is|IS
+HAS                             has|HAS
+CAN                             can|CAN
+WITH                            with|WITH
+THAT                            that|THAT
+AND                             and|AND
+IDENTIFIER                      [a-zA-Z_]+
+
+
+=========
+ GRAMMAR
+=========
+
+program:    statement
+        |   statement "." program
+
+statement:  type_definition
+
+type_definition:    INDEFINITE_ARTICLE IDENTIFIER definition_section
+                |   IDENTIFIER IS INDEFINITE_ARTICLE IDENTIFIER "."
+                |   IDENTIFIER IS INDEFINITE_ARTICLE IDENTIFIER THAT definition_section
+
+definition_section: definition "," definition_list
+                |   definition "."
+
+definition_list:    definition "," definition_list
+                |   AND definition "."
+                |   definition "."
+
+definition: CAN IDENTIFIER parameters
+        |   HAS INDEFINITE_ARTICLE IDENTIFIER
+
+parameters: "(" WITH  
+
+

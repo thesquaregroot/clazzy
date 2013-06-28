@@ -1,0 +1,6 @@
+%LANGUAGE=C++
+
+A simple_class
+    can
+        execute
+.
