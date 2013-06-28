@@ -1,7 +1,14 @@
+=================
+ About Cranberry
+=================
+
+Cranberry does things.... TODO
+
 
 ========
  TOKENS
 ========
+PERCENT                         %
 INDEFINITE_ARTICLE              a(n)?|A(N)?
 IS                              is|IS
 HAS                             has|HAS
@@ -10,6 +17,7 @@ WITH                            with|WITH
 THAT                            that|THAT
 AND                             and|AND
 IDENTIFIER                      [a-zA-Z_]+
+VALUE                           .+
 
 
 =========
@@ -17,9 +25,12 @@ IDENTIFIER                      [a-zA-Z_]+
 =========
 
 program:    statement
-        |   statement "." program
+        |   statement program
 
-statement:  type_definition
+statement:  property
+        |   type_definition
+
+property:   PERCENT IDENTIFIER EQUALS VALUE
 
 type_definition:    INDEFINITE_ARTICLE IDENTIFIER definition_section
                 |   IDENTIFIER IS INDEFINITE_ARTICLE IDENTIFIER "."
@@ -32,9 +43,20 @@ definition_list:    definition "," definition_list
                 |   AND definition "."
                 |   definition "."
 
-definition: CAN IDENTIFIER parameters
-        |   HAS INDEFINITE_ARTICLE IDENTIFIER
+definition: CAN action_list
+        |   HAS attribute_list
 
-parameters: "(" WITH  
+action_list:    action action_list
+            |   action ","
 
+action: IDENTIFIER parameters
+    |   IDENTIFIER
+
+atribute_list:  IDENTIFIER atribute_list
+            |   IDENTIFIER
+
+parameters: "(" param_list ")"
+
+param_list: IDENTIFIER "," param_list
+        |   IDENTIFIER
 

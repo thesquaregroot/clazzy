@@ -3,10 +3,10 @@
 A person
     can
         jump
-        talk
-        walk
-        run
-        sprint,
+        talk(to)
+        walk(distance)
+        run(distance)
+        sprint(distance),
     has
         left_arm
         right_arm
@@ -16,5 +16,5 @@ A person
 
 A nagger is a person that
     can
-        nag
+        nag(person)
 .
