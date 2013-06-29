@@ -8,6 +8,7 @@ Cranberry does things.... TODO
 ========
  TOKENS
 ========
+WHITESPACE                      [ \n\t]+
 PERCENT                         %
 INDEFINITE_ARTICLE              a(n)?|A(N)?
 IS                              is|IS
