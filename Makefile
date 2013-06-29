@@ -31,7 +31,7 @@ flex : src/cranberry.lex
 # The variable "$@" stands for the current target. "$^" is everything 
 # it depends on.  In this case, the executable depends on all the object files.
 $(EXE) : $(OBJS)
-	$(CXX) $^ -o $@ -lfl
+	$(CXX) $^ -o $@
 
 # An object file is dependent on the corresponding source file
 # "$<" is the name of the first prerequisite.
