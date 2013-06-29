@@ -5,7 +5,7 @@ A semi-natural-language code generation platform for projects that need similar 
 
 Cranberry is an open source program licensed under the GNU Lesser General Public License (LGPL).
 
-Dependancies
+Dependencies
 ------------
 Cranberry is written in C++ and has no external dependancies. Some of the code is generated with
 flex, a lexical analyser, but the generated code should compile with any C++ compiler.
