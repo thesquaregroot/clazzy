@@ -3,7 +3,7 @@ cranberry
 
 A semi-natural-language code generation platform for projects that need similar data structures in multiple languages.
 
-Cranberry is an open source program licensed under the GNU Lesser General Public License (LGPL).
+Cranberry is an open source C++ program licensed under the GNU Lesser General Public License (LGPL).
 
 Architecture
 ------------

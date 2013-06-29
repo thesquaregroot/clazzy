@@ -11,3 +11,9 @@
 *.lai
 *.la
 *.a
+
+# Makefile backup
+Makefile.bak
+
+# Executable
+cranberry
