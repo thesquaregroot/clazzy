@@ -1,4 +1,4 @@
-%LANGUAGE=C++
+%LANGUAGE=C++;
 
 A simple_class
     can
