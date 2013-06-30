@@ -48,5 +48,12 @@ clean:
 # DO NOT DELETE
 
 src/lex.yy.o: /usr/include/errno.h /usr/include/features.h
-src/lex.yy.o: /usr/include/stdc-predef.h /usr/include/FlexLexer.h
-src/lex.yy.o: src/h/token.h /usr/include/unistd.h /usr/include/getopt.h
+src/lex.yy.o: /usr/include/stdc-predef.h /usr/include/sys/cdefs.h
+src/lex.yy.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+src/lex.yy.o: /usr/include/bits/errno.h /usr/include/linux/errno.h
+src/lex.yy.o: /usr/include/asm/errno.h /usr/include/asm-generic/errno.h
+src/lex.yy.o: /usr/include/asm-generic/errno-base.h /usr/include/FlexLexer.h
+src/lex.yy.o: src/h/token.h /usr/include/unistd.h
+src/lex.yy.o: /usr/include/bits/posix_opt.h /usr/include/bits/environments.h
+src/lex.yy.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+src/lex.yy.o: /usr/include/bits/confname.h /usr/include/getopt.h

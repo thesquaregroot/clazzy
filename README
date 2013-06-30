@@ -4,16 +4,61 @@
 
 Cranberry does things.... TODO
 
+=========
+ Classes
+=========
+
+---------
+ Parsing
+---------
+
+parser:
+    Implements functions corresponding to the grammar rules below (in recusive descent fashion) that uses FlexParser to
+    read input.
+    
+    Contains a vector of class-def's.
+
+---------------
+ Data Modeling
+---------------
+
+class-def:
+    Represents a class definition.
+
+    Contains a vector of functions and another of members.
+
+function:
+    Represents a function declaration.
+
+    Contains a map from function names to parameter names.
+
+-----------
+ Languages
+-----------
+
+langauge:
+    An abstract class meant to be extended for plugging in new languages.
+
+lang_cpp:
+    A child class of cran_language, implementing C++ output.
+
+lang_java:
+    A child class of cran_language, implementing Java output.
+
+lang_python:
+    A child class of cran_language, implementing Python output.
 
 ========
- TOKENS
+ Tokens
 ========
 INDEFINITE_ARTICLE              "a" or "an" (case insensitive)
 IDENTIFIER                      [a-zA-Z_\-]+
 VALUE                           [a-zA-Z_]+=[^;]*
 
+NOTE: These are only defined for use below.  See src/cranberry.lex and src/h/token.h for a more complete list.
+
 =========
- GRAMMAR
+ Grammar
 =========
 
 program:    statement
