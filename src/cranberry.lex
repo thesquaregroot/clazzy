@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include "h/token.h"
+#include "h/parser.h"
 using namespace std;
 %}
 
@@ -38,8 +39,11 @@ using namespace std;
 int main(int argc, char** argv)
 {
     yyFlexLexer lexer;
-    int token;
-    while ((token = lexer.yylex()) != END_OF_FILE) {
-        cout << "[" << lexer.lineno() << "] Token: " << lexer.YYText() << "\n";
-    }
+    parser p(lexer);
+    p.parse();
+    p.write();
+    //int token;
+    //while ((token = lexer.yylex()) != END_OF_FILE) {
+    //    cout << "[" << lexer.lineno() << "] Token: " << lexer.YYText() << "\n";
+    //}
 }

@@ -22,7 +22,7 @@ parser:
  Data Modeling
 ---------------
 
-class-def:
+class_def:
     Represents a class definition.
 
     Contains a vector of functions and another of members.
@@ -38,8 +38,6 @@ function:
 
 langauge:
     An abstract class meant to be extended for plugging in new languages.
-
-    It 
 
 lang_cpp:
     A child class of language, implementing C++ output.
