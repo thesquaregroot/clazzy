@@ -1710,13 +1710,8 @@ void yyfree (void * ptr )
 
 int main(int argc, char** argv)
 {
-    yyFlexLexer lexer;
-    parser p(lexer);
+    parser p(new yyFlexLexer());
     p.parse();
     p.write();
-    //int token;
-    //while ((token = lexer.yylex()) != END_OF_FILE) {
-    //    cout << "[" << lexer.lineno() << "] Token: " << lexer.YYText() << "\n";
-    //}
 }
 

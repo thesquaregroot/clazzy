@@ -14,7 +14,8 @@ COMPILE = $(CXX) $(CXXFLAGS) -c
 EXE = cranberry
 
 # All object files, space separated.
-SRCS = $(shell ls src/*.cpp) src/lex.yy.cpp
+FLEX_OUTPUT_FILE = src/lex.yy.cpp
+SRCS = $(shell ls src/*.cpp) $(FLEX_OUTPUT_FILE)
 OBJS = $(SRCS:.cpp=.o)
 
 # The first target is the one that is executed when you invoke
@@ -22,11 +23,11 @@ OBJS = $(SRCS:.cpp=.o)
 #   In this case there isn't one.
 all: flex make $(EXE)
 
+flex : src/cranberry.lex
+	flex -+ -o $(FLEX_OUTPUT_FILE) src/cranberry.lex
+
 make: $(SRCS)
 	makedepend -Y src/*.cpp 2>/dev/null
-
-flex : src/cranberry.lex
-	flex -+ -o src/lex.yy.cpp src/cranberry.lex
 
 # The variable "$@" stands for the current target. "$^" is everything 
 # it depends on.  In this case, the executable depends on all the object files.
@@ -47,4 +48,7 @@ clean:
 # Below this: Stuff from makedepend. Or rules in a similar form as above.
 # DO NOT DELETE
 
+src/class_def.o: src/h/class_def.h
 src/lex.yy.o: src/h/token.h src/h/parser.h src/h/class_def.h src/h/language.h
+src/parser.o: src/h/parser.h src/h/class_def.h src/h/language.h
+src/parser.o: src/h/language.h src/h/class_def.h
