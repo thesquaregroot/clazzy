@@ -89,7 +89,7 @@ action_list:    action "," action_list
 action: IDENTIFIER parameters
     |   IDENTIFIER
 
-atribute_list:  IDENTIFIER atribute_list
+attribute_list: IDENTIFIER attribute_list
             |   IDENTIFIER
 
 parameters: "(" param_list ")"

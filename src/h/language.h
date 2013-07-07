@@ -3,13 +3,16 @@
 
 #include <vector>
 #include <string>
-#include "class_def.h"
+
+class class_def;
 
 class language {
     private:
-        static const std::string name;
+        static const char *name;
 
     public:
+        virtual ~language();
+
         virtual std::string get_name() const = 0;
         virtual void create(const std::vector<class_def>&) const = 0;
 };

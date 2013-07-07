@@ -29,8 +29,8 @@ using namespace std;
 [a-zA-Z_]+=[^;]*    { return PROPERTY; }
 [ \t\n]+            /* skip whitespace */
 .                   {
-                        //handle errors
-                        cout << "ERROR at line " << yylineno << ": illegal token \"" << yytext << "\"." << endl;
+                        //handle token errors
+                        cout << "ERROR [Line " << yylineno << "]: illegal token \"" << yytext << "\"." << endl;
                         exit(1);
                     }
 
@@ -39,6 +39,8 @@ using namespace std;
 int main(int argc, char** argv)
 {
     parser p(new yyFlexLexer());
+    p.set_debug(true);
     p.parse();
     p.write();
 }
+

@@ -5,8 +5,26 @@
 #include <vector>
 using namespace std;
 
+// string name
 // map<string, vector<string> > functions
 // vector<string> memebers
+
+class_def::class_def(const string& name)
+{
+        this->name = name;
+}
+
+
+void class_def::set_name(const string& name)
+{
+        this->name = name;
+}
+
+string class_def::get_name() const
+{
+        return name;
+}
+
 
 void class_def::add_function(const string &name, vector<string> &params)
 {

@@ -5,7 +5,7 @@
 CXX = g++
 
 # C++ compiler flags
-CXXFLAGS = -g -Wall
+CXXFLAGS = -g -std=c++11 -Wall
 
 # Creating a .o file
 COMPILE = $(CXX) $(CXXFLAGS) -c
@@ -49,6 +49,5 @@ clean:
 # DO NOT DELETE
 
 src/class_def.o: src/h/class_def.h
-src/lex.yy.o: src/h/token.h src/h/parser.h src/h/class_def.h src/h/language.h
-src/parser.o: src/h/parser.h src/h/class_def.h src/h/language.h
-src/parser.o: src/h/language.h src/h/class_def.h
+src/lex.yy.o: src/h/token.h src/h/parser.h
+src/parser.o: src/h/token.h src/h/parser.h src/h/language.h src/h/class_def.h
