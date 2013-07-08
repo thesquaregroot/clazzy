@@ -114,7 +114,7 @@ class_def parser::parse_type_definition(int lookahead) const
                 break;
         case IDENTIFIER:
                 // typedef or extension-type definition
-                // TODO (class_def.add_parent()?)
+                // TODO
         default:
                 error("Invalid type definition.");
         }

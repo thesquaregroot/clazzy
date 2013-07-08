@@ -28,21 +28,31 @@ string class_def::get_name() const
 
 void class_def::add_function(const string &name, vector<string> &params)
 {
-    functions[name] = params;
+        functions[name] = params;
 }
 
 void class_def::add_member(const string &name)
 {
-    members.push_back(name);
+        members.push_back(name);
+}
+
+void class_def::add_parent(const string &name)
+{
+        parents.push_back(name);
 }
 
 map<string, vector<string> > class_def::get_functions() const
 {
-    return functions;
+        return functions;
 }
 
 vector<string> class_def::get_members() const
 {
-    return members;
+        return members;
+}
+
+vector<string> class_def::get_parents() const
+{
+        return parents;
 }
 
