@@ -6,6 +6,7 @@
 #include <FlexLexer.h>
 #include <vector>
 #include <cstdlib>
+#include <thread>
 using namespace std;
 
 // bool debug_enabled = false
@@ -40,13 +41,24 @@ void parser::parse()
         }
 }
 
+// for threading langauge implementation
+// not a member function
+void write_langauge(const language *lang, const vector<class_def>& classes)
+{
+        cout << "Writing " << lang->get_name() << " code..." << endl;
+        lang->create(classes);
+}
+
+
 void parser::write() const
 {
         // write all language files
+        vector<thread*> threads;
         for (unsigned int i=0; i<langs.size(); i++) {
-                const language *lang = langs.at(i);
-                cout << "Writing " << lang->get_name() << " code..." << endl;
-                lang->create(classes);
+                threads.push_back(new thread(write_langauge, langs.at(i), classes));
+        }
+        for (thread *t : threads) {
+                t->join();
         }
 }
 
@@ -98,6 +110,7 @@ class_def parser::parse_type_definition(int lookahead) const
 {
         class_def c;
         string name;
+        string parent;
 
         switch (lookahead) {
         case INDEFINITE_ARTICLE:
@@ -107,14 +120,24 @@ class_def parser::parse_type_definition(int lookahead) const
                         name = lex->YYText();
                 } else {
                         // could not get class name
-                        error("Invalid identifier: " + string(lex->YYText()));
+                        error("Invalid identifier: " + string(lex->YYText()) + ".");
                 }
                 c = class_def(name);
                 parse_definition_section(lex->yylex(), c);
                 break;
         case IDENTIFIER:
                 // typedef or extension-type definition
-                // TODO
+                c = class_def(lex->YYText());
+                lookahead = lex->yylex();
+                if (lookahead != IS) {
+                        error("Expected token 'is' following identifier '" + name + "'.");
+                }
+                lookahead = lex->yylex();
+                if (lookahead != INDEFINITE_ARTICLE) {
+                        error("Expected token 'a/an' following 'is', instead found '" + string(lex->YYText()) + "'.");
+                }
+                // TODO (finish two types)
+                break;
         default:
                 error("Invalid type definition.");
         }
