@@ -15,18 +15,18 @@ EXE = cranberry
 
 # All object files, space separated.
 FLEX_OUTPUT_FILE = src/lex.yy.cpp
-SRCS = $(shell ls src/*.cpp) $(FLEX_OUTPUT_FILE)
+SRCS = $(shell ls src/*.cpp)
 OBJS = $(SRCS:.cpp=.o)
 
 # The first target is the one that is executed when you invoke
 # "make". The line describing the action starts with <TAB>.
 #   In this case there isn't one.
-all: flex make $(EXE)
+all: $(FLEX_OUTPUT_FILE) Makefile $(EXE)
 
-flex : src/cranberry.lex
+$(FLEX_OUTPUT_FILE) : src/cranberry.lex
 	flex -+ -o $(FLEX_OUTPUT_FILE) src/cranberry.lex
 
-make: $(SRCS)
+Makefile : $(SRCS) $(FLEX_OUTPUT_FILE)
 	makedepend -Y src/*.cpp 2>/dev/null
 
 # The variable "$@" stands for the current target. "$^" is everything 
