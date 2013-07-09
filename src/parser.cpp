@@ -5,6 +5,7 @@
 #include "h/class_def.h"
 #include <FlexLexer.h>
 #include <vector>
+#include <map>
 #include <cstdlib>
 #include <thread>
 using namespace std;
@@ -13,6 +14,7 @@ using namespace std;
 // FlexLexer *lex
 // vector<class_def> classes
 // vector<langauge*> langs
+// map<string, string> properties
 
 parser::parser(FlexLexer *lexer)
 {
@@ -47,6 +49,7 @@ void write_langauge(const language *lang, const vector<class_def>& classes)
 {
         cout << "Writing " << lang->get_name() << " code..." << endl;
         lang->create(classes);
+        cout << lang->get_name() << " complete." << endl;
 }
 
 

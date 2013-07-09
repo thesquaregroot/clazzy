@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include <vector>
+#include <map>
 #include <string>
 
 class FlexLexer;
@@ -10,11 +11,12 @@ class language;
 
 class parser {
     private:
-        bool                    debug_enabled = false;
-        FlexLexer               *lex;
-        std::vector<class_def>  classes;
-        std::vector<language*>  langs;
-
+        bool                                debug_enabled = false;
+        FlexLexer                           *lex;
+        std::vector<class_def>              classes;
+        std::vector<language*>              langs;
+        std::map<std::string, std::string>  properties;
+        
         void parse_statement(int);
         void parse_property(int);
         class_def parse_type_definition(int) const;

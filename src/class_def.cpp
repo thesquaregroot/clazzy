@@ -6,7 +6,7 @@
 using namespace std;
 
 // string name
-// map<string, vector<string> > functions
+// map<string, vector<string>> functions
 // vector<string> memebers
 
 class_def::class_def(const string& name)
@@ -41,7 +41,7 @@ void class_def::add_parent(const string &name)
         parents.push_back(name);
 }
 
-map<string, vector<string> > class_def::get_functions() const
+map<string, vector<string>> class_def::get_functions() const
 {
         return functions;
 }

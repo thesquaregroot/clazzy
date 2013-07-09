@@ -9,7 +9,7 @@ class class_def {
     private:
         std::string name;
         // stores functions (name to parameter list mapping)
-        std::map<std::string, std::vector<std::string> > functions;
+        std::map<std::string, std::vector<std::string>> functions;
         // stores member variables (names)
         std::vector<std::string> members;
         // stores parent class names
@@ -29,7 +29,7 @@ class class_def {
         // stores a parent class/interface name
         void add_parent(const std::string&);
         // returns the map of function names to their parameters
-        std::map<std::string, std::vector<std::string> > get_functions() const;
+        std::map<std::string, std::vector<std::string>> get_functions() const;
         // gets the members of this class
         std::vector<std::string> get_members() const;
         // gets the parents of this class
