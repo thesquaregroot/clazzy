@@ -7,11 +7,8 @@
 class class_def;
 
 class language {
-    private:
-        static const char *name;
-
     public:
-        virtual ~language();
+        virtual ~language() {}
 
         virtual std::string get_name() const = 0;
         virtual void create(const std::vector<class_def>&) const = 0;

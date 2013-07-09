@@ -49,5 +49,7 @@ clean:
 # DO NOT DELETE
 
 src/class_def.o: src/h/class_def.h
+src/lang_cpp.o: src/h/lang_cpp.h src/h/language.h
 src/lex.yy.o: src/h/token.h src/h/parser.h
-src/parser.o: src/h/token.h src/h/parser.h src/h/language.h src/h/class_def.h
+src/parser.o: src/h/parser.h src/h/class_def.h src/h/token.h src/h/lang_cpp.h
+src/parser.o: src/h/language.h

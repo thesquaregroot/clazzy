@@ -1,8 +1,11 @@
 
-#include "h/token.h"
+// for parsing
 #include "h/parser.h"
-#include "h/language.h"
 #include "h/class_def.h"
+#include "h/token.h"
+// language implementations
+#include "h/lang_cpp.h"
+// system headers
 #include <FlexLexer.h>
 #include <vector>
 #include <map>
@@ -90,7 +93,7 @@ void parser::parse_statement(int lookahead)
         case PERCENT:
                 debug("Parsing property.");
 
-                parse_property(lookahead);
+                parse_property(lex->yylex());
                 break;
         case INDEFINITE_ARTICLE:
         case IDENTIFIER:
@@ -106,7 +109,25 @@ void parser::parse_statement(int lookahead)
 
 void parser::parse_property(int lookahead)
 {
-        
+        if (lookahead != PROPERTY) {
+                error("Key-value pair expected after \"%\" token.");
+        }
+        string property(lex->YYText());
+        string key = property.substr(0, property.find('='));
+        string value = property.substr(property.find('=')+1);
+        if (key == "LANGUAGE") {
+                // add new languages here
+                if (value == "C++") {
+                        langs.push_back(new lang_cpp());
+                } else {
+                        error("Invalid langauge.");
+                }
+        }
+        lookahead = lex->yylex();
+        if (lookahead != SEMICOLON) {
+                // not sure if this is possible
+                error("Invalid delimiter for property.");
+        }
 }
 
 class_def parser::parse_type_definition(int lookahead) const
@@ -139,7 +160,21 @@ class_def parser::parse_type_definition(int lookahead) const
                 if (lookahead != INDEFINITE_ARTICLE) {
                         error("Expected token 'a/an' following 'is', instead found '" + string(lex->YYText()) + "'.");
                 }
-                // TODO (finish two types)
+                lookahead = lex->yylex();
+                if (lookahead != IDENTIFIER) {
+                        error("Invalid identifier after 'is a' construct.");
+                }
+                c.add_parent(lex->YYText());
+                // got parent, check for additional definition
+                lookahead = lex->yylex();
+                if (lookahead == PERIOD) {
+                        return c;
+                } else if (lookahead == THAT) {
+                        parse_definition_section(lex->yylex(), c);
+                        return c;
+                } else {
+                        error("Unexpected token '" + string(lex->YYText()) + "'.");
+                }
                 break;
         default:
                 error("Invalid type definition.");
