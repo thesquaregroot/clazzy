@@ -80,7 +80,7 @@ void parser::write() const
 void parser::debug(string str) const
 {
         if (debug_enabled)
-                cout << "DEBUG [Line " << lex->lineno() << "]: " << str << endl;
+                cout << "DEBUG [Line " << lex->lineno() << "]: " << str << " [token=" << token_text() << "]" << endl;
 }
 
 void parser::error(string err) const
@@ -108,15 +108,11 @@ void parser::parse_statement()
         
         switch (lookahead) {
         case PERCENT:
-                debug("Parsing property.");
-
                 next_token();
                 parse_property();
                 break;
         case INDEFINITE_ARTICLE:
         case IDENTIFIER:
-                debug("Parsing type definition.");
-
                 next_token();
                 classes.push_back(parse_type_definition());
                 break;
@@ -128,6 +124,8 @@ void parser::parse_statement()
 
 void parser::parse_property()
 {
+        debug("Parsing property.");
+
         if (lookahead != PROPERTY) {
                 error("Key-value pair expected after \"%\" token.");
         }
@@ -151,21 +149,20 @@ void parser::parse_property()
 
 class_def parser::parse_type_definition()
 {
+        debug("Parsing type definition.");
+
         class_def c;
-        string name;
         string parent;
 
         switch (lookahead) {
         case INDEFINITE_ARTICLE:
                 // normal class definition
                 next_token();
-                if (lookahead == IDENTIFIER) {
-                        name = token_text();
-                } else {
+                if (lookahead != IDENTIFIER) {
                         // could not get class name
                         error("Invalid identifier: " + token_text() + ".");
                 }
-                c = class_def(name);
+                c = class_def(token_text());
                 next_token();
                 parse_definition_list(c);
                 break;
@@ -174,7 +171,9 @@ class_def parser::parse_type_definition()
                 c = class_def(token_text());
                 next_token();
                 if (lookahead != IS) {
-                        error("Expected token 'is' following identifier '" + name + "'.");
+                        // straight definition, get it and go
+                        parse_definition_list(c);
+                        return c;
                 }
                 next_token();
                 if (lookahead != INDEFINITE_ARTICLE) {
@@ -206,6 +205,8 @@ class_def parser::parse_type_definition()
 
 void parser::parse_definition_list(class_def& c)
 {
+        debug("Parsing definition list.");
+
         parse_definition(c);
         next_token();
         if (lookahead == PERIOD) {
@@ -233,6 +234,8 @@ void parser::parse_definition_list(class_def& c)
 
 void parser::parse_definition(class_def& c)
 {
+        debug("Parsing definition.");
+
         if (lookahead == CAN) {
                 next_token();
                 parse_action_list(c);
@@ -246,6 +249,8 @@ void parser::parse_definition(class_def& c)
 
 void parser::parse_action_list(class_def& c)
 {
+        debug("Parsing action list.");
+
         parse_action(c);
         next_token();
         if (lookahead != COMMA) {
@@ -259,6 +264,8 @@ void parser::parse_action_list(class_def& c)
 
 void parser::parse_action(class_def& c)
 {
+        debug("Parsing action.");
+
         if (lookahead != IDENTIFIER) {
                 error("Invalid function definition.");
         }
@@ -275,6 +282,8 @@ void parser::parse_action(class_def& c)
 
 void parser::parse_parameter_list(function &f)
 {
+        debug("Parsing parameter list.");
+
         if (lookahead != IDENTIFIER) {
                error("Invalid parameter list."); 
         }
@@ -293,6 +302,8 @@ void parser::parse_parameter_list(function &f)
 
 void parser::parse_attribute_list(class_def& c)
 {
+        debug("Parsing attribute list.");
+
         if (lookahead != IDENTIFIER) {
                 error("Invalid attribute list.");
         }
