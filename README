@@ -91,7 +91,7 @@ definition_list:    definition "," definition_list
 definition: "can" action_list
         |   "has" attribute_list
 
-action_list:    action "," action_list
+action_list:    action action_list
             |   action
 
 action: IDENTIFIER "(" parameter_list ")"
