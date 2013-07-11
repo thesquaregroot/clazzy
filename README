@@ -80,15 +80,12 @@ statement:  property
 
 property:   "%" PROPERTY ";"
 
-type_definition:    INDEFINITE_ARTICLE IDENTIFIER definition_section
+type_definition:    INDEFINITE_ARTICLE IDENTIFIER definition_list
                 |   IDENTIFIER "is" INDEFINITE_ARTICLE IDENTIFIER "."
-                |   IDENTIFIER "is" INDEFINITE_ARTICLE IDENTIFIER "that" definition_section
-
-definition_section: definition "," definition_list
-                |   definition "."
+                |   IDENTIFIER "is" INDEFINITE_ARTICLE IDENTIFIER "that" definition_list
 
 definition_list:    definition "," definition_list
-                |   "and" definition "."
+                |   definition "," "and" definition "."
                 |   definition "."
 
 definition: "can" action_list
