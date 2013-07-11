@@ -94,14 +94,12 @@ definition: "can" action_list
 action_list:    action "," action_list
             |   action
 
-action: IDENTIFIER parameters
+action: IDENTIFIER "(" param_list ")"
     |   IDENTIFIER
-
-attribute_list: IDENTIFIER attribute_list
-            |   IDENTIFIER
-
-parameters: "(" param_list ")"
 
 param_list: IDENTIFIER "," param_list
         |   IDENTIFIER
+
+attribute_list: IDENTIFIER attribute_list
+            |   IDENTIFIER
 
