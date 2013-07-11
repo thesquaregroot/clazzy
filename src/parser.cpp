@@ -91,7 +91,7 @@ void parser::error(string err) const
 
 void parser::next_token(bool exit_on_eof /* = true */) {
         lookahead = lex->yylex();
-        if (lookahead == END_OF_FILE) {
+        if (exit_on_eof && lookahead == END_OF_FILE) {
                 error("Unexpected end of file.");
         }
 }
@@ -208,7 +208,6 @@ void parser::parse_definition_list(class_def& c)
         debug("Parsing definition list.");
 
         parse_definition(c);
-        next_token();
         if (lookahead == PERIOD) {
                 // done with this definition
                 return;
@@ -223,7 +222,6 @@ void parser::parse_definition_list(class_def& c)
                 next_token();
                 parse_definition(c);
                 // require period after "AND"
-                next_token();
                 if (lookahead != PERIOD) {
                         error("Class definition not ended with a period.");
                 }
@@ -252,13 +250,11 @@ void parser::parse_action_list(class_def& c)
         debug("Parsing action list.");
 
         parse_action(c);
-        next_token();
-        if (lookahead != COMMA) {
+        if (lookahead != IDENTIFIER) {
                 // must be done with action list
                 return;
         }
-        // more to list
-        next_token();
+        // IDENTIFIER -- more to list
         parse_action_list(c);
 }
 
@@ -272,10 +268,13 @@ void parser::parse_action(class_def& c)
         function f(token_text());
         next_token();
         if (lookahead == L_PAREN) {
+                next_token();
                 parse_parameter_list(f);
                 if (lookahead != R_PAREN) {
                         error("Expected ')' after parameter list.");
                 }
+                // R_PAREN
+                next_token();
         }
         c.add_function(f);
 }
