@@ -12,38 +12,57 @@ COMPILE = $(CXX) $(CXXFLAGS) -c
 
 # Name of the executable.
 EXE = cranberry
-
-# All object files, space separated.
-FLEX_OUTPUT_FILE = src/lex.yy.cpp
-SRCS = $(shell ls src/*.cpp)
-OBJS = $(SRCS:.cpp=.o)
+SOURCE_DIR = src
 
 # The first target is the one that is executed when you invoke
 # "make". The line describing the action starts with <TAB>.
 #   In this case there isn't one.
-all: $(FLEX_OUTPUT_FILE) Makefile $(EXE)
+all: generated_files Makefile $(EXE)
 
-$(FLEX_OUTPUT_FILE) : src/cranberry.lex
-	flex -+ -o $(FLEX_OUTPUT_FILE) src/cranberry.lex
+#
+# Start by defining how to build any generated files...
+#
+GENERATED_FILES = src/lex.yy.cpp
 
-Makefile : $(SRCS) $(FLEX_OUTPUT_FILE)
+generated_files : $(GENERATED_FILES)
+
+src/lex.yy.cpp : src/cranberry.lex
+	flex -+ -o src/lex.yy.cpp src/cranberry.lex
+
+#
+# Next, update this makefile to handle dependancies (requires makedepend)
+#
+Makefile : $(GENERATED_FILES) $(SRCS)
 	makedepend -Y src/*.cpp 2>/dev/null
+
+#
+# Automatically find cpp files and associate them with object files
+#
+# NOTE: the shell command will not find generated files, 
+#	hence having to make those object assosciations as well
+#
+SRCS = $(shell ls $(SOURCE_DIR)/*.cpp)
+OBJS = $(GENERATED_FILES:.cpp=.o) $(SRCS:.cpp=.o)
+
+#
+# compile it all together
+#
+
+# An object file is dependent on the corresponding source file
+# "$<" is the name of the first prerequisite.
+# But there should only be one anyway.
+#  This is mainly here for non gnu-make versions of make.
+$(SOURCE_DIR)/%.o : $(SOURCE_DIR)/%.cpp
+	$(COMPILE) -o $@ $<
 
 # The variable "$@" stands for the current target. "$^" is everything 
 # it depends on.  In this case, the executable depends on all the object files.
 $(EXE) : $(OBJS)
 	$(CXX) $^ -o $@
 
-# An object file is dependent on the corresponding source file
-# "$<" is the name of the first prerequisite.
-# But there should only be one anyway.
-#  This is mainly here for non gnu-make versions of make.
-src/%.o : src/%.cpp
-	$(COMPILE) -o $@ $<
-
 # Get rid of all the signs of compilation.
 clean:
-	rm -rf ./src/*.o ./$(EXE) Makefile.bak
+	rm -rf $(EXE) $(SOURCE_DIR)/*.o Makefile.bak
 
 # Below this: Stuff from makedepend. Or rules in a similar form as above.
 # DO NOT DELETE
