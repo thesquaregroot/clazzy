@@ -2,6 +2,7 @@
 #include "h/lang_cpp.h"
 #include <vector>
 #include <string>
+using namespace cranberry;
 using namespace std;
 
 string lang_cpp::get_name() const

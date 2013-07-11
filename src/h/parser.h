@@ -6,39 +6,45 @@
 #include <string>
 
 class FlexLexer;
-class class_def;
-class language;
 
-class parser {
-    private:
-        bool                                debug_enabled = false;
-        FlexLexer                           *lex;
-        std::vector<class_def>              classes;
-        std::vector<language*>              langs;
-        std::map<std::string, std::string>  properties;
-        
-        void parse_statement(int);
-        void parse_property(int);
-        class_def parse_type_definition(int) const;
-        void parse_definition_section(int, class_def&) const;
-        void parse_definition_list(int, class_def&) const;
-        void parse_definition(int, class_def&) const;
-        void parse_action_list(int, class_def&) const;
-        void parse_action(int, class_def&) const;
-        void parse_attribute_list(int, class_def&) const;
-        void parse_parameters(int, class_def&) const;
-        void parse_parameter_list(int, class_def&) const;
-        
-        void debug(std::string) const;
-        void error(std::string) const;
+namespace cranberry {
+    class class_def;
+    class language;
+    class function;
 
-    public:
-        parser(FlexLexer *lexer);
-        ~parser();
-        
-        void set_debug(bool);
-        void parse();
-        void write() const;
-};
+    class parser {
+        public:
+            parser(FlexLexer *lexer);
+            ~parser();
+            
+            void set_debug(bool);
+            void parse();
+            void write() const;
+
+        private:
+            bool                                debug_enabled = false;
+            int                                 lookahead;
+            FlexLexer                           *lex;
+            std::vector<class_def>              classes;
+            std::vector<language*>              langs;
+            std::map<std::string, std::string>  properties;
+            
+            void next_token(bool exit_on_eof = true);
+            std::string token_text() const;
+
+            void parse_statement();
+            void parse_property();
+            class_def parse_type_definition();
+            void parse_definition_list(class_def&);
+            void parse_definition(class_def&);
+            void parse_action_list(class_def&);
+            void parse_action(class_def&);
+            void parse_parameter_list(function&);
+            void parse_attribute_list(class_def&);
+            
+            void debug(std::string) const;
+            void error(std::string) const;
+    };
+}
 
 #endif

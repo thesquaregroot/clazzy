@@ -5,12 +5,12 @@
 #include <vector>
 #include <string>
 
-class class_def;
-
-class lang_cpp : public language {
-    public:
-        std::string get_name() const;
-        void create(const std::vector<class_def>&) const;
-};
+namespace cranberry {
+    class lang_cpp : public language {
+        public:
+            std::string get_name() const;
+            void create(const std::vector<class_def>&) const;
+    };
+}
 
 #endif

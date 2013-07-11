@@ -4,14 +4,16 @@
 #include <vector>
 #include <string>
 
-class class_def;
+namespace cranberry {
+    class class_def;
 
-class language {
-    public:
-        virtual ~language() {}
+    class language {
+        public:
+            virtual ~language() {}
 
-        virtual std::string get_name() const = 0;
-        virtual void create(const std::vector<class_def>&) const = 0;
-};
+            virtual std::string get_name() const = 0;
+            virtual void create(const std::vector<class_def>&) const = 0;
+    };
+}
 
 #endif

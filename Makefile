@@ -67,8 +67,10 @@ clean:
 # Below this: Stuff from makedepend. Or rules in a similar form as above.
 # DO NOT DELETE
 
-src/class_def.o: src/h/class_def.h
+src/class_def.o: src/h/class_def.h src/h/function.h src/h/member.h
+src/function.o: src/h/function.h
 src/lang_cpp.o: src/h/lang_cpp.h src/h/language.h
 src/lex.yy.o: src/h/token.h src/h/parser.h
-src/parser.o: src/h/parser.h src/h/class_def.h src/h/token.h src/h/lang_cpp.h
-src/parser.o: src/h/language.h
+src/member.o: src/h/member.h
+src/parser.o: src/h/parser.h src/h/class_def.h src/h/function.h
+src/parser.o: src/h/member.h src/h/token.h src/h/lang_cpp.h src/h/language.h

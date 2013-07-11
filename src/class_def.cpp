@@ -1,13 +1,15 @@
 
 #include "h/class_def.h"
-#include <map>
+#include "h/function.h"
+#include "h/member.h"
 #include <string>
 #include <vector>
+using namespace cranberry;
 using namespace std;
 
 // string name
-// map<string, vector<string>> functions
-// vector<string> memebers
+// vector<function> functions
+// vector<member> members
 
 class_def::class_def(const string& name)
 {
@@ -25,15 +27,14 @@ string class_def::get_name() const
         return name;
 }
 
-
-void class_def::add_function(const string &name, vector<string> &params)
+void class_def::add_function(function &f)
 {
-        functions[name] = params;
+        functions.push_back(f);
 }
 
-void class_def::add_member(const string &name)
+void class_def::add_member(member &m)
 {
-        members.push_back(name);
+        members.push_back(m);
 }
 
 void class_def::add_parent(const string &name)
@@ -41,12 +42,12 @@ void class_def::add_parent(const string &name)
         parents.push_back(name);
 }
 
-map<string, vector<string>> class_def::get_functions() const
+vector<function> class_def::get_functions() const
 {
         return functions;
 }
 
-vector<string> class_def::get_members() const
+vector<member> class_def::get_members() const
 {
         return members;
 }
