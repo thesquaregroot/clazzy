@@ -6,9 +6,11 @@ CXX = g++
 
 # C++ compiler flags
 CXXFLAGS = -g -std=c++11 -Wall
+LIBRARIES = -lpthread
 
 # Creating a .o file
-COMPILE = $(CXX) $(CXXFLAGS) -c
+COMPILE_SRC = $(CXX) $(CXXFLAGS) -c
+COMPILE_EXE = $(CXX) $(LIBRARIES)
 
 # Name of the executable.
 EXE = cranberry
@@ -53,12 +55,12 @@ OBJS = $(GENERATED_FILES:.cpp=.o) $(SRCS:.cpp=.o)
 # But there should only be one anyway.
 #  This is mainly here for non gnu-make versions of make.
 $(SOURCE_DIR)/%.o : $(SOURCE_DIR)/%.cpp
-	$(COMPILE) -o $@ $<
+	$(COMPILE_SRC) -o $@ $<
 
 # The variable "$@" stands for the current target. "$^" is everything 
 # it depends on.  In this case, the executable depends on all the object files.
 $(EXE) : $(OBJS)
-	$(CXX) $^ -o $@
+	$(COMPILE_EXE) $^ -o $@
 
 # Get rid of all the signs of compilation.
 clean:
