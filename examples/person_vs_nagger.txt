@@ -5,7 +5,7 @@ A person
         jump
         talk(to)
         walk(distance)
-        run(distance)
+        run(distance, speed)
         sprint(distance),
     has
         left_arm

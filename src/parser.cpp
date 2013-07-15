@@ -54,13 +54,28 @@ void parser::parse()
         // debug data structures
         if (debug_enabled) {
                 cout << "\nParsing complete:\n";
+                // debug classes
                 cout << "-Classes:\n";
                 for (class_def c : classes) {
                         cout << "\t" << c.get_name() << "\n";
+                        vector<member> members = c.get_members();
+                        if (members.size() > 0) {
+                                cout << "\t  ( ";
+                                for (member m : members) {
+                                        cout << m.get_name() << " ";
+                                }
+                                cout << ")\n";
+                        }
                         for (function f : c.get_functions()) {
-                                cout << "\t\t" << f.get_name() << "\n";
+                                cout << "\t\t" << f.get_name() << " ";
+                                cout << "[ ";
+                                for (string arg : f.get_parameters()) {
+                                        cout << arg << " ";
+                                }
+                                cout << "]\n";
                         }
                 }
+                // debug properties
                 cout << "-Properties:\n";
                 for (auto prop : properties) {
                         cout << "\t" << prop.first << " : " << prop.second + "\n";
@@ -317,7 +332,7 @@ void parser::parse_parameter_list(function &f)
         debug("Parsing parameter list.");
 
         if (lookahead != IDENTIFIER) {
-               error("Invalid parameter list."); 
+               error("Invalid parameter list, expected identifier at token '" + token_text() + "'."); 
         }
         f.add_parameter(token_text());
         next_token();
@@ -325,9 +340,10 @@ void parser::parse_parameter_list(function &f)
                 // must be done
                 return;
         }
+        next_token();
         // COMMA
         if (lookahead != IDENTIFIER) {
-                error("Invalid parameter list.");
+               error("Invalid parameter list, expected identifier at token '" + token_text() + "'."); 
         }
         parse_parameter_list(f);
 }
