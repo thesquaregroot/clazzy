@@ -50,24 +50,51 @@ void parser::parse()
                 parse_statement();
                 next_token(false); // EOFs are okay here (and only here)
         }
+
+        // debug data structures
+        if (debug_enabled) {
+                cout << "\nParsing complete:\n";
+                cout << "-Classes:\n";
+                for (class_def c : classes) {
+                        cout << "\t" << c.get_name() << "\n";
+                        for (function f : c.get_functions()) {
+                                cout << "\t\t" << f.get_name() << "\n";
+                        }
+                }
+                cout << "-Properties:\n";
+                for (auto prop : properties) {
+                        cout << "\t" << prop.first << " : " << prop.second + "\n";
+                }
+                // additional newline
+                cout << "\n";
+        }
 }
 
-// for threading langauge implementation
+// for threading langauge implementation of paser::write()
 // not a member function
-void write_langauge(const language *lang, const vector<class_def>& classes)
+void write_langauge(
+                        const language *lang,
+                        const vector<class_def> &classes,
+                        const map<string, string> &properties
+        )        
 {
         cout << "Writing " << lang->get_name() << " code..." << endl;
-        lang->create(classes);
+        lang->create(classes, properties);
         cout << lang->get_name() << " complete." << endl;
 }
-
 
 void parser::write() const
 {
         // write all language files
         vector<thread*> threads;
         for (unsigned int i=0; i<langs.size(); i++) {
-                threads.push_back(new thread(write_langauge, langs.at(i), classes));
+                threads.push_back(new thread(
+                                        write_langauge,
+                                        langs.at(i),
+                                        classes,
+                                        properties
+                                )
+                        );
         }
         for (thread *t : threads) {
                 t->join();
@@ -132,7 +159,12 @@ void parser::parse_property()
         string property = token_text();
         string key = property.substr(0, property.find('='));
         string value = property.substr(property.find('=')+1);
+        // save property
+        properties[key] = value;
+        // special propcessing
         if (key == "LANGUAGE") {
+                //TODO: CSV tokenize property value
+
                 // add new languages here
                 if (value == "C++") {
                         langs.push_back(new lang_cpp());
@@ -140,6 +172,7 @@ void parser::parse_property()
                         error("Invalid langauge.");
                 }
         }
+        
         next_token();
         if (lookahead != SEMICOLON) {
                 // not sure if this is possible
