@@ -1,4 +1,4 @@
-%LANGUAGE=Java,C++;
+%LANGUAGE=Java,C++,C;
 
 A person
     can

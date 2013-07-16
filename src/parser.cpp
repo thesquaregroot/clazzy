@@ -8,6 +8,7 @@
 // language implementations
 #include "h/lang_cpp.h"
 #include "h/lang_java.h"
+#include "h/lang_c.h"
 // system headers
 #include <FlexLexer.h>
 #include <vector>
@@ -209,6 +210,8 @@ void parser::parse_property()
                                 langs.push_back(new lang_cpp(io_mutex));
                         } else if (name == "Java") {
                                 langs.push_back(new lang_java(io_mutex));
+                        } else if (name == "C") {
+                                langs.push_back(new lang_c(io_mutex));
                         } else {
                                 error("Invalid langauge.");
                         }
