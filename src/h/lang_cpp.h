@@ -9,7 +9,7 @@
 namespace cranberry {
     class lang_cpp : public language {
         public:
-            lang_cpp(std::mutex *io) : language(io) { }
+            lang_cpp(std::mutex *io, bool debug) : language(io, debug) { }
 
             std::string get_name() const;
             void create(

@@ -1,5 +1,8 @@
 
 #include "h/lang_cpp.h"
+#include "h/class_def.h"
+#include "h/function.h"
+#include "h/member.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -19,5 +22,7 @@ void lang_cpp::create(
                         const map<string,string> &properties
         ) const
 {
-        // TODO
+        for (class_def c : classes) {
+                debug("Creating C++ code for class: " + c.get_name());
+        }
 }

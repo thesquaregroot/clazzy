@@ -207,11 +207,11 @@ void parser::parse_property()
                         length = 0;
                         // add new languages here
                         if (name == "C++") {
-                                langs.push_back(new lang_cpp(io_mutex));
+                                langs.push_back(new lang_cpp(io_mutex, debug_enabled));
                         } else if (name == "Java") {
-                                langs.push_back(new lang_java(io_mutex));
+                                langs.push_back(new lang_java(io_mutex, debug_enabled));
                         } else if (name == "C") {
-                                langs.push_back(new lang_c(io_mutex));
+                                langs.push_back(new lang_c(io_mutex, debug_enabled));
                         } else {
                                 error("Invalid langauge.");
                         }

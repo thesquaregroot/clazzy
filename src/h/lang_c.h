@@ -1,5 +1,5 @@
-#ifndef LANG_JAVA_H
-#define LANG_JAVA_H
+#ifndef LANG_C_H
+#define LANG_C_H
 
 #include "language.h"
 #include <vector>
@@ -7,9 +7,9 @@
 #include <string>
 
 namespace cranberry {
-    class lang_java : public language {
+    class lang_c : public language {
         public:
-            lang_java(std::mutex *io, bool debug) : language(io, debug) { }
+            lang_c(std::mutex *io, bool debug) : language(io, debug) { }
 
             std::string get_name() const;
             void create(
