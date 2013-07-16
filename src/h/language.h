@@ -4,12 +4,14 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <mutex>
 
 namespace cranberry {
     class class_def;
 
     class language {
         public:
+            language(std::mutex *io) { io_mutex = io; }
             virtual ~language() {}
 
             virtual std::string get_name() const = 0;
@@ -17,6 +19,9 @@ namespace cranberry {
                                 const std::vector<class_def>&,
                                 const std::map<std::string,std::string>&
                     ) const = 0;
+
+        private:
+            std::mutex *io_mutex;
     };
 }
 

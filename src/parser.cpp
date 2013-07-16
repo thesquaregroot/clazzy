@@ -7,12 +7,14 @@
 #include "h/token.h"
 // language implementations
 #include "h/lang_cpp.h"
+#include "h/lang_java.h"
 // system headers
 #include <FlexLexer.h>
 #include <vector>
 #include <map>
 #include <cstdlib>
 #include <thread>
+#include <mutex>
 using namespace cranberry;
 using namespace std;
 
@@ -22,10 +24,12 @@ using namespace std;
 // vector<class_def> classes
 // vector<langauge*> langs
 // map<string, string> properties
+// mutex io_mutex
 
 parser::parser(FlexLexer *lexer)
 {
         lex = lexer;
+        io_mutex = new mutex();
 }
 
 parser::~parser()
@@ -75,6 +79,7 @@ void parser::parse()
                                 cout << "]\n";
                         }
                 }
+                cout << "\n";
                 // debug properties
                 cout << "-Properties:\n";
                 for (auto prop : properties) {
@@ -90,12 +95,19 @@ void parser::parse()
 void write_langauge(
                         const language *lang,
                         const vector<class_def> &classes,
-                        const map<string, string> &properties
+                        const map<string, string> &properties,
+                        mutex *io_mutex
         )        
 {
+        io_mutex->lock();
         cout << "Writing " << lang->get_name() << " code..." << endl;
+        io_mutex->unlock();
+
         lang->create(classes, properties);
+
+        io_mutex->lock();
         cout << lang->get_name() << " complete." << endl;
+        io_mutex->unlock();
 }
 
 void parser::write() const
@@ -107,7 +119,8 @@ void parser::write() const
                                         write_langauge,
                                         langs.at(i),
                                         classes,
-                                        properties
+                                        properties,
+                                        io_mutex
                                 )
                         );
         }
@@ -178,13 +191,27 @@ void parser::parse_property()
         properties[key] = value;
         // special propcessing
         if (key == "LANGUAGE") {
-                //TODO: CSV tokenize property value
+                // split on commas
+                unsigned int start = 0;
+                unsigned int length = 0;
+                while ((start+length) < value.size()) {
+                        while (value[start + length] != ',' && (start+length) < value.size())
+                                length++;
 
-                // add new languages here
-                if (value == "C++") {
-                        langs.push_back(new lang_cpp());
-                } else {
-                        error("Invalid langauge.");
+                        string name = value.substr(start, length);
+                        if (debug_enabled)
+                                cout << "Found langauge: " + name;
+                        // move start and length to after the comma
+                        start = start + length + 1;
+                        length = 0;
+                        // add new languages here
+                        if (name == "C++") {
+                                langs.push_back(new lang_cpp(io_mutex));
+                        } else if (name == "Java") {
+                                langs.push_back(new lang_java(io_mutex));
+                        } else {
+                                error("Invalid langauge.");
+                        }
                 }
         }
         

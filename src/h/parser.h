@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <mutex>
 
 class FlexLexer;
 
@@ -28,6 +29,7 @@ namespace cranberry {
             std::vector<class_def>              classes;
             std::vector<language*>              langs;
             std::map<std::string, std::string>  properties;
+            std::mutex                          *io_mutex;
             
             void next_token(bool exit_on_eof = true);
             std::string token_text() const;
