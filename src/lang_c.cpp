@@ -7,8 +7,6 @@
 using namespace cranberry;
 using namespace std;
 
-// mutex io_mutex
-
 string lang_c::get_name() const
 {
         return "C";

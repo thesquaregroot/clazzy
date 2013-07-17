@@ -19,14 +19,14 @@ language::language(mutex *io, bool debug) {
 void language::debug(const string &s) const {
         if (debug_enabled) {
                 io_mutex->lock();
-                cout << "[DEBUG] " << s << endl;
+                cout << "[DEBUG:" << this->get_name() << "] " << s << endl;
                 io_mutex->unlock();
         }
 }
 
 void language::error(const string &s) const {
         io_mutex->lock();
-        cerr << "[ERROR] " << s << endl;
+        cerr << "[ERROR:" << this->get_name() << "] " << s << endl;
         io_mutex->unlock();
 }
 

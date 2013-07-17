@@ -10,8 +10,6 @@
 using namespace cranberry;
 using namespace std;
 
-// mutex io_mutex
-
 string lang_cpp::get_name() const
 {
         return "C++";
@@ -23,6 +21,6 @@ void lang_cpp::create(
         ) const
 {
         for (class_def c : classes) {
-                debug("Creating C++ code for class: " + c.get_name());
+                debug("Creating code for class: " + c.get_name());
         }
 }

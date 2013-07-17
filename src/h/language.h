@@ -21,11 +21,13 @@ namespace cranberry {
                     ) const = 0;
 
         protected:
+            void debug(const std::string &s) const;
+            void error(const std::string &s) const;
+
+        private:
             std::mutex *io_mutex;
             bool debug_enabled;
             
-            void debug(const std::string &s) const;
-            void error(const std::string &s) const;
     };
 }
 
