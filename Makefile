@@ -45,7 +45,7 @@ Makefile : $(GENERATED_FILES) $(SRCS)
 #	hence having to make those object assosciations as well
 #
 SRCS = $(shell ls $(SOURCE_DIR)/*.cpp)
-OBJS = $(patsubst $(SOURCE_DIR)/%.cpp,$(OBJECT_DIR)/%.o, $(SRCS))
+OBJS = $(patsubst $(SOURCE_DIR)/%.cpp,$(OBJECT_DIR)/%.o, $(GENERATED_FILES) $(SRCS))
 
 #
 # compile it all together
