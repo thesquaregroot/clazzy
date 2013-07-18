@@ -20,7 +20,10 @@ OBJECT_DIR = obj
 # The first target is the one that is executed when you invoke
 # "make". The line describing the action starts with <TAB>.
 #   In this case there isn't one.
-all: generated_files Makefile $(EXE)
+all: generated_files Makefile $(OBJECT_DIR) $(EXE)
+
+$(OBJECT_DIR) : 
+	mkdir -p $(OBJECT_DIR)
 
 #
 # Start by defining how to build any generated files...
