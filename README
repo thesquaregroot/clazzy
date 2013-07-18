@@ -2,7 +2,27 @@
  About Cranberry
 =================
 
-Cranberry does things.... TODO
+Cranberry is a code generation platform, which focuses on handling 
+class definition syntax for the user in a variety of programming langauges.
+
+By writing a straight-forward description of a high-level class design,
+Cranberry will generate code in a number of user-specified programming
+languages with "TODO" comments in function bodies.
+
+This allows developers to quickly set up a multi-language project without
+having to shift between language syntaxes for the boiler-plate class
+definitions.  This avoids typos between projects, prevents compile-time errors
+for simple syntax issues, and most importantly saves time.
+
+=====================
+ Supported Languages
+=====================
+Cranberry can generate code for:
+
+    C++
+    C
+    Java
+    Python
 
 ===========
  Compiling
@@ -24,10 +44,11 @@ the same process will work.
 ---------
 
 parser:
-    Implements functions corresponding to the grammar rules below (in recusive descent fashion) that uses FlexParser to
-    read input.
+    Implements functions corresponding to the grammar rules below (in 
+    recusive descent fashion) that uses FlexParser to read input.
     
-    Contains a vector of class-def's and an array of languages it will generate.
+    Contains a vector of class-def's and an array of languages it will 
+    generate.
 
 ---------------
  Data Modeling
@@ -43,6 +64,11 @@ function:
 
     Contains a map from function names to parameter names.
 
+member:
+    Represenets a class member.
+
+    Contains a name.
+
 -----------
  Languages
 -----------
@@ -50,14 +76,9 @@ function:
 langauge:
     An abstract class meant to be extended for plugging in new languages.
 
-lang_cpp:
-    A child class of language, implementing C++ output.
-
-lang_java:
-    A child class of language, implementing Java output.
-
-lang_python:
-    A child class of language, implementing Python output.
+language_factory:
+    A class with a single static method, with acts as a bridge between
+    the parser and the language implementations themselves.
 
 ========
  Tokens
