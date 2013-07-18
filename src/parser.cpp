@@ -5,10 +5,8 @@
 #include "h/function.h"
 #include "h/member.h"
 #include "h/token.h"
-// language implementations
-#include "h/lang_cpp.h"
-#include "h/lang_java.h"
-#include "h/lang_c.h"
+#include "h/language.h"
+#include "h/language_factory.h"
 // system headers
 #include <FlexLexer.h>
 #include <vector>
@@ -205,15 +203,12 @@ void parser::parse_property()
                         // move start and length to after the comma
                         start = start + length + 1;
                         length = 0;
-                        // add new languages here
-                        if (name == "C++") {
-                                langs.push_back(new lang_cpp(io_mutex, debug_enabled));
-                        } else if (name == "Java") {
-                                langs.push_back(new lang_java(io_mutex, debug_enabled));
-                        } else if (name == "C") {
-                                langs.push_back(new lang_c(io_mutex, debug_enabled));
+                        // get langauge with this name
+                        language *l = language_factory::get_language(name, io_mutex, debug_enabled);
+                        if (l == 0) {
+                                error("Invalid language: " + name);
                         } else {
-                                error("Invalid langauge.");
+                                langs.push_back(l);
                         }
                 }
         }
