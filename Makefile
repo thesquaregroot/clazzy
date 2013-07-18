@@ -15,6 +15,7 @@ COMPILE_EXE = $(CXX) $(LIBRARIES)
 # Name of the executable.
 EXE = cranberry
 SOURCE_DIR = src
+OBJECT_DIR = obj
 
 # The first target is the one that is executed when you invoke
 # "make". The line describing the action starts with <TAB>.
@@ -44,7 +45,7 @@ Makefile : $(GENERATED_FILES) $(SRCS)
 #	hence having to make those object assosciations as well
 #
 SRCS = $(shell ls $(SOURCE_DIR)/*.cpp)
-OBJS = $(GENERATED_FILES:.cpp=.o) $(SRCS:.cpp=.o)
+OBJS = $(patsubst $(SOURCE_DIR)/%.cpp,$(OBJECT_DIR)/%.o, $(SRCS))
 
 #
 # compile it all together
@@ -54,7 +55,7 @@ OBJS = $(GENERATED_FILES:.cpp=.o) $(SRCS:.cpp=.o)
 # "$<" is the name of the first prerequisite.
 # But there should only be one anyway.
 #  This is mainly here for non gnu-make versions of make.
-$(SOURCE_DIR)/%.o : $(SOURCE_DIR)/%.cpp
+$(OBJECT_DIR)/%.o : $(SOURCE_DIR)/%.cpp
 	$(COMPILE_SRC) -o $@ $<
 
 # The variable "$@" stands for the current target. "$^" is everything 
@@ -64,7 +65,7 @@ $(EXE) : $(OBJS)
 
 # Get rid of all the signs of compilation.
 clean:
-	rm -rf $(EXE) $(SOURCE_DIR)/*.o Makefile.bak
+	rm -rf $(EXE) $(OBJECT_DIR)/*.o Makefile.bak
 
 # Below this: Stuff from makedepend. Or rules in a similar form as above.
 # DO NOT DELETE
