@@ -37,3 +37,5 @@ Though the Makefile used is fairly general, the build process is still
 somewhat geared more for a UNIX-based system, and only officially tested 
 in a GNU/Linux environment.
 
+Cranberry also makes use of makedepend for class dependancy tracking.
+
