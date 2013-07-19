@@ -16,11 +16,12 @@ COMPILE_EXE = $(CXX) $(LIBRARIES)
 EXE = cranberry
 SOURCE_DIR = src
 OBJECT_DIR = obj
+DEPEND_FILE = Makefile.depend
 
 # The first target is the one that is executed when you invoke
 # "make". The line describing the action starts with <TAB>.
 #   In this case there isn't one.
-all: generated_files Makefile $(OBJECT_DIR) $(EXE)
+all: generated_files $(DEPEND_FILE) $(OBJECT_DIR) $(EXE)
 
 $(OBJECT_DIR) : 
 	mkdir -p $(OBJECT_DIR)
@@ -37,9 +38,12 @@ src/lex.yy.cpp : src/cranberry.lex
 
 #
 # Next, update this makefile to handle dependancies (requires makedepend)
+#  This updates the makefile itself
 #
-Makefile : $(GENERATED_FILES) $(SRCS)
-	makedepend -Y src/*.cpp 2>/dev/null
+$(DEPEND_FILE) : Makefile $(GENERATED_FILES) $(SRCS)
+	makedepend -Y -f- $(SOURCE_DIR)/*.cpp 2>/dev/null | sed 's/src\//obj\//' > $(DEPEND_FILE)
+
+-include $(DEPEND_FILE)
 
 #
 # Automatically find cpp files and associate them with object files
@@ -70,13 +74,3 @@ $(EXE) : $(OBJS)
 clean:
 	rm -rf $(EXE) $(OBJECT_DIR)/*.o Makefile.bak
 
-# Below this: Stuff from makedepend. Or rules in a similar form as above.
-# DO NOT DELETE
-
-src/class_def.o: src/h/class_def.h src/h/function.h src/h/member.h
-src/function.o: src/h/function.h
-src/lang_cpp.o: src/h/lang_cpp.h src/h/language.h
-src/lex.yy.o: src/h/token.h src/h/parser.h
-src/member.o: src/h/member.h
-src/parser.o: src/h/parser.h src/h/class_def.h src/h/function.h
-src/parser.o: src/h/member.h src/h/token.h src/h/lang_cpp.h src/h/language.h
