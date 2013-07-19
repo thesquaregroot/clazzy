@@ -23,7 +23,7 @@ using namespace std;
 // vector<class_def> classes
 // vector<langauge*> langs
 // map<string, string> properties
-// mutex io_mutex
+// mutex *io_mutex
 
 parser::parser(FlexLexer *lexer)
 {
