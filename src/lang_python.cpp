@@ -5,7 +5,7 @@
 #include "h/member.h"
 #include <vector>
 #include <map>
-#include <sring>
+#include <string>
 #include <mutex>
 using namespace cranberry;
 using namespace std;

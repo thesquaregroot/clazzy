@@ -50,7 +50,7 @@ echo "#include \"h/function.h\"" >> $code_file
 echo "#include \"h/member.h\"" >> $code_file
 echo "#include <vector>" >> $code_file
 echo "#include <map>" >> $code_file
-echo "#include <sring>" >> $code_file
+echo "#include <string>" >> $code_file
 echo "#include <mutex>" >> $code_file
 echo "using namespace cranberry;" >> $code_file
 echo "using namespace std;" >> $code_file
