@@ -24,6 +24,18 @@ Cranberry can generate code for:
     Java
     Python
 
+=========================
+ Supported Functionality
+=========================
+
+TODO
+
+===========================
+ Unsupported Functionality
+===========================
+
+TODO
+
 ===========
  Compiling
 ===========
@@ -86,6 +98,13 @@ language_factory:
 INDEFINITE_ARTICLE              "a" or "an" (case insensitive)
 IDENTIFIER                      [a-zA-Z_\-]+
 PROPERTY                        [a-zA-Z_]+=[^;]*
+GENERIC_TYPE                    "array" or "deque" or "list" or "set" or
+                                "stack" or "queue" or "map" or "pointer" 
+                                (case insensitive)
+PRIMITIVE_TYPE                  "byte" or "short" or "integer" or "long" or
+                                "character" or "string" or "float" or
+                                "double" or "boolean" or "void"
+                                (case insenstive)
 
 NOTE: These are only defined for use below.  See src/cranberry.lex and src/h/token.h for a more complete list.
 
@@ -97,30 +116,43 @@ program:    statement
         |   statement program
 
 statement:  property
-        |   type_definition
+        |   type-definition
 
 property:   "%" PROPERTY ";"
 
-type_definition:    INDEFINITE_ARTICLE IDENTIFIER definition_list
+type-definition:    INDEFINITE_ARTICLE IDENTIFIER definition-list
                 |   IDENTIFIER "is" INDEFINITE_ARTICLE IDENTIFIER "."
-                |   IDENTIFIER "is" INDEFINITE_ARTICLE IDENTIFIER "that" definition_list
+                |   IDENTIFIER "is" INDEFINITE_ARTICLE IDENTIFIER "that" definition-list
 
-definition_list:    definition "," definition_list
-                |   definition "," "and" definition "."
+definition-list:    definition ";" definition-list
+                |   definition ";" "and" definition "."
                 |   definition "."
 
-definition: "can" action_list
-        |   "has" attribute_list
+definition: "can" action-list
+        |   "has" attribute-list
 
-action_list:    action action_list
+action-list:    action "," action-list
             |   action
 
-action: IDENTIFIER "(" parameter_list ")"
-    |   IDENTIFIER
+action: type-hint IDENTIFIER "(" parameter-list ")"
+    |   type-hint IDENTIFIER
+    |   "static" action
+    |   "read-only" action
 
-parameter_list: IDENTIFIER "," parameter_list
-            |   IDENTIFIER
+parameter-list: parameter "," parameter-list
+            |   parameter
 
-attribute_list: IDENTIFIER attribute_list
-            |   IDENTIFIER
+parameter:  type-hint IDENTIFIER
+        |   type-hint IDENTIFIER "reference"
+        |   "constant" type-hint IDENTIFIER
+        |   "constant" type-hint IDENTIFIER "reference"
+
+attribute-list: type-hint IDENTIFIER "," attribute-list
+            |   type-hint IDENTIFIER
+
+type-hint:  GENERIC_TYPE "<" generic-type-list ">"
+        |   PRIMITIVE_TYPE
+
+generic-type-list:  type-hint "," generic-type-list
+                |   type-hint
 

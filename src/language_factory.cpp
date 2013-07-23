@@ -1,12 +1,19 @@
 
+//
+// DO NOT ADD NEW LANGUAGES HERE - USE mk_lang.sh
+//
+
 #include "h/language_factory.h"
-#include "h/language_includes.h"
+#include "h/lang_cpp.h"
+#include "h/lang_c.h"
+#include "h/lang_java.h"
+#include "h/lang_python.h"
+// ### Language Includes ###
 using namespace cranberry;
 using namespace std;
 
 language *language_factory::get_language(const string &name, mutex *io_mutex, bool debug_enabled)
 {
-        // DO NOT ADD NEW LANGUAGES HERE - USE mk_lang.sh
         if (name == "C++") {
                 return new lang_cpp(io_mutex, debug_enabled);
         } else if (name == "C") {

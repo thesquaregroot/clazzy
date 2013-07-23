@@ -70,13 +70,12 @@ echo "}" >> $code_file
 
 
 ### OTHER ###
-echo "Updating language includes..."
-language_include_file="./src/h/language_includes.h"           
-sed -i.bak "s/\(\/\/ ### Language Includes ###\)/#include \"$class_name.h\"\n\1/" $language_include_file
-rm ${language_include_file}.bak
-
 echo "Updating language factory..."
+
 language_factory_file="./src/language_factory.cpp"
+
+sed -i.bak "s/\(\/\/ ### Language Includes ###\)/#include \"h/$class_name.h\"\n\1/" $language_factory_file
+rm ${language_factory_file}.bak
 sed -i.bak "s/\(\/\/ ### Language Instantiations ###\)/} else if (name == \"$language\") {\n                return new $class_name(io_mutex, debug_enabled);\n        \1/" $language_factory_file
 rm ${langauge_factory_file}.bak
 
