@@ -72,5 +72,5 @@ $(EXE) : $(OBJS)
 
 # Get rid of all the signs of compilation.
 clean:
-	rm -rf $(EXE) $(OBJECT_DIR)/*.o Makefile.bak
+	rm -rf $(EXE) $(OBJECT_DIR)/*.o Makefile.bak Makefile.depend
 

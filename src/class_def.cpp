@@ -1,6 +1,6 @@
 
 #include "h/class_def.h"
-#include "h/function.h"
+#include "h/method.h"
 #include "h/member.h"
 #include <string>
 #include <vector>
@@ -8,7 +8,7 @@ using namespace cranberry;
 using namespace std;
 
 // string name
-// vector<function> functions
+// vector<method> methods
 // vector<member> members
 // vector<type_hint> parents
 
@@ -28,9 +28,9 @@ string class_def::get_name() const
         return name;
 }
 
-void class_def::add_function(function &f)
+void class_def::add_method(method &f)
 {
-        functions.push_back(f);
+        methods.push_back(f);
 }
 
 void class_def::add_member(member &m)
@@ -43,9 +43,9 @@ void class_def::add_parent(type_hint &t)
         parents.push_back(t);
 }
 
-vector<function> class_def::get_functions() const
+vector<method> class_def::get_methods() const
 {
-        return functions;
+        return methods;
 }
 
 vector<member> class_def::get_members() const

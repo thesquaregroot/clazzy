@@ -6,7 +6,7 @@
 #include <string>
 
 namespace cranberry {
-    class function;
+    class method;
     class member;
 
     class class_def {
@@ -18,13 +18,13 @@ namespace cranberry {
             std::string get_name() const;
 
             // stores a class with a set of names parameters
-            void add_function(function&);
+            void add_method(method&);
             // stores a member variable name
             void add_member(member&);
             // stores a parent class/interface name
             void add_parent(type_hint&);
-            // returns the map of function names to their parameters
-            std::vector<function> get_functions() const;
+            // returns the map of method names to their parameters
+            std::vector<method> get_methods() const;
             // gets the members of this class
             std::vector<member> get_members() const;
             // gets the parents of this class
@@ -32,8 +32,8 @@ namespace cranberry {
 
         private:
             std::string name;
-            // stores functions (name to parameter list mapping)
-            std::vector<function> functions;
+            // stores methods (name to parameter list mapping)
+            std::vector<method> methods;
             // stores member variables (names)
             std::vector<member> members;
             // stores parent class names

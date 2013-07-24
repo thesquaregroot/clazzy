@@ -1,0 +1,9 @@
+
+%LANGUAGE=C;
+
+A piece_of_bacon is a list<integer> that
+    can
+        void smell_delicious;
+    and has
+        static map<integer,piece_of_bacon> strips.
+

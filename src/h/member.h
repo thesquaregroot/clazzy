@@ -12,9 +12,16 @@ namespace cranberry {
             std::string get_name() const;
             type_hint get_type() const;
 
+            bool is_constant() const;
+            void set_constant(const bool &);
+            bool is_reference() const;
+            void set_reference(const bool &);
+
         private:
-            std::string name;
-            type_hint type;
+            std::string _name;
+            type_hint _type;
+            bool _is_constant = false;
+            bool _is_reference = false;
     };
 }
 

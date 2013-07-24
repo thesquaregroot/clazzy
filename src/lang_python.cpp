@@ -1,7 +1,7 @@
 
 #include "h/lang_python.h"
 #include "h/class_def.h"
-#include "h/function.h"
+#include "h/method.h"
 #include "h/member.h"
 #include <vector>
 #include <map>

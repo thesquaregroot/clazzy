@@ -143,9 +143,9 @@ parameter-list: parameter "," parameter-list
             |   parameter
 
 parameter:  type-hint IDENTIFIER
-        |   type-hint IDENTIFIER "reference"
-        |   "constant" type-hint IDENTIFIER
-        |   "constant" type-hint IDENTIFIER "reference"
+        |   type-hint IDENTIFIER
+        |   "constant" parameter
+        |   parameter "reference"
 
 attribute-list: attribute "," attribute-list
             |   attribute

@@ -2,7 +2,7 @@
 // for parsing
 #include "h/parser.h"
 #include "h/class_def.h"
-#include "h/function.h"
+#include "h/method.h"
 #include "h/member.h"
 #include "h/token.h"
 #include "h/language.h"
@@ -18,49 +18,47 @@
 using namespace cranberry;
 using namespace std;
 
-// bool debug_enabled = false
-// int lookahead
-// FlexLexer *lex
-// vector<class_def> classes
-// vector<langauge*> langs
-// map<string, string> properties
-// mutex *io_mutex
+// bool _debug_enabled = false
+// int _lookahead
+// FlexLexer *_lex
+// vector<class_def> _classes
+// vector<langauge*> _langs
+// map<string, string> _properties
+// mutex *_io_mutex
 
 parser::parser(FlexLexer *lexer)
 {
-        lex = lexer;
-        io_mutex = new mutex();
+        _lex = lexer;
+        _io_mutex = new mutex();
 }
 
 parser::~parser()
 {
-        delete lex;
-
-        while (langs.size() > 0) {
-                delete langs.front();
-                langs.erase(langs.begin());
+        while (_langs.size() > 0) {
+                delete _langs.front();
+                _langs.erase(_langs.begin());
         }
 }
 
 void parser::set_debug(bool debug)
 {
-        debug_enabled = debug;
+        _debug_enabled = debug;
 }
 
 void parser::parse()
 {
         next_token();
-        while (lookahead != END_OF_FILE) {
+        while (_lookahead != END_OF_FILE) {
                 parse_statement();
                 next_token(false); // EOFs are okay here (and only here)
         }
 
         // debug data structures
-        if (debug_enabled) {
+        if (_debug_enabled) {
                 cout << "\nParsing complete:\n";
                 // debug classes
                 cout << "-Classes:\n";
-                for (class_def c : classes) {
+                for (class_def c : _classes) {
                         cout << "\t" << c.get_name() << "\n";
                         vector<member> members = c.get_members();
                         if (members.size() > 0) {
@@ -70,7 +68,7 @@ void parser::parse()
                                 }
                                 cout << ")\n";
                         }
-                        for (function f : c.get_functions()) {
+                        for (method f : c.get_methods()) {
                                 cout << "\t\t" << f.get_name() << " ";
                                 cout << "[ ";
                                 for (auto &arg : f.get_parameters()) {
@@ -82,7 +80,7 @@ void parser::parse()
                 cout << "\n";
                 // debug properties
                 cout << "-Properties:\n";
-                for (auto prop : properties) {
+                for (auto prop : _properties) {
                         cout << "\t" << prop.first << " : " << prop.second + "\n";
                 }
                 // additional newline
@@ -91,7 +89,7 @@ void parser::parse()
 }
 
 // for threading langauge implementation of paser::write()
-// not a member function
+// not a member method
 void write_langauge(
                         const language *lang,
                         const vector<class_def> &classes,
@@ -114,13 +112,13 @@ void parser::write() const
 {
         // write all language files
         vector<thread*> threads;
-        for (unsigned int i=0; i<langs.size(); i++) {
+        for (unsigned int i=0; i<_langs.size(); i++) {
                 threads.push_back(new thread(
                                         write_langauge,
-                                        langs.at(i),
-                                        classes,
-                                        properties,
-                                        io_mutex
+                                        _langs.at(i),
+                                        _classes,
+                                        _properties,
+                                        _io_mutex
                                 )
                         );
         }
@@ -131,28 +129,28 @@ void parser::write() const
 
 
 
-// private functions
+// private methods
 void parser::debug(string str) const
 {
-        if (debug_enabled)
-                cout << "DEBUG [Line " << lex->lineno() << "]: " << str << " [token=" << token_text() << "]" << endl;
+        if (_debug_enabled)
+                cout << "DEBUG [Line " << _lex->lineno() << "]: " << str << " [token=" << token_text() << "]" << endl;
 }
 
 void parser::error(string err) const
 {
-        cerr << "ERROR [Line " << lex->lineno() << "]: " << err << endl;
+        cerr << "ERROR [Line " << _lex->lineno() << "]: " << err << endl;
         exit(1);
 }
 
 void parser::next_token(bool exit_on_eof /* = true */) {
-        lookahead = lex->yylex();
-        if (exit_on_eof && lookahead == END_OF_FILE) {
+        _lookahead = _lex->yylex();
+        if (exit_on_eof && _lookahead == END_OF_FILE) {
                 error("Unexpected end of file.");
         }
 }
 
 string parser::token_text() const {
-        return lex->YYText();
+        return _lex->YYText();
 }
 
 //
@@ -161,13 +159,13 @@ string parser::token_text() const {
 void parser::parse_statement()
 {
         
-        switch (lookahead) {
+        switch (_lookahead) {
         case PERCENT:
                 next_token();
                 parse_property();
                 break;
         case INDEFINITE_ARTICLE:
-                classes.push_back(parse_type_definition());
+                _classes.push_back(parse_type_definition());
                 break;
         default:
                 // not a valid statement
@@ -179,14 +177,14 @@ void parser::parse_property()
 {
         debug("Parsing property.");
 
-        if (lookahead != PROPERTY) {
+        if (_lookahead != PROPERTY) {
                 error("Key-value pair expected after \"%\" token.");
         }
         string property = token_text();
         string key = property.substr(0, property.find('='));
         string value = property.substr(property.find('=')+1);
         // save property
-        properties[key] = value;
+        _properties[key] = value;
         // special propcessing
         if (key == "LANGUAGE") {
                 // split on commas
@@ -197,23 +195,23 @@ void parser::parse_property()
                                 length++;
 
                         string name = value.substr(start, length);
-                        if (debug_enabled)
+                        if (_debug_enabled)
                                 cout << "Found langauge: " << name << endl;
                         // move start and length to after the comma
                         start = start + length + 1;
                         length = 0;
                         // get langauge with this name
-                        language *l = language_factory::get_language(name, io_mutex, debug_enabled);
+                        language *l = language_factory::get_language(name, _io_mutex, _debug_enabled);
                         if (l == 0) {
                                 error("Invalid language: " + name);
                         } else {
-                                langs.push_back(l);
+                                _langs.push_back(l);
                         }
                 }
         }
         
         next_token();
-        if (lookahead != SEMICOLON) {
+        if (_lookahead != SEMICOLON) {
                 // not sure if this is possible
                 error("Invalid delimiter for property.");
         }
@@ -222,29 +220,29 @@ void parser::parse_property()
 class_def parser::parse_type_definition()
 {
         debug("Parsing type definition.");
-        if (lookahead != INDEFINITE_ARTICLE) {
+        if (_lookahead != INDEFINITE_ARTICLE) {
                 error("Expected indefinite article at token: '" + token_text() + "'.");
         }
         // INDEFINITE_ARTICLE
         next_token();
-        if (lookahead != IDENTIFIER) {
+        if (_lookahead != IDENTIFIER) {
                 error("Expected identifier at token: '" + token_text() + "'.");
         }
         // IDENTIFIER
         // add type
         string name = token_text();
-        types.add_type(name);
+        _types.add_type(name);
         class_def c(name);
 
         next_token();
-        if (lookahead != IS) {
+        if (_lookahead != IS) {
                 // straight definition, get it and go
                 parse_definition_list(c);
                 return c;
         }
         // IS
         next_token();
-        if (lookahead != INDEFINITE_ARTICLE) {
+        if (_lookahead != INDEFINITE_ARTICLE) {
                 error("Expected indefinite article following 'is', instead found '" + token_text() + "'.");
         }
         // A
@@ -252,9 +250,9 @@ class_def parser::parse_type_definition()
         type_hint t = parse_type_hint();
         c.add_parent(t);
         // got parent, check for additional definition
-        if (lookahead == PERIOD) {
+        if (_lookahead == PERIOD) {
                 return c;
-        } else if (lookahead == THAT) {
+        } else if (_lookahead == THAT) {
                 next_token();
                 parse_definition_list(c);
                 return c;
@@ -270,21 +268,21 @@ void parser::parse_definition_list(class_def& c)
         debug("Parsing definition list.");
 
         parse_definition(c);
-        if (lookahead == PERIOD) {
+        if (_lookahead == PERIOD) {
                 // done with this definition
                 return;
         }
-        if (lookahead != SEMICOLON) {
+        if (_lookahead != SEMICOLON) {
                 // does not match a rule
                 error("Invalid token '" + token_text() + "' following class definition.");
         }
         // SEMICOLON
         next_token();
-        if (lookahead == AND) {
+        if (_lookahead == AND) {
                 next_token();
                 parse_definition(c);
                 // require period after "AND"
-                if (lookahead != PERIOD) {
+                if (_lookahead != PERIOD) {
                         error("Class definition not ended with a period.");
                 }
         } else {
@@ -296,10 +294,10 @@ void parser::parse_definition(class_def& c)
 {
         debug("Parsing definition.");
 
-        if (lookahead == CAN) {
+        if (_lookahead == CAN) {
                 next_token();
                 parse_action_list(c);
-        } else if (lookahead == HAS) {
+        } else if (_lookahead == HAS) {
                 next_token();
                 parse_attribute_list(c);
         } else {
@@ -311,11 +309,13 @@ void parser::parse_action_list(class_def& c)
 {
         debug("Parsing action list.");
 
-        parse_action(c);
-        if (lookahead == COMMA) {
+        method f = parse_action();
+        c.add_method(f);
+        
+        if (_lookahead == COMMA) {
                 // continue with rest of list
                 next_token();
-                if (lookahead != IDENTIFIER) {
+                if (_lookahead != IDENTIFIER) {
                         // must be done with action list
                         error("Invalid token '" + token_text() + "' following comma in action list.");
                 }
@@ -325,57 +325,58 @@ void parser::parse_action_list(class_def& c)
         // no comma, must be done with list
 }
 
-void parser::parse_action(class_def& c)
+method parser::parse_action()
 {
         debug("Parsing action.");
-        if (lookahead == STATIC) {
-                // TODO: handle static modifier
+        if (_lookahead == STATIC) {
                 next_token();
-                parse_action(c);
-                return;
+                method f = parse_action();
+                f.set_static(true);
+                return f;
         }
-        if (lookahead == READ_ONLY) {
+        if (_lookahead == READ_ONLY) {
                 // TODO: handle read-only modifier
                 next_token();
-                parse_action(c);
-                return;
+                method f = parse_action();
+                f.set_read_only(true);
+                return f;
         }
         
         type_hint r_type = parse_type_hint();
-        if (lookahead != IDENTIFIER) {
-                error("Invalid function definition.");
+        if (_lookahead != IDENTIFIER) {
+                error("Invalid method definition.");
         }
-        function f(r_type, token_text());
+        method f(r_type, token_text());
 
         next_token();
-        if (lookahead == L_PAREN) {
+        if (_lookahead == L_PAREN) {
                 next_token();
                 parse_parameter_list(f);
-                if (lookahead != R_PAREN) {
+                if (_lookahead != R_PAREN) {
                         error("Expected ')' after parameter list.");
                 }
                 // R_PAREN
                 next_token();
         }
-        c.add_function(f);
+        return f;
 }
 
-void parser::parse_parameter_list(function &f)
+void parser::parse_parameter_list(method &f)
 {
         debug("Parsing parameter list.");
         type_hint t = parse_type_hint();
-        if (lookahead != IDENTIFIER) {
+        if (_lookahead != IDENTIFIER) {
                error("Invalid parameter list, expected identifier at token '" + token_text() + "'."); 
         }
         f.add_parameter(t, token_text());
         next_token();
-        if (lookahead != COMMA) {
+        if (_lookahead != COMMA) {
                 // must be done
                 return;
         }
         next_token();
         // COMMA
-        if (lookahead != IDENTIFIER) {
+        if (_lookahead != IDENTIFIER) {
                error("Invalid parameter list, expected identifier at token '" + token_text() + "'."); 
         }
         parse_parameter_list(f);
@@ -387,7 +388,7 @@ void parser::parse_attribute_list(class_def& c)
 
         member m = parse_attribute();
         c.add_member(m);
-        if (lookahead != COMMA) {
+        if (_lookahead != COMMA) {
                 // must be done
                 return;
         }
@@ -400,13 +401,13 @@ member parser::parse_attribute()
 {
         debug("Parsing attribute.");
 
-        if (lookahead == STATIC) {
+        if (_lookahead == STATIC) {
                 // TODO handle static
                 next_token();
                 return parse_attribute();
         }
         type_hint t = parse_type_hint();
-        if (lookahead != IDENTIFIER) {
+        if (_lookahead != IDENTIFIER) {
                 error("Invalid attribute name: '" + token_text() + "'.");
         }
         member m(t, token_text());
@@ -417,22 +418,22 @@ member parser::parse_attribute()
 
 type_hint parser::parse_type_hint()
 {
-        if (lookahead != IDENTIFIER) {
+        if (_lookahead != IDENTIFIER) {
                 error("Invalid type name: " + token_text() + ".");
         }
         string name = token_text();
-        if (!types.is_defined(name)) {
+        if (!_types.is_defined(name)) {
                 error("Invalid type: '" + name + "'.");
         }
         next_token();
         vector<type_hint> generics;
-        if (lookahead == L_BRACKET) {
-                if (!types.is_generic(name)) {
+        if (_lookahead == L_BRACKET) {
+                if (!_types.is_generic(name)) {
                         error("Type '" + name + "' is not generic.");
                 }
                 next_token();
                 generics = parse_generic_type_list();
-                if (lookahead != R_BRACKET) {
+                if (_lookahead != R_BRACKET) {
                         error("Expected '>' after generic list.");
                 }
                 next_token();
@@ -445,7 +446,7 @@ vector<type_hint> parser::parse_generic_type_list()
         vector<type_hint> generics;
         type_hint t = parse_type_hint();
         generics.push_back(t);
-        if (lookahead != COMMA) {
+        if (_lookahead != COMMA) {
                 // must be done
                 return generics;
         } else {
