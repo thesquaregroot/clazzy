@@ -121,8 +121,8 @@ statement:  property
 property:   "%" PROPERTY ";"
 
 type-definition:    INDEFINITE_ARTICLE IDENTIFIER definition-list
-                |   IDENTIFIER "is" INDEFINITE_ARTICLE IDENTIFIER "."
-                |   IDENTIFIER "is" INDEFINITE_ARTICLE IDENTIFIER "that" definition-list
+                |   INDEFINITE_ARTICLE IDENTIFIER "is" INDEFINITE_ARTICLE type_hint "."
+                |   INDEFINITE_ARTICLE IDENTIFIER "is" INDEFINITE_ARTICLE type_hint "that" definition-list
 
 definition-list:    definition ";" definition-list
                 |   definition ";" "and" definition "."
@@ -147,8 +147,11 @@ parameter:  type-hint IDENTIFIER
         |   "constant" type-hint IDENTIFIER
         |   "constant" type-hint IDENTIFIER "reference"
 
-attribute-list: type-hint IDENTIFIER "," attribute-list
-            |   type-hint IDENTIFIER
+attribute-list: attribute "," attribute-list
+            |   attribute
+
+attribute:  "static" attribute
+        |   type-hint IDENTIFIER
 
 type-hint:  IDENTIFIER "<" generic-type-list ">"
         |   IDENTIFIER

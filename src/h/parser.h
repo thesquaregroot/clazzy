@@ -2,6 +2,7 @@
 #define PARSER_H
 
 #include "type_util.h"
+#include "member.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -46,6 +47,7 @@ namespace cranberry {
             void parse_action(class_def&);
             void parse_parameter_list(function&);
             void parse_attribute_list(class_def&);
+            member parse_attribute();
             type_hint parse_type_hint();
             std::vector<type_hint> parse_generic_type_list();
             

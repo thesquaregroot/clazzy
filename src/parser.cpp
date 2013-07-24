@@ -167,8 +167,6 @@ void parser::parse_statement()
                 parse_property();
                 break;
         case INDEFINITE_ARTICLE:
-        case IDENTIFIER:
-                next_token();
                 classes.push_back(parse_type_definition());
                 break;
         default:
@@ -200,7 +198,7 @@ void parser::parse_property()
 
                         string name = value.substr(start, length);
                         if (debug_enabled)
-                                cout << "Found langauge: " + name;
+                                cout << "Found langauge: " << name << endl;
                         // move start and length to after the comma
                         start = start + length + 1;
                         length = 0;
@@ -224,59 +222,44 @@ void parser::parse_property()
 class_def parser::parse_type_definition()
 {
         debug("Parsing type definition.");
+        if (lookahead != INDEFINITE_ARTICLE) {
+                error("Expected indefinite article at token: '" + token_text() + "'.");
+        }
+        // INDEFINITE_ARTICLE
+        next_token();
+        if (lookahead != IDENTIFIER) {
+                error("Expected identifier at token: '" + token_text() + "'.");
+        }
+        // IDENTIFIER
+        // add type
+        string name = token_text();
+        types.add_type(name);
+        class_def c(name);
 
-        class_def c;
-        string name;
-        string parent;
-
-        switch (lookahead) {
-        case INDEFINITE_ARTICLE:
-                // normal class definition
-                next_token();
-                if (lookahead != IDENTIFIER) {
-                        // could not get class name
-                        error("Invalid identifier: " + token_text() + ".");
-                }
-                name = token_text();
-                types.add_type(name);
-                c = class_def(name);
+        next_token();
+        if (lookahead != IS) {
+                // straight definition, get it and go
+                parse_definition_list(c);
+                return c;
+        }
+        // IS
+        next_token();
+        if (lookahead != INDEFINITE_ARTICLE) {
+                error("Expected indefinite article following 'is', instead found '" + token_text() + "'.");
+        }
+        // A
+        next_token();
+        type_hint t = parse_type_hint();
+        c.add_parent(t);
+        // got parent, check for additional definition
+        if (lookahead == PERIOD) {
+                return c;
+        } else if (lookahead == THAT) {
                 next_token();
                 parse_definition_list(c);
-                break;
-        case IDENTIFIER:
-                // typedef or extension-type definition
-                name = token_text();
-                types.add_type(name);
-                c = class_def(name);
-                next_token();
-                if (lookahead != IS) {
-                        // straight definition, get it and go
-                        parse_definition_list(c);
-                        return c;
-                }
-                next_token();
-                if (lookahead != INDEFINITE_ARTICLE) {
-                        error("Expected token 'a/an' following 'is', instead found '" + token_text() + "'.");
-                }
-                next_token();
-                if (lookahead != IDENTIFIER) {
-                        error("Invalid identifier after 'is a' construct.");
-                }
-                c.add_parent(token_text());
-                // got parent, check for additional definition
-                next_token();
-                if (lookahead == PERIOD) {
-                        return c;
-                } else if (lookahead == THAT) {
-                        next_token();
-                        parse_definition_list(c);
-                        return c;
-                } else {
-                        error("Unexpected token '" + token_text() + "'.");
-                }
-                break;
-        default:
-                error("Invalid type definition.");
+                return c;
+        } else {
+                error("Unexpected token '" + token_text() + "'.");
         }
 
         return c;
@@ -401,15 +384,9 @@ void parser::parse_parameter_list(function &f)
 void parser::parse_attribute_list(class_def& c)
 {
         debug("Parsing attribute list.");
-        
-        type_hint t = parse_type_hint();
-        if (lookahead != IDENTIFIER) {
-                error("Invalid attribute list.");
-        }
 
-        member m(t, token_text());
+        member m = parse_attribute();
         c.add_member(m);
-        next_token();
         if (lookahead != COMMA) {
                 // must be done
                 return;
@@ -417,6 +394,25 @@ void parser::parse_attribute_list(class_def& c)
         // COMMA
         next_token();
         parse_attribute_list(c);
+}
+
+member parser::parse_attribute()
+{
+        debug("Parsing attribute.");
+
+        if (lookahead == STATIC) {
+                // TODO handle static
+                next_token();
+                return parse_attribute();
+        }
+        type_hint t = parse_type_hint();
+        if (lookahead != IDENTIFIER) {
+                error("Invalid attribute name: '" + token_text() + "'.");
+        }
+        member m(t, token_text());
+
+        next_token();
+        return m;
 }
 
 type_hint parser::parse_type_hint()

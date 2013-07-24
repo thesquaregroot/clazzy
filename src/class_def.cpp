@@ -10,6 +10,7 @@ using namespace std;
 // string name
 // vector<function> functions
 // vector<member> members
+// vector<type_hint> parents
 
 class_def::class_def(const string& name)
 {
@@ -37,9 +38,9 @@ void class_def::add_member(member &m)
         members.push_back(m);
 }
 
-void class_def::add_parent(const string &name)
+void class_def::add_parent(type_hint &t)
 {
-        parents.push_back(name);
+        parents.push_back(t);
 }
 
 vector<function> class_def::get_functions() const
@@ -52,7 +53,7 @@ vector<member> class_def::get_members() const
         return members;
 }
 
-vector<string> class_def::get_parents() const
+vector<type_hint> class_def::get_parents() const
 {
         return parents;
 }
