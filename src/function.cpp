@@ -1,15 +1,18 @@
 
 #include "h/function.h"
-#include <vector>
+#include "h/type_hint.h"
+#include <map>
 #include <string>
 using namespace cranberry;
 using namespace std;
 
 // string name
-// vector<string> params
+// type_hint return_type
+// map<string, type_hint> params
 
-function::function(const string &name)
+function::function(type_hint returns, string name)
 {
+        return_type = returns;
         this->name = name;
 }
 
@@ -18,12 +21,17 @@ string function::get_name() const
         return name;
 }
 
-void function::add_parameter(const string &p)
+type_hint function::get_return_type() const
 {
-        params.push_back(p);
+        return return_type;
 }
 
-vector<string> function::get_parameters() const
+void function::add_parameter(type_hint type, string p)
+{
+        params[p] = type;
+}
+
+map<string, type_hint> function::get_parameters() const
 {
         return params;
 }

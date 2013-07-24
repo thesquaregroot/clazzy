@@ -1,6 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include "type_util.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -12,6 +13,7 @@ namespace cranberry {
     class class_def;
     class language;
     class function;
+    class type_hint;
 
     class parser {
         public:
@@ -30,6 +32,7 @@ namespace cranberry {
             std::vector<language*>              langs;
             std::map<std::string, std::string>  properties;
             std::mutex                          *io_mutex;
+            type_util                           types;
             
             void next_token(bool exit_on_eof = true);
             std::string token_text() const;
@@ -43,6 +46,8 @@ namespace cranberry {
             void parse_action(class_def&);
             void parse_parameter_list(function&);
             void parse_attribute_list(class_def&);
+            type_hint parse_type_hint();
+            std::vector<type_hint> parse_generic_type_list();
             
             void debug(std::string) const;
             void error(std::string) const;

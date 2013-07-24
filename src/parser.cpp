@@ -7,6 +7,7 @@
 #include "h/token.h"
 #include "h/language.h"
 #include "h/language_factory.h"
+#include "h/type_hint.h"
 // system headers
 #include <FlexLexer.h>
 #include <vector>
@@ -65,15 +66,15 @@ void parser::parse()
                         if (members.size() > 0) {
                                 cout << "\t  ( ";
                                 for (member m : members) {
-                                        cout << m.get_name() << " ";
+                                        cout << m.get_type().to_string() << ":" << m.get_name() << " ";
                                 }
                                 cout << ")\n";
                         }
                         for (function f : c.get_functions()) {
                                 cout << "\t\t" << f.get_name() << " ";
                                 cout << "[ ";
-                                for (string arg : f.get_parameters()) {
-                                        cout << arg << " ";
+                                for (auto &arg : f.get_parameters()) {
+                                        cout << arg.second.to_string() << ":" << arg.first << " ";
                                 }
                                 cout << "]\n";
                         }
@@ -225,6 +226,7 @@ class_def parser::parse_type_definition()
         debug("Parsing type definition.");
 
         class_def c;
+        string name;
         string parent;
 
         switch (lookahead) {
@@ -235,13 +237,17 @@ class_def parser::parse_type_definition()
                         // could not get class name
                         error("Invalid identifier: " + token_text() + ".");
                 }
-                c = class_def(token_text());
+                name = token_text();
+                types.add_type(name);
+                c = class_def(name);
                 next_token();
                 parse_definition_list(c);
                 break;
         case IDENTIFIER:
                 // typedef or extension-type definition
-                c = class_def(token_text());
+                name = token_text();
+                types.add_type(name);
+                c = class_def(name);
                 next_token();
                 if (lookahead != IS) {
                         // straight definition, get it and go
@@ -285,11 +291,11 @@ void parser::parse_definition_list(class_def& c)
                 // done with this definition
                 return;
         }
-        if (lookahead != COMMA) {
+        if (lookahead != SEMICOLON) {
                 // does not match a rule
                 error("Invalid token '" + token_text() + "' following class definition.");
         }
-        // COMMA
+        // SEMICOLON
         next_token();
         if (lookahead == AND) {
                 next_token();
@@ -323,22 +329,41 @@ void parser::parse_action_list(class_def& c)
         debug("Parsing action list.");
 
         parse_action(c);
-        if (lookahead != IDENTIFIER) {
-                // must be done with action list
-                return;
+        if (lookahead == COMMA) {
+                // continue with rest of list
+                next_token();
+                if (lookahead != IDENTIFIER) {
+                        // must be done with action list
+                        error("Invalid token '" + token_text() + "' following comma in action list.");
+                }
+                // IDENTIFIER -- more to list
+                parse_action_list(c);
         }
-        // IDENTIFIER -- more to list
-        parse_action_list(c);
+        // no comma, must be done with list
 }
 
 void parser::parse_action(class_def& c)
 {
         debug("Parsing action.");
-
+        if (lookahead == STATIC) {
+                // TODO: handle static modifier
+                next_token();
+                parse_action(c);
+                return;
+        }
+        if (lookahead == READ_ONLY) {
+                // TODO: handle read-only modifier
+                next_token();
+                parse_action(c);
+                return;
+        }
+        
+        type_hint r_type = parse_type_hint();
         if (lookahead != IDENTIFIER) {
                 error("Invalid function definition.");
         }
-        function f(token_text());
+        function f(r_type, token_text());
+
         next_token();
         if (lookahead == L_PAREN) {
                 next_token();
@@ -355,11 +380,11 @@ void parser::parse_action(class_def& c)
 void parser::parse_parameter_list(function &f)
 {
         debug("Parsing parameter list.");
-
+        type_hint t = parse_type_hint();
         if (lookahead != IDENTIFIER) {
                error("Invalid parameter list, expected identifier at token '" + token_text() + "'."); 
         }
-        f.add_parameter(token_text());
+        f.add_parameter(t, token_text());
         next_token();
         if (lookahead != COMMA) {
                 // must be done
@@ -376,15 +401,62 @@ void parser::parse_parameter_list(function &f)
 void parser::parse_attribute_list(class_def& c)
 {
         debug("Parsing attribute list.");
-
+        
+        type_hint t = parse_type_hint();
         if (lookahead != IDENTIFIER) {
                 error("Invalid attribute list.");
         }
 
-        do {
-                member m(token_text());
-                c.add_member(m);
-                next_token();
-        } while (lookahead == IDENTIFIER);
+        member m(t, token_text());
+        c.add_member(m);
+        next_token();
+        if (lookahead != COMMA) {
+                // must be done
+                return;
+        }
+        // COMMA
+        next_token();
+        parse_attribute_list(c);
 }
 
+type_hint parser::parse_type_hint()
+{
+        if (lookahead != IDENTIFIER) {
+                error("Invalid type name: " + token_text() + ".");
+        }
+        string name = token_text();
+        if (!types.is_defined(name)) {
+                error("Invalid type: '" + name + "'.");
+        }
+        next_token();
+        vector<type_hint> generics;
+        if (lookahead == L_BRACKET) {
+                if (!types.is_generic(name)) {
+                        error("Type '" + name + "' is not generic.");
+                }
+                next_token();
+                generics = parse_generic_type_list();
+                if (lookahead != R_BRACKET) {
+                        error("Expected '>' after generic list.");
+                }
+                next_token();
+        }
+        return type_hint(name, generics);
+}
+
+vector<type_hint> parser::parse_generic_type_list()
+{
+        vector<type_hint> generics;
+        type_hint t = parse_type_hint();
+        generics.push_back(t);
+        if (lookahead != COMMA) {
+                // must be done
+                return generics;
+        } else {
+                next_token();
+                for (type_hint future_hint : parse_generic_type_list()) {
+                        generics.push_back(future_hint);
+                }
+        }
+        return generics;
+}

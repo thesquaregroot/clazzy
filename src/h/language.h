@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <mutex>
+#include <ostream>
 
 namespace cranberry {
     class class_def;
@@ -21,8 +22,9 @@ namespace cranberry {
                     ) const = 0;
 
         protected:
-            void debug(const std::string &s) const;
-            void error(const std::string &s) const;
+            void debug(const std::string &) const;
+            void error(const std::string &) const;
+            void print_cranberry_notice(std::ostream &, const std::string &) const;
 
         private:
             std::mutex *io_mutex;

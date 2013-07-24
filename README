@@ -150,8 +150,8 @@ parameter:  type-hint IDENTIFIER
 attribute-list: type-hint IDENTIFIER "," attribute-list
             |   type-hint IDENTIFIER
 
-type-hint:  GENERIC_TYPE "<" generic-type-list ">"
-        |   PRIMITIVE_TYPE
+type-hint:  IDENTIFIER "<" generic-type-list ">"
+        |   IDENTIFIER
 
 generic-type-list:  type-hint "," generic-type-list
                 |   type-hint

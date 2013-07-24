@@ -2,19 +2,17 @@
 
 A person
     can
-        jump
-        talk(to)
-        walk(distance)
-        run(distance, speed)
-        sprint(distance),
+        void jump,
+        void talk(person to),
+        void walk(integer distance),
+        void run(integer distance, integer speed),
+        void sprint(integer distance);
     has
-        left_arm
-        right_arm
-        left_leg
-        right_leg
-.
+        integer left_arm,
+        integer right_arm,
+        float left_leg,
+        float right_leg.
 
 A nagger is a person that
     can
-        nag(person)
-.
+        void nag(person p).
