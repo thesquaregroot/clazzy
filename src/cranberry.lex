@@ -32,26 +32,6 @@ using namespace std;
 (static)|(STATIC)           { return STATIC; }
 (reference)|(REFERENCE)     { return REFERENCE; }
 (read\ only)|(READ\ ONLY)   { return READ_ONLY; }
-    /*
-(array)|(ARRAY)             { return GENERIC_TYPE; }
-(deque)|(DEQUE)             { return GENERIC_TYPE; }
-(list)|(LIST)               { return GENERIC_TYPE; }
-(set)|(SET)                 { return GENERIC_TYPE; }
-(stack)|(STACK)             { return GENERIC_TYPE; }
-(queue)|(QUEUE)             { return GENERIC_TYPE; }
-(map)|(MAP)                 { return GENERIC_TYPE; }
-(pointer)|(POINTER)         { return GENERIC_TYPE; }
-(byte)|(BYTE)               { return PRIMITIVE_TYPE; }
-(short)|(SHORT)             { return PRIMITIVE_TYPE; }
-(integer)|(INTEGER)         { return PRIMITIVE_TYPE; }
-(long)|(LONG)               { return PRIMITIVE_TYPE; }
-(character)|(CHARACTER)     { return PRIMITIVE_TYPE; }
-(string)|(STRING)           { return PRIMITIVE_TYPE; }
-(float)|(FLOAT)             { return PRIMITIVE_TYPE; }
-(double)|(DOUBLE)           { return PRIMITIVE_TYPE; }
-(boolean)|(BOOLEAN)         { return PRIMITIVE_TYPE; }
-(void)|(VOID)               { return PRIMITIVE_TYPE; }
-    */
 [a-zA-Z_\-]+                { return IDENTIFIER; }
 [a-zA-Z_]+=[^;]*            { return PROPERTY; }
 [ \t\n]+                    /* skip whitespace */

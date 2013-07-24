@@ -21,6 +21,7 @@ DEPEND_FILE = Makefile.depend
 # The first target is the one that is executed when you invoke
 # "make". The line describing the action starts with <TAB>.
 #   In this case there isn't one.
+.PHONY : generated_files
 all: generated_files $(DEPEND_FILE) $(OBJECT_DIR) $(EXE)
 
 $(OBJECT_DIR) : 
@@ -40,10 +41,9 @@ src/lex.yy.cpp : src/cranberry.lex
 # Next, update this makefile to handle dependancies (requires makedepend)
 #  This updates the makefile itself
 #
+-include $(DEPEND_FILE)
 $(DEPEND_FILE) : Makefile $(GENERATED_FILES) $(SRCS)
 	makedepend -Y -f- $(SOURCE_DIR)/*.cpp 2>/dev/null | sed 's/src\//obj\//' > $(DEPEND_FILE)
-
--include $(DEPEND_FILE)
 
 #
 # Automatically find cpp files and associate them with object files

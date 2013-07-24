@@ -861,46 +861,26 @@ YY_RULE_SETUP
 #line 34 "src/cranberry.lex"
 { return READ_ONLY; }
 	YY_BREAK
-/*
-(array)|(ARRAY)             { return GENERIC_TYPE; }
-(deque)|(DEQUE)             { return GENERIC_TYPE; }
-(list)|(LIST)               { return GENERIC_TYPE; }
-(set)|(SET)                 { return GENERIC_TYPE; }
-(stack)|(STACK)             { return GENERIC_TYPE; }
-(queue)|(QUEUE)             { return GENERIC_TYPE; }
-(map)|(MAP)                 { return GENERIC_TYPE; }
-(pointer)|(POINTER)         { return GENERIC_TYPE; }
-(byte)|(BYTE)               { return PRIMITIVE_TYPE; }
-(short)|(SHORT)             { return PRIMITIVE_TYPE; }
-(integer)|(INTEGER)         { return PRIMITIVE_TYPE; }
-(long)|(LONG)               { return PRIMITIVE_TYPE; }
-(character)|(CHARACTER)     { return PRIMITIVE_TYPE; }
-(string)|(STRING)           { return PRIMITIVE_TYPE; }
-(float)|(FLOAT)             { return PRIMITIVE_TYPE; }
-(double)|(DOUBLE)           { return PRIMITIVE_TYPE; }
-(boolean)|(BOOLEAN)         { return PRIMITIVE_TYPE; }
-(void)|(VOID)               { return PRIMITIVE_TYPE; }
-    */
 case 21:
 YY_RULE_SETUP
-#line 55 "src/cranberry.lex"
+#line 35 "src/cranberry.lex"
 { return IDENTIFIER; }
 	YY_BREAK
 case 22:
 /* rule 22 can match eol */
 YY_RULE_SETUP
-#line 56 "src/cranberry.lex"
+#line 36 "src/cranberry.lex"
 { return PROPERTY; }
 	YY_BREAK
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 57 "src/cranberry.lex"
+#line 37 "src/cranberry.lex"
 /* skip whitespace */
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 58 "src/cranberry.lex"
+#line 38 "src/cranberry.lex"
 {
                                 //handle token errors
                                 cout << "ERROR [Line " << yylineno << "]: illegal token \"" << yytext << "\"." << endl;
@@ -909,10 +889,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 64 "src/cranberry.lex"
+#line 44 "src/cranberry.lex"
 ECHO;
 	YY_BREAK
-#line 916 "src/lex.yy.cpp"
+#line 896 "src/lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1821,7 +1801,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 64 "src/cranberry.lex"
+#line 44 "src/cranberry.lex"
 
 
 

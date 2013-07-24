@@ -22,6 +22,7 @@ namespace cranberry {
                     ) const = 0;
 
         protected:
+            // helper functions for all langauges
             void debug(const std::string &) const;
             void error(const std::string &) const;
             void print_cranberry_notice(std::ostream &, const std::string &) const;
@@ -29,7 +30,6 @@ namespace cranberry {
         private:
             std::mutex *io_mutex;
             bool debug_enabled;
-            
     };
 }
 
