@@ -3,7 +3,7 @@
 
 namespace cranberry {
     enum token {
-        END_OF_FILE = 0,
+        END_OF_FILE,
         // special characters (incl. punctuation)
         PERCENT,
         EQUAL,
