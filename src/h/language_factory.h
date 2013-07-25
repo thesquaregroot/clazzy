@@ -1,5 +1,5 @@
-#ifndef LANGUAGE_FACTORY_H
-#define LANGUAGE_FACTORY_H
+#ifndef __CRANBERRY_LANGUAGE_FACTORY_H__
+#define __CRANBERRY_LANGUAGE_FACTORY_H__
 
 #include "language.h"
 #include <string>

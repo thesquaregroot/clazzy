@@ -1,5 +1,5 @@
-#ifndef METHOD_H
-#define METHOD_H
+#ifndef __CRANBERRY_METHOD_H__
+#define __CRANBERRY_METHOD_H__
 
 #include "type_hint.h"
 #include "access_type.h"

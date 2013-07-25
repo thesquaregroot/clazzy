@@ -1,5 +1,5 @@
-#ifndef LANG_CPP_H
-#define LANG_CPP_H
+#ifndef __CRANBERRY_LANG_CPP_H__
+#define __CRANBERRY_LANG_CPP_H__
 
 #include "language.h"
 #include <vector>

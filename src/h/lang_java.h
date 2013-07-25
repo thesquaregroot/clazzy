@@ -1,5 +1,5 @@
-#ifndef LANG_JAVA_H
-#define LANG_JAVA_H
+#ifndef __CRANBERRY_LANG_JAVA_H__
+#define __CRANBERRY_LANG_JAVA_H__
 
 #include "language.h"
 #include <vector>

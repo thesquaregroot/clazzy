@@ -1,5 +1,5 @@
-#ifndef CLASS_DEF_H
-#define CLASS_DEF_H
+#ifndef __CRANBERRY_CLASS_DEF_H__
+#define __CRANBERRY_CLASS_DEF_H__
 
 #include "type_hint.h"
 #include <vector>
@@ -31,13 +31,13 @@ namespace cranberry {
             std::vector<type_hint> get_parents() const;
 
         private:
-            std::string name;
+            std::string _name;
             // stores methods (name to parameter list mapping)
-            std::vector<method> methods;
+            std::vector<method> _methods;
             // stores member variables (names)
-            std::vector<member> members;
+            std::vector<member> _members;
             // stores parent class names
-            std::vector<type_hint> parents;
+            std::vector<type_hint> _parents;
     };
 }
 

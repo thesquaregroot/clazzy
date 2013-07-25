@@ -1,5 +1,5 @@
-#ifndef LANGUAGE_H
-#define LANGUAGE_H
+#ifndef __CRANBERRY_LANGUAGE_H__
+#define __CRANBERRY_LANGUAGE_H__
 
 #include <vector>
 #include <string>
@@ -28,8 +28,8 @@ namespace cranberry {
             void print_cranberry_notice(std::ostream &, const std::string &) const;
 
         private:
-            std::mutex *io_mutex;
-            bool debug_enabled;
+            std::mutex *_io_mutex;
+            bool _debug_enabled;
     };
 }
 

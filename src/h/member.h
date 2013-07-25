@@ -1,5 +1,5 @@
-#ifndef MEMBER_H
-#define MEMBER_H
+#ifndef __CRANBERRY_MEMBER_H__
+#define __CRANBERRY_MEMBER_H__
 
 #include "type_hint.h"
 #include <string>

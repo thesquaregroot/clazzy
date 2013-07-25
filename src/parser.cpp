@@ -68,10 +68,10 @@ void parser::parse()
                                 }
                                 cout << ")\n";
                         }
-                        for (method f : c.get_methods()) {
-                                cout << "\t\t" << f.get_name() << " ";
+                        for (method m : c.get_methods()) {
+                                cout << "\t\t" << m.get_name() << " ";
                                 cout << "[ ";
-                                for (auto &arg : f.get_parameters()) {
+                                for (auto &arg : m.get_parameters()) {
                                         cout << arg.second.to_string() << ":" << arg.first << " ";
                                 }
                                 cout << "]\n";
@@ -309,8 +309,8 @@ void parser::parse_action_list(class_def& c)
 {
         debug("Parsing action list.");
 
-        method f = parse_action();
-        c.add_method(f);
+        method m = parse_action();
+        c.add_method(m);
         
         if (_lookahead == COMMA) {
                 // continue with rest of list
@@ -330,45 +330,45 @@ method parser::parse_action()
         debug("Parsing action.");
         if (_lookahead == STATIC) {
                 next_token();
-                method f = parse_action();
-                f.set_static(true);
-                return f;
+                method m = parse_action();
+                m.set_static(true);
+                return m;
         }
         if (_lookahead == READ_ONLY) {
                 // TODO: handle read-only modifier
                 next_token();
-                method f = parse_action();
-                f.set_read_only(true);
-                return f;
+                method m = parse_action();
+                m.set_read_only(true);
+                return m;
         }
         
         type_hint r_type = parse_type_hint();
         if (_lookahead != IDENTIFIER) {
                 error("Invalid method definition.");
         }
-        method f(r_type, token_text());
+        method m(r_type, token_text());
 
         next_token();
         if (_lookahead == L_PAREN) {
                 next_token();
-                parse_parameter_list(f);
+                parse_parameter_list(m);
                 if (_lookahead != R_PAREN) {
                         error("Expected ')' after parameter list.");
                 }
                 // R_PAREN
                 next_token();
         }
-        return f;
+        return m;
 }
 
-void parser::parse_parameter_list(method &f)
+void parser::parse_parameter_list(method &m)
 {
         debug("Parsing parameter list.");
         type_hint t = parse_type_hint();
         if (_lookahead != IDENTIFIER) {
                error("Invalid parameter list, expected identifier at token '" + token_text() + "'."); 
         }
-        f.add_parameter(t, token_text());
+        m.add_parameter(t, token_text());
         next_token();
         if (_lookahead != COMMA) {
                 // must be done
@@ -379,7 +379,7 @@ void parser::parse_parameter_list(method &f)
         if (_lookahead != IDENTIFIER) {
                error("Invalid parameter list, expected identifier at token '" + token_text() + "'."); 
         }
-        parse_parameter_list(f);
+        parse_parameter_list(m);
 }
 
 void parser::parse_attribute_list(class_def& c)

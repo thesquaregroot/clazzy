@@ -1,5 +1,5 @@
-#ifndef TYPE_UTIL_H
-#define TYPE_UTIL_H
+#ifndef __CRANBERRY_TYPE_UTIL_H__
+#define __CRANBERRY_TYPE_UTIL_H__
 
 #include <string>
 #include <map>

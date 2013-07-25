@@ -1,5 +1,5 @@
-#ifndef ACCESS_TYPE_H
-#define ACCESS_TYPE_H
+#ifndef __CRANBERRY_ACCESS_TYPE_H__
+#define __CRANBERRY_ACCESS_TYPE_H__
 
 namespace cranberry {
     enum access_type {

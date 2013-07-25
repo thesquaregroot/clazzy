@@ -14,47 +14,47 @@ using namespace std;
 
 class_def::class_def(const string& name)
 {
-        this->name = name;
+        _name = name;
 }
 
 
 void class_def::set_name(const string& name)
 {
-        this->name = name;
+        _name = name;
 }
 
 string class_def::get_name() const
 {
-        return name;
+        return _name;
 }
 
-void class_def::add_method(method &f)
+void class_def::add_method(method &m)
 {
-        methods.push_back(f);
+        _methods.push_back(m);
 }
 
 void class_def::add_member(member &m)
 {
-        members.push_back(m);
+        _members.push_back(m);
 }
 
 void class_def::add_parent(type_hint &t)
 {
-        parents.push_back(t);
+        _parents.push_back(t);
 }
 
 vector<method> class_def::get_methods() const
 {
-        return methods;
+        return _methods;
 }
 
 vector<member> class_def::get_members() const
 {
-        return members;
+        return _members;
 }
 
 vector<type_hint> class_def::get_parents() const
 {
-        return parents;
+        return _parents;
 }
 

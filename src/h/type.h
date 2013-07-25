@@ -1,5 +1,5 @@
-#ifndef TYPE_H
-#define TYPE_H
+#ifndef __CRANBERRY_TYPE_H__
+#define __CRANBERRY_TYPE_H__
 
 namespace cranberry {
     enum type : unsigned short {

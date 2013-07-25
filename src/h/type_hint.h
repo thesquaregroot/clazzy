@@ -1,5 +1,5 @@
-#ifndef TYPE_HINT_H
-#define TYPE_HINT_H
+#ifndef __CRANBERRY_TYPE_HINT_H__
+#define __CRANBERRY_TYPE_HINT_H__
 
 #include <vector>
 #include <string>
@@ -15,9 +15,8 @@ namespace cranberry {
             std::string to_string() const;
             
         private:
-            bool is_primitive;
-            std::string base_type;
-            std::vector<type_hint> generic_types;
+            std::string _base_type;
+            std::vector<type_hint> _generic_types;
     };
 }
 

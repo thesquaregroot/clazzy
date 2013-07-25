@@ -1,5 +1,5 @@
-#ifndef CRANBERRY_TOKEN_H
-#define CRANBERRY_TOKEN_H
+#ifndef __CRANBERRY_TOKEN_H__
+#define __CRANBERRY_TOKEN_H__
 
 namespace cranberry {
     enum token {

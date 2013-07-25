@@ -8,26 +8,26 @@
 using namespace cranberry;
 using namespace std;
 
-// mutex *io_mutex
-// bool debug_enabled
+// mutex *_io_mutex
+// bool _debug_enabled
 
 language::language(mutex *io, bool debug) {
-        io_mutex = io;
-        debug_enabled = debug;
+        _io_mutex = io;
+        _debug_enabled = debug;
 }
 
 void language::debug(const string &s) const {
-        if (debug_enabled) {
-                io_mutex->lock();
+        if (_debug_enabled) {
+                _io_mutex->lock();
                 cout << "[DEBUG:" << this->get_name() << "] " << s << endl;
-                io_mutex->unlock();
+                _io_mutex->unlock();
         }
 }
 
 void language::error(const string &s) const {
-        io_mutex->lock();
+        _io_mutex->lock();
         cerr << "[ERROR:" << this->get_name() << "] " << s << endl;
-        io_mutex->unlock();
+        _io_mutex->unlock();
 }
 
 void language::print_cranberry_notice(ostream &out, const string &comment_chars) const
