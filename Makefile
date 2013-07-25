@@ -22,6 +22,7 @@ DEPEND_FILE = Makefile.depend
 # "make". The line describing the action starts with <TAB>.
 #   In this case there isn't one.
 .PHONY : generated_files
+
 all: generated_files $(DEPEND_FILE) $(OBJECT_DIR) $(EXE)
 
 $(OBJECT_DIR) : 
@@ -38,14 +39,6 @@ src/lex.yy.cpp : src/cranberry.lex
 	flex -+ -o src/lex.yy.cpp src/cranberry.lex
 
 #
-# Next, update this makefile to handle dependancies (requires makedepend)
-#  This updates the makefile itself
-#
--include $(DEPEND_FILE)
-$(DEPEND_FILE) : Makefile $(GENERATED_FILES) $(SRCS)
-	makedepend -Y -f- $(SOURCE_DIR)/*.cpp 2>/dev/null | sed 's/src\//obj\//' > $(DEPEND_FILE)
-
-#
 # Automatically find cpp files and associate them with object files
 #
 # NOTE: the shell command will not find generated files, 
@@ -53,6 +46,15 @@ $(DEPEND_FILE) : Makefile $(GENERATED_FILES) $(SRCS)
 #
 SRCS = $(shell ls $(SOURCE_DIR)/*.cpp)
 OBJS = $(patsubst $(SOURCE_DIR)/%.cpp,$(OBJECT_DIR)/%.o, $(GENERATED_FILES) $(SRCS))
+HEADERS = $(shell ls $(SOURCE_DIR)/h/*.h)
+
+#
+# Next, update this makefile to handle dependancies (requires makedepend)
+#  This updates the makefile itself
+#
+-include $(DEPEND_FILE)
+$(DEPEND_FILE) : Makefile $(GENERATED_FILES) $(SRCS) $(HEADERS)
+	makedepend -Y -f- $(SOURCE_DIR)/*.cpp 2>/dev/null | sed 's/src\//obj\//' > $(DEPEND_FILE)
 
 #
 # compile it all together
