@@ -547,12 +547,13 @@ static yyconst flex_int32_t yy_rule_can_match_eol[26] =
 #line 1 "src/cranberry.lex"
 #line 2 "src/cranberry.lex"
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include "h/token.h"
 #include "h/parser.h"
 using namespace cranberry;
 using namespace std;
-#line 556 "src/lex.yy.cpp"
+#line 557 "src/lex.yy.cpp"
 
 #define INITIAL 0
 
@@ -657,10 +658,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 13 "src/cranberry.lex"
+#line 14 "src/cranberry.lex"
 
 
-#line 664 "src/lex.yy.cpp"
+#line 665 "src/lex.yy.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -755,124 +756,124 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 15 "src/cranberry.lex"
+#line 16 "src/cranberry.lex"
 { return PERCENT; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 16 "src/cranberry.lex"
+#line 17 "src/cranberry.lex"
 { return EQUAL; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 17 "src/cranberry.lex"
+#line 18 "src/cranberry.lex"
 { return L_PAREN; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 18 "src/cranberry.lex"
+#line 19 "src/cranberry.lex"
 { return R_PAREN; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 19 "src/cranberry.lex"
+#line 20 "src/cranberry.lex"
 { return L_BRACKET; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 20 "src/cranberry.lex"
+#line 21 "src/cranberry.lex"
 { return R_BRACKET; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 21 "src/cranberry.lex"
+#line 22 "src/cranberry.lex"
 { return COMMA; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 22 "src/cranberry.lex"
+#line 23 "src/cranberry.lex"
 { return SEMICOLON; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 23 "src/cranberry.lex"
+#line 24 "src/cranberry.lex"
 { return PERIOD; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 24 "src/cranberry.lex"
+#line 25 "src/cranberry.lex"
 { return INDEFINITE_ARTICLE; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 25 "src/cranberry.lex"
+#line 26 "src/cranberry.lex"
 { return IS; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 26 "src/cranberry.lex"
+#line 27 "src/cranberry.lex"
 { return HAS; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 27 "src/cranberry.lex"
+#line 28 "src/cranberry.lex"
 { return CAN; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 28 "src/cranberry.lex"
+#line 29 "src/cranberry.lex"
 { return WITH; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 29 "src/cranberry.lex"
+#line 30 "src/cranberry.lex"
 { return AND; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 30 "src/cranberry.lex"
+#line 31 "src/cranberry.lex"
 { return CONSTANT; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 31 "src/cranberry.lex"
+#line 32 "src/cranberry.lex"
 { return STATIC; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 32 "src/cranberry.lex"
+#line 33 "src/cranberry.lex"
 { return REFERENCE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 33 "src/cranberry.lex"
+#line 34 "src/cranberry.lex"
 { return READ_ONLY; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 34 "src/cranberry.lex"
+#line 35 "src/cranberry.lex"
 { return IDENTIFIER; }
 	YY_BREAK
 case 21:
 /* rule 21 can match eol */
 YY_RULE_SETUP
-#line 35 "src/cranberry.lex"
+#line 36 "src/cranberry.lex"
 { return PROPERTY; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 36 "src/cranberry.lex"
+#line 37 "src/cranberry.lex"
 /* skip # comments */
 	YY_BREAK
 case 23:
 /* rule 23 can match eol */
 YY_RULE_SETUP
-#line 37 "src/cranberry.lex"
+#line 38 "src/cranberry.lex"
 /* skip whitespace */
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 38 "src/cranberry.lex"
+#line 39 "src/cranberry.lex"
 {
                                 //handle token errors
                                 cout << "ERROR [Line " << yylineno << "]: illegal token \"" << yytext << "\"." << endl;
@@ -881,10 +882,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 44 "src/cranberry.lex"
+#line 45 "src/cranberry.lex"
 ECHO;
 	YY_BREAK
-#line 888 "src/lex.yy.cpp"
+#line 889 "src/lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1793,16 +1794,54 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 44 "src/cranberry.lex"
+#line 45 "src/cranberry.lex"
 
 
+
+void print_usage_error()
+{
+    cout << "Usage: cranberry [--debug] [input-file]" << endl;
+    exit(1);
+}
 
 int main(int argc, char** argv)
 {
-    parser p(new yyFlexLexer());
-    p.set_debug(true);
-    p.parse();
-    p.write();
+    char *input = 0;
+    bool debug = false;
+
+    for (int i=1; i<argc; i++) {
+        // get argument
+        char *arg = argv[i];
+        if (arg[0] == '-') {
+            // some sort of option
+            if (strcmp(arg, "--debug")) {
+                debug = true;
+            } else {
+                cerr << "Unrecognized argument: " << arg << "." << endl;
+                print_usage_error();
+            }
+        } else {
+            // no '-', must be file name
+            input = arg;
+        }
+    }
+
+    
+    parser *p;
+    if (input == 0) {
+        p = new parser(new yyFlexLexer());
+    } else {
+        ifstream *in = new ifstream(input);
+        if (in->is_open()) {
+            p = new parser(new yyFlexLexer(in));
+        } else {
+            cerr << "Could not open file: " << input << "." << endl;
+            print_usage_error();
+        }
+    }
+    p->set_debug(debug);
+    p->parse();
+    p->write();
 }
 
 

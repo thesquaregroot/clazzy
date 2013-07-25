@@ -1,5 +1,6 @@
 %{
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include "h/token.h"
 #include "h/parser.h"
@@ -43,11 +44,49 @@ using namespace std;
 
 %%
 
+void print_usage_error()
+{
+    cout << "Usage: cranberry [--debug] [input-file]" << endl;
+    exit(1);
+}
+
 int main(int argc, char** argv)
 {
-    parser p(new yyFlexLexer());
-    p.set_debug(true);
-    p.parse();
-    p.write();
+    char *input = 0;
+    bool debug = false;
+
+    for (int i=1; i<argc; i++) {
+        // get argument
+        char *arg = argv[i];
+        if (arg[0] == '-') {
+            // some sort of option
+            if (strcmp(arg, "--debug")) {
+                debug = true;
+            } else {
+                cerr << "Unrecognized argument: " << arg << "." << endl;
+                print_usage_error();
+            }
+        } else {
+            // no '-', must be file name
+            input = arg;
+        }
+    }
+
+    
+    parser *p;
+    if (input == 0) {
+        p = new parser(new yyFlexLexer());
+    } else {
+        ifstream *in = new ifstream(input);
+        if (in->is_open()) {
+            p = new parser(new yyFlexLexer(in));
+        } else {
+            cerr << "Could not open file: " << input << "." << endl;
+            print_usage_error();
+        }
+    }
+    p->set_debug(debug);
+    p->parse();
+    p->write();
 }
 
