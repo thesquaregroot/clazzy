@@ -1,3 +1,5 @@
+
+# this should be an interesting test
 %LANGUAGE=Java,C++,C;
 
 A person
@@ -13,6 +15,8 @@ A person
         float left_leg,
         float right_leg.
 
-A nagger is a person that
+A nagger
+    is a
+        person;
     can
         void nag(person p).

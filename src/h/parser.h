@@ -43,6 +43,7 @@ namespace cranberry {
             class_def parse_type_definition();
             void parse_definition_list(class_def&);
             void parse_definition(class_def&);
+            void parse_parent_list(class_def&);
             void parse_action_list(class_def&);
             method parse_action();
             void parse_parameter_list(method&);

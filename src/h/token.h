@@ -20,7 +20,6 @@ namespace cranberry {
         HAS,
         CAN,
         WITH,
-        THAT,
         AND,
         // modifiers
         CONSTANT,

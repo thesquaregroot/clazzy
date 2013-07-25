@@ -121,15 +121,17 @@ statement:  property
 property:   "%" PROPERTY ";"
 
 type-definition:    INDEFINITE_ARTICLE IDENTIFIER definition-list
-                |   INDEFINITE_ARTICLE IDENTIFIER "is" INDEFINITE_ARTICLE type_hint "."
-                |   INDEFINITE_ARTICLE IDENTIFIER "is" INDEFINITE_ARTICLE type_hint "that" definition-list
 
 definition-list:    definition ";" definition-list
                 |   definition ";" "and" definition "."
                 |   definition "."
 
-definition: "can" action-list
+definition: "is" INDEFINITE_ARTICLE parent-list
         |   "has" attribute-list
+        |   "can" action-list
+
+parent-list:    type-hint "," parent-list
+            |   type-hint
 
 action-list:    action "," action-list
             |   action

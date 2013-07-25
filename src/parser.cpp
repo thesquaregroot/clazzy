@@ -235,30 +235,7 @@ class_def parser::parse_type_definition()
         class_def c(name);
 
         next_token();
-        if (_lookahead != IS) {
-                // straight definition, get it and go
-                parse_definition_list(c);
-                return c;
-        }
-        // IS
-        next_token();
-        if (_lookahead != INDEFINITE_ARTICLE) {
-                error("Expected indefinite article following 'is', instead found '" + token_text() + "'.");
-        }
-        // A
-        next_token();
-        type_hint t = parse_type_hint();
-        c.add_parent(t);
-        // got parent, check for additional definition
-        if (_lookahead == PERIOD) {
-                return c;
-        } else if (_lookahead == THAT) {
-                next_token();
-                parse_definition_list(c);
-                return c;
-        } else {
-                error("Unexpected token '" + token_text() + "'.");
-        }
+        parse_definition_list(c);
 
         return c;
 }
@@ -295,14 +272,37 @@ void parser::parse_definition(class_def& c)
         debug("Parsing definition.");
 
         if (_lookahead == CAN) {
+                // CAN
                 next_token();
                 parse_action_list(c);
         } else if (_lookahead == HAS) {
+                // HAS
                 next_token();
                 parse_attribute_list(c);
+        } else if (_lookahead == IS) {
+                // IS
+                next_token();
+                if (_lookahead != INDEFINITE_ARTICLE) {
+                        error("Expected indefinite article following 'is', instead found '" + token_text() + "'.");
+                }
+                // A
+                next_token();
+                parse_parent_list(c);
         } else {
                 error("Invalid type definition.");
         }
+}
+
+void parser::parse_parent_list(class_def &c)
+{
+        type_hint t = parse_type_hint();
+        c.add_parent(t);
+        if (_lookahead != COMMA) {
+                // must be done
+                return;
+        }
+        // COMMA
+        parse_parent_list(c);
 }
 
 void parser::parse_action_list(class_def& c)

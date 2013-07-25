@@ -26,7 +26,6 @@ using namespace std;
 (has)|(HAS)                 { return HAS; }
 (can)|(CAN)                 { return CAN; }
 (with)|(WITH)               { return WITH; }
-(that)|(THAT)               { return THAT; }
 (and)|(AND)                 { return AND; }
 (constant)|(CONSTANT)       { return CONSTANT; }
 (static)|(STATIC)           { return STATIC; }
@@ -34,6 +33,7 @@ using namespace std;
 (read\ only)|(READ\ ONLY)   { return READ_ONLY; }
 [a-zA-Z_\-]+                { return IDENTIFIER; }
 [a-zA-Z_]+=[^;]*            { return PROPERTY; }
+#[^\n]*                     /* skip # comments */
 [ \t\n]+                    /* skip whitespace */
 .                           {
                                 //handle token errors
