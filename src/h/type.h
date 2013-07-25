@@ -2,7 +2,7 @@
 #define __CRANBERRY_TYPE_H__
 
 namespace cranberry {
-    enum type : unsigned short {
+    enum type {
         // generic types
         ARRAY,
         DEQUE,

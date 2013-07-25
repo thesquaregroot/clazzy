@@ -1,13 +1,12 @@
 #ifndef __CRANBERRY_TYPE_UTIL_H__
 #define __CRANBERRY_TYPE_UTIL_H__
 
+#include "type.h"
 #include <string>
 #include <map>
 #include <set>
 
 namespace cranberry {
-    enum type : unsigned short;
-
     class type_util {
         public:
             bool add_type(const std::string &);
