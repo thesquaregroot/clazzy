@@ -17,8 +17,8 @@ code_file="src/${class_name}.cpp"
 ### H ###
 echo "Creating src/h/${class_name}.h..."
 
-echo "#ifndef LANG_${upper_case_lang_name}_H" > $header_file
-echo "#define LANG_${upper_case_lang_name}_H" >> $header_file
+echo "#ifndef __CRANBERRY_LANG_${upper_case_lang_name}_H__" > $header_file
+echo "#define __CRANBERRY_LANG_${upper_case_lang_name}_H__" >> $header_file
 echo >> $header_file
 echo "#include \"language.h\"" >> $header_file
 echo "#include <vector>" >> $header_file
@@ -46,7 +46,7 @@ echo "Creating src/${class_name}.cpp..."
 echo > $code_file
 echo "#include \"h/${class_name}.h\"" >> $code_file
 echo "#include \"h/class_def.h\"" >> $code_file
-echo "#include \"h/function.h\"" >> $code_file
+echo "#include \"h/method.h\"" >> $code_file
 echo "#include \"h/member.h\"" >> $code_file
 echo "#include <vector>" >> $code_file
 echo "#include <map>" >> $code_file
