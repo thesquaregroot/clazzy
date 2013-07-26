@@ -1,15 +1,17 @@
 
 # this should be an interesting test
-%LANGUAGE=Java,C++,C;
+%LANGUAGE=Java,C++,C; # multiple langauges
 
 A person
     can
+        # methods
         void jump,
         void talk(person to),
         void walk(integer distance),
-        void run(integer distance, integer speed),
+        void run(integer distance, integer speed), # another comment!
         void sprint(integer distance);
     has
+        #members
         integer left_arm,
         integer right_arm,
         float left_leg,
