@@ -33,7 +33,7 @@ using namespace std;
 (reference)|(REFERENCE)     { return REFERENCE; }
 (read\ only)|(READ\ ONLY)   { return READ_ONLY; }
 [a-zA-Z_\-]+                { return IDENTIFIER; }
-[a-zA-Z_]+=[^;]*            { return PROPERTY; }
+[a-zA-Z_]+=[^\n;]*          { return PROPERTY; }
 #[^\n]*                     /* skip # comments */
 [ \t\n]+                    /* skip whitespace */
 .                           {
@@ -44,9 +44,9 @@ using namespace std;
 
 %%
 
-void print_usage_error()
+void print_usage_error(char *arg0)
 {
-    cout << "Usage: cranberry [--debug] [input-file]" << endl;
+    cout << "Usage: " << arg0 << " [--debug] [input-file]" << endl;
     exit(1);
 }
 
@@ -60,11 +60,11 @@ int main(int argc, char** argv)
         char *arg = argv[i];
         if (arg[0] == '-') {
             // some sort of option
-            if (strcmp(arg, "--debug")) {
+            if (strcmp(arg, "--debug") == 0) {
                 debug = true;
             } else {
                 cerr << "Unrecognized argument: " << arg << "." << endl;
-                print_usage_error();
+                print_usage_error(argv[0]);
             }
         } else {
             // no '-', must be file name
@@ -82,7 +82,7 @@ int main(int argc, char** argv)
             p = new parser(new yyFlexLexer(in));
         } else {
             cerr << "Could not open file: " << input << "." << endl;
-            print_usage_error();
+            print_usage_error(argv[0]);
         }
     }
     p->set_debug(debug);

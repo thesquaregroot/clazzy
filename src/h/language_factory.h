@@ -9,6 +9,8 @@ namespace cranberry {
     class language_factory {
         public:
             static language *get_language(const std::string&, std::mutex*, bool=false);
+        private:
+            language_factory() {}
     };
 }
 

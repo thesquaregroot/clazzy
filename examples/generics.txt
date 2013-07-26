@@ -1,7 +1,9 @@
 
 %LANGUAGE=C;
 
-A piece_of_bacon is a list<integer> that
+A piece_of_bacon
+    is a
+        list<integer>;
     can
         void smell_delicious;
     and has

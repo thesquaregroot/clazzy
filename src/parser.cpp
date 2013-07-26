@@ -60,22 +60,32 @@ void parser::parse()
                 cout << "-Classes:\n";
                 for (class_def c : _classes) {
                         cout << "\t" << c.get_name() << "\n";
-                        vector<member> members = c.get_members();
-                        if (members.size() > 0) {
-                                cout << "\t  ( ";
-                                for (member m : members) {
-                                        cout << m.get_type().to_string() << ":" << m.get_name() << " ";
+                        for (type_hint p : c.get_parents()) {
+                                cout << "\t\t-- " << p.to_string() << "\n";
+                        }
+                        cout << "\t\t(\n";
+                        for (member m : c.get_members()) {
+                                string modifiers;
+                                if (m.is_static())
+                                        modifiers += 's';
+                                cout << "\t\t\t" << m.get_type().to_string() << "[" << modifiers << "] " << m.get_name() << "\n";
+                        }
+                        cout << "\t\t)\n";
+                        cout << "\t\t[\n";
+                        for (method m : c.get_methods()) {
+                                string modifiers;
+                                if (m.is_static())
+                                        modifiers += 's';
+                                if (m.is_read_only())
+                                        modifiers += 'r';
+                                type_hint t = m.get_return_type();
+                                cout << "\t\t\t" << t.to_string() << " " << m.get_name() << "( ";
+                                for (auto &arg : m.get_parameters()) {
+                                        cout << arg.second.to_string() << "[" << modifiers << "]:" << arg.first << " ";
                                 }
                                 cout << ")\n";
                         }
-                        for (method m : c.get_methods()) {
-                                cout << "\t\t" << m.get_name() << " ";
-                                cout << "[ ";
-                                for (auto &arg : m.get_parameters()) {
-                                        cout << arg.second.to_string() << ":" << arg.first << " ";
-                                }
-                                cout << "]\n";
-                        }
+                        cout << "\t\t]\n";
                 }
                 cout << "\n";
                 // debug properties
@@ -213,7 +223,7 @@ void parser::parse_property()
         next_token();
         if (_lookahead != SEMICOLON) {
                 // not sure if this is possible
-                error("Invalid delimiter for property.");
+                error("Expected semicolon after property value.");
         }
 }
 
@@ -335,7 +345,6 @@ method parser::parse_action()
                 return m;
         }
         if (_lookahead == READ_ONLY) {
-                // TODO: handle read-only modifier
                 next_token();
                 method m = parse_action();
                 m.set_read_only(true);
@@ -402,9 +411,10 @@ member parser::parse_attribute()
         debug("Parsing attribute.");
 
         if (_lookahead == STATIC) {
-                // TODO handle static
                 next_token();
-                return parse_attribute();
+                member m = parse_attribute();
+                m.set_static(true);
+                return m;
         }
         type_hint t = parse_type_hint();
         if (_lookahead != IDENTIFIER) {

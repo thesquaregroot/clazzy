@@ -6,7 +6,7 @@ using namespace std;
 
 // string _name
 // type_hint _type
-// bool _is_constant
+// bool _is_static
 // bool _is_reference
 
 
@@ -26,23 +26,13 @@ type_hint member::get_type() const
         return _type;
 }
 
-bool member::is_constant() const
+bool member::is_static() const
 {
-        return _is_constant;
+        return _is_static;
 }
 
-void member::set_constant(const bool &val)
+void member::set_static(const bool &val)
 {
-        _is_constant = val;
-}
-
-bool member::is_reference() const
-{
-        return _is_reference;
-}
-
-void member::set_reference(const bool &val)
-{
-        _is_reference = val;
+        _is_static = val;
 }
 

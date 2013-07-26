@@ -480,7 +480,7 @@ static yyconst flex_int16_t yy_nxt[360] =
        94,  103,  104,   96,  104,  104,  104,  104,  104,  101,
       104,  104,  104,  104,  104,  104,  104,   97,  103,   34,
 
-      104,   34,   34,   34,   37,  104,   37,   53,   53,   53,
+      104,   34,   34,   34,   37,  104,   37,   53,  104,   53,
       104,   53,    3,  104,  104,  104,  104,  104,  104,  104,
       104,  104,  104,  104,  104,  104,  104,  104,  104,  104,
       104,  104,  104,  104,  104,  104,  104,  104,  104,  104,
@@ -523,7 +523,7 @@ static yyconst flex_int16_t yy_chk[360] =
        88,   99,    0,   90,    0,    0,    0,    0,    0,   96,
         0,    0,    0,    0,    0,    0,    0,   94,  101,  105,
 
-        0,  105,  105,  105,  107,    0,  107,  108,  108,  108,
+        0,  105,  105,  105,  107,    0,  107,  108,    0,  108,
         0,  108,  104,  104,  104,  104,  104,  104,  104,  104,
       104,  104,  104,  104,  104,  104,  104,  104,  104,  104,
       104,  104,  104,  104,  104,  104,  104,  104,  104,  104,
@@ -535,7 +535,7 @@ static yyconst flex_int16_t yy_chk[360] =
 static yyconst flex_int32_t yy_rule_can_match_eol[26] =
     {   0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 1, 0, 1, 0, 0,     };
+    0, 0, 0, 1, 0, 0,     };
 
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
@@ -855,7 +855,6 @@ YY_RULE_SETUP
 { return IDENTIFIER; }
 	YY_BREAK
 case 21:
-/* rule 21 can match eol */
 YY_RULE_SETUP
 #line 36 "src/cranberry.lex"
 { return PROPERTY; }
@@ -885,7 +884,7 @@ YY_RULE_SETUP
 #line 45 "src/cranberry.lex"
 ECHO;
 	YY_BREAK
-#line 889 "src/lex.yy.cpp"
+#line 888 "src/lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1798,9 +1797,9 @@ void yyfree (void * ptr )
 
 
 
-void print_usage_error()
+void print_usage_error(char *arg0)
 {
-    cout << "Usage: cranberry [--debug] [input-file]" << endl;
+    cout << "Usage: " << arg0 << " [--debug] [input-file]" << endl;
     exit(1);
 }
 
@@ -1814,11 +1813,11 @@ int main(int argc, char** argv)
         char *arg = argv[i];
         if (arg[0] == '-') {
             // some sort of option
-            if (strcmp(arg, "--debug")) {
+            if (strcmp(arg, "--debug") == 0) {
                 debug = true;
             } else {
                 cerr << "Unrecognized argument: " << arg << "." << endl;
-                print_usage_error();
+                print_usage_error(argv[0]);
             }
         } else {
             // no '-', must be file name
@@ -1836,7 +1835,7 @@ int main(int argc, char** argv)
             p = new parser(new yyFlexLexer(in));
         } else {
             cerr << "Could not open file: " << input << "." << endl;
-            print_usage_error();
+            print_usage_error(argv[0]);
         }
     }
     p->set_debug(debug);
