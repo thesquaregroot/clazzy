@@ -21,6 +21,10 @@ namespace cranberry {
                                 const std::map<std::string,std::string>&
                     ) const = 0;
 
+            static const char TWO_SPACES[];
+            static const char FOUR_SPACES[];
+            static const char EIGHT_SPACES[];
+
         protected:
             // helper functions for all langauges
             void debug(const std::string &) const;
