@@ -1,3 +1,17 @@
+
+Though it is my understanding that the output of free software is still
+owned by the person that created the input (i.e. the user), I would like
+to make an explicit declaration of my intent to have this be the case.
+
+Users of this program retain all rights to all source code output, as
+though they had written the code from scratch on their own.  That is,
+users are free to use, modify, and distribute all generated code under
+whatever terms or license they would otherwise release original content.
+
+                         Andrew Groot
+
+-----------------------------------------------------------------------
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
