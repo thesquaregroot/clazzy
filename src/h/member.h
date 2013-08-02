@@ -14,11 +14,14 @@ namespace cranberry {
 
             bool is_static() const;
             void set_static(const bool &);
+            bool is_constant() const;
+            void set_constant(const bool &);
 
         private:
             std::string _name;
             type_hint _type;
             bool _is_static = false;
+            bool _is_constant = false;
     };
 }
 

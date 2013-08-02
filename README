@@ -153,6 +153,7 @@ attribute-list: attribute "," attribute-list
             |   attribute
 
 attribute:  "static" attribute
+        |   "constant" attribute
         |   type-hint IDENTIFIER
 
 type-hint:  IDENTIFIER "<" generic-type-list ">"

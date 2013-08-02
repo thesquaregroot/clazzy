@@ -416,6 +416,12 @@ member parser::parse_attribute()
                 m.set_static(true);
                 return m;
         }
+        if (_lookahead == CONSTANT) {
+                next_token();
+                member m = parse_attribute();
+                m.set_constant(true);
+                return m;
+        }
         type_hint t = parse_type_hint();
         if (_lookahead != IDENTIFIER) {
                 error("Invalid attribute name: '" + token_text() + "'.");

@@ -36,3 +36,12 @@ void member::set_static(const bool &val)
         _is_static = val;
 }
 
+bool member::is_constant() const
+{
+        return _is_constant;
+}
+
+void member::set_constant(const bool &val)
+{
+        _is_constant = val;
+}
