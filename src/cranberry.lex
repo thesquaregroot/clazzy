@@ -32,6 +32,12 @@ using namespace std;
 (static)|(STATIC)           { return STATIC; }
 (reference)|(REFERENCE)     { return REFERENCE; }
 (read\ only)|(READ\ ONLY)   { return READ_ONLY; }
+    /* access modifiers */
+(visible)|(VISIBLE)                     { return VISIBLE; }
+(hidden)|(HIDDEN)                       { return HIDDEN; }
+(child-visible)|(CHILD-VISIBLE)         { return CHILD_VISIBLE; }
+(assembly-visible)|(assembly-visible)   { return ASSEMBLY_VISIBLE; }
+    /* free-text */
 [a-zA-Z_\-]+                { return IDENTIFIER; }
 [a-zA-Z_]+=[^\n;]*          { return PROPERTY; }
 #[^\n]*                     /* skip # comments */

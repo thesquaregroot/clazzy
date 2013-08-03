@@ -29,7 +29,7 @@ namespace cranberry {
             std::map<std::string, type_hint> _params;
             bool _is_static = false; // static method
             bool _is_read_only = false; // think const keyword in C++
-            access_type _visibility = VISIBLE; // think public, private, etc.
+            access_type _visibility = VISIBLE_ACCESS; // think public, private, etc.
     };
 }
 

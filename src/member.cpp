@@ -45,3 +45,14 @@ void member::set_constant(const bool &val)
 {
         _is_constant = val;
 }
+
+access_type member::get_visibility() const
+{
+        return _visibility;
+}
+
+void member::set_visibility(const access_type &val)
+{
+        _visibility = val;
+}
+

@@ -8,6 +8,7 @@
 #include "h/language.h"
 #include "h/language_factory.h"
 #include "h/type_hint.h"
+#include "h/access_type.h"
 // system headers
 #include <FlexLexer.h>
 #include <vector>
@@ -66,6 +67,20 @@ void parser::parse()
                         cout << "\t\t(\n";
                         for (member m : c.get_members()) {
                                 string modifiers;
+                                switch (m.get_visibility()) {
+                                case VISIBLE_ACCESS:
+                                        modifiers += 'v';
+                                        break;
+                                case HIDDEN_ACCESS:
+                                        modifiers += 'h';
+                                        break;
+                                case CHILD_VISIBLE_ACCESS:
+                                        modifiers += 'l';
+                                        break;
+                                case ASSEMBLY_VISIBLE_ACCESS:
+                                        modifiers += 'a';
+                                        break;
+                                }
                                 if (m.is_static())
                                         modifiers += 's';
                                 cout << "\t\t\t" << m.get_type().to_string() << "[" << modifiers << "] " << m.get_name() << "\n";
@@ -74,14 +89,29 @@ void parser::parse()
                         cout << "\t\t[\n";
                         for (method m : c.get_methods()) {
                                 string modifiers;
+                                switch (m.get_visibility()) {
+                                case VISIBLE_ACCESS:
+                                        modifiers += 'v';
+                                        break;
+                                case HIDDEN_ACCESS:
+                                        modifiers += 'h';
+                                        break;
+                                case CHILD_VISIBLE_ACCESS:
+                                        modifiers += 'l';
+                                        break;
+                                case ASSEMBLY_VISIBLE_ACCESS:
+                                        modifiers += 'a';
+                                        break;
+                                }
                                 if (m.is_static())
                                         modifiers += 's';
                                 if (m.is_read_only())
-                                        modifiers += 'r';
+                                        modifiers += 'c';
                                 type_hint t = m.get_return_type();
-                                cout << "\t\t\t" << t.to_string() << " " << m.get_name() << "( ";
+                                cout << "\t\t\t" << t.to_string() << " " << m.get_name() << "[" << modifiers << "]( ";
                                 for (auto &arg : m.get_parameters()) {
-                                        cout << arg.second.to_string() << "[" << modifiers << "]:" << arg.first << " ";
+                                        // parameter modifiers
+                                        cout << arg.second.to_string() << ":" << arg.first << " ";
                                 }
                                 cout << ")\n";
                         }
@@ -325,10 +355,6 @@ void parser::parse_action_list(class_def& c)
         if (_lookahead == COMMA) {
                 // continue with rest of list
                 next_token();
-                if (_lookahead != IDENTIFIER) {
-                        // must be done with action list
-                        error("Invalid token '" + token_text() + "' following comma in action list.");
-                }
                 // IDENTIFIER -- more to list
                 parse_action_list(c);
         }
@@ -348,6 +374,30 @@ method parser::parse_action()
                 next_token();
                 method m = parse_action();
                 m.set_read_only(true);
+                return m;
+        }
+        if (_lookahead == VISIBLE) {
+                next_token();
+                method m = parse_action();
+                m.set_visibility(VISIBLE_ACCESS);
+                return m;
+        }
+        if (_lookahead == HIDDEN) {
+                next_token();
+                method m = parse_action();
+                m.set_visibility(HIDDEN_ACCESS);
+                return m;
+        }
+        if (_lookahead == CHILD_VISIBLE) {
+                next_token();
+                method m = parse_action();
+                m.set_visibility(CHILD_VISIBLE_ACCESS);
+                return m;
+        }
+        if (_lookahead == ASSEMBLY_VISIBLE) {
+                next_token();
+                method m = parse_action();
+                m.set_visibility(ASSEMBLY_VISIBLE_ACCESS);
                 return m;
         }
         
@@ -422,6 +472,31 @@ member parser::parse_attribute()
                 m.set_constant(true);
                 return m;
         }
+        if (_lookahead == VISIBLE) {
+                next_token();
+                member m = parse_attribute();
+                m.set_visibility(VISIBLE_ACCESS);
+                return m;
+        }
+        if (_lookahead == HIDDEN) {
+                next_token();
+                member m = parse_attribute();
+                m.set_visibility(HIDDEN_ACCESS);
+                return m;
+        }
+        if (_lookahead == CHILD_VISIBLE) {
+                next_token();
+                member m = parse_attribute();
+                m.set_visibility(CHILD_VISIBLE_ACCESS);
+                return m;
+        }
+        if (_lookahead == ASSEMBLY_VISIBLE) {
+                next_token();
+                member m = parse_attribute();
+                m.set_visibility(ASSEMBLY_VISIBLE_ACCESS);
+                return m;
+        }
+
         type_hint t = parse_type_hint();
         if (_lookahead != IDENTIFIER) {
                 error("Invalid attribute name: '" + token_text() + "'.");

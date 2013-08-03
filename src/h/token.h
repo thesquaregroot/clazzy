@@ -21,7 +21,12 @@ namespace cranberry {
         CAN,
         WITH,
         AND,
-        // modifiers
+        // access modifiers
+        VISIBLE,
+        HIDDEN,
+        CHILD_VISIBLE,
+        ASSEMBLY_VISIBLE,
+        // other modifiers
         CONSTANT,
         STATIC,
         REFERENCE,

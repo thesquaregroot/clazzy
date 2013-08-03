@@ -2,6 +2,7 @@
 #define __CRANBERRY_MEMBER_H__
 
 #include "type_hint.h"
+#include "access_type.h"
 #include <string>
 
 namespace cranberry {
@@ -16,12 +17,15 @@ namespace cranberry {
             void set_static(const bool &);
             bool is_constant() const;
             void set_constant(const bool &);
+            access_type get_visibility() const;
+            void set_visibility(const access_type &);
 
         private:
             std::string _name;
             type_hint _type;
             bool _is_static = false;
             bool _is_constant = false;
+            access_type _visibility = VISIBLE_ACCESS; // think public, private, etc.
     };
 }
 

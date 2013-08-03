@@ -140,20 +140,28 @@ action: type-hint IDENTIFIER "(" parameter-list ")"
     |   type-hint IDENTIFIER
     |   "static" action
     |   "read-only" action
+    |   "visible" action
+    |   "hidden" action
+    |   "child-visible" action
+    |   "assembly-visible action
 
 parameter-list: parameter "," parameter-list
             |   parameter
 
 parameter:  type-hint IDENTIFIER
         |   type-hint IDENTIFIER
-        |   "constant" parameter
-        |   parameter "reference"
+        |   "constant" parameter [NOT IMPLEMENTED]
+        |   parameter "reference" [NOT IMPLEMENTED]
 
 attribute-list: attribute "," attribute-list
             |   attribute
 
 attribute:  "static" attribute
         |   "constant" attribute
+        |   "visible" attribute
+        |   "hidden" attribute
+        |   "child-visible" attribute
+        |   "assembly-visible attribute
         |   type-hint IDENTIFIER
 
 type-hint:  IDENTIFIER "<" generic-type-list ">"

@@ -3,10 +3,10 @@
 
 namespace cranberry {
     enum access_type {
-        VISIBLE, // public
-        HIDDEN, // private
-        CHILD_VISIBLE, // protected
-        ASSEMBLY_VISIBLE // package
+        VISIBLE_ACCESS, // public
+        HIDDEN_ACCESS, // private
+        CHILD_VISIBLE_ACCESS, // protected
+        ASSEMBLY_VISIBLE_ACCESS // package
     };
 }
 

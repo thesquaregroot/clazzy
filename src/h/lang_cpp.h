@@ -16,6 +16,10 @@ namespace cranberry {
                         const std::vector<class_def>&,
                         const std::map<std::string,std::string>&
                     ) const;
+        
+        private:
+            void write_header(std::string, class_def&) const;
+            void write_cpp(std::string, class_def&) const;
     };
 }
 
