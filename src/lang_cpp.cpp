@@ -33,7 +33,6 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
                 return;
         }
         
-        // include guard -- TODO: all caps
         string class_name = c.get_name();
         string include_guard = "__";
         for (unsigned int i=0; i<class_name.size(); i++) {
@@ -77,9 +76,13 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
                 out << m.get_return_type().to_string();
                 out << " " << m.get_name();
                 out << "(";
-                for (auto param : m.get_parameters()) {
+                map<string,type_hint> params = m.get_parameters();
+                for (auto it = params.cbegin(); it != params.cend(); it++) {
                         // map string -> type_hint
-                        out << param.second.to_string() << " " << param.first << ", ";
+                        out << it->second.to_string() << " " << it->first;
+                        if (it != --params.cend()) {
+                                out << ", ";
+                        }
                 }
                 out << ")";
                 if (m.is_read_only()) {
