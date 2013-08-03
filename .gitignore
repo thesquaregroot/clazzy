@@ -17,3 +17,8 @@ Makefile.bak
 
 # Executable
 cranberry
+
+cran_c/
+cran_cpp/
+cran_java/
+cran_python/
