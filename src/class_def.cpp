@@ -7,10 +7,10 @@
 using namespace cranberry;
 using namespace std;
 
-// string name
-// vector<method> methods
-// vector<member> members
-// vector<type_hint> parents
+// string _name
+// map<access_type,vector<method>> _methods
+// map<access_type,vector<member>> _members
+// vector<type_hint> _parents
 
 class_def::class_def(const string& name)
 {
@@ -30,12 +30,12 @@ string class_def::get_name() const
 
 void class_def::add_method(method &m)
 {
-        _methods.push_back(m);
+        _methods[m.get_visibility()].push_back(m);
 }
 
 void class_def::add_member(member &m)
 {
-        _members.push_back(m);
+        _members[m.get_visibility()].push_back(m);
 }
 
 void class_def::add_parent(type_hint &t)
@@ -43,14 +43,36 @@ void class_def::add_parent(type_hint &t)
         _parents.push_back(t);
 }
 
-vector<method> class_def::get_methods() const
+vector<method> class_def::get_methods(access_type *visibility) const
 {
-        return _methods;
+        if (visibility != 0) {
+                // return methods with given visibilty
+                return _methods.find(*visibility)->second;
+        }
+        // return all methods
+        vector<method> all_methods;
+        for (auto p : _methods) {
+                for (method m : p.second) {
+                        all_methods.push_back(m);
+                }
+        }
+        return all_methods;
 }
 
-vector<member> class_def::get_members() const
+vector<member> class_def::get_members(access_type *visibility) const
 {
-        return _members;
+        if (visibility != 0) {
+                // return members with given visibilty
+                return _members.find(*visibility)->second;
+        }
+        // return all members
+        vector<member> all_members;
+        for (auto p : _members) {
+                for (member m : p.second) {
+                        all_members.push_back(m);
+                }
+        }
+        return all_members;
 }
 
 vector<type_hint> class_def::get_parents() const

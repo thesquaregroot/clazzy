@@ -2,6 +2,8 @@
 #define __CRANBERRY_CLASS_DEF_H__
 
 #include "type_hint.h"
+#include "access_type.h"
+#include <map>
 #include <vector>
 #include <string>
 
@@ -24,18 +26,18 @@ namespace cranberry {
             // stores a parent class/interface name
             void add_parent(type_hint&);
             // returns the map of method names to their parameters
-            std::vector<method> get_methods() const;
+            std::vector<method> get_methods(access_type * = 0) const;
             // gets the members of this class
-            std::vector<member> get_members() const;
+            std::vector<member> get_members(access_type * = 0) const;
             // gets the parents of this class
             std::vector<type_hint> get_parents() const;
 
         private:
             std::string _name;
             // stores methods (name to parameter list mapping)
-            std::vector<method> _methods;
+            std::map<access_type,std::vector<method>> _methods;
             // stores member variables (names)
-            std::vector<member> _members;
+            std::map<access_type,std::vector<member>> _members;
             // stores parent class names
             std::vector<type_hint> _parents;
     };
