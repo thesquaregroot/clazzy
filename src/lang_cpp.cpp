@@ -136,6 +136,9 @@ void lang_cpp::write_cpp(string base_dir, class_def &c) const
         if (!out.is_open()) {
                 error("Could not open file: " + path);
         }
+
+        out << endl;
+        write_cranberry_notice(out, "//");
 }
 
 
