@@ -14,6 +14,13 @@
 using namespace cranberry;
 using namespace std;
 
+map<access_type,string> lang_cpp::access_prefixes = {
+        {VISIBLE_ACCESS, "public"},
+        {ASSEMBLY_VISIBLE_ACCESS, "public"},
+        {CHILD_VISIBLE_ACCESS, "protected"},
+        {HIDDEN_ACCESS, "private"}
+};
+
 string lang_cpp::get_name() const
 {
         return "C++";
@@ -22,8 +29,11 @@ string lang_cpp::get_name() const
 void lang_cpp::write_header(string base_dir, class_def &c) const
 {
         string header_dir = base_dir + "h/";
-        if (mkdir(header_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
-                error("Could not create directory: " + header_dir);
+        struct stat sb;
+        if (stat(header_dir.c_str(), &sb) != 0 && !S_ISDIR(sb.st_mode)) {
+                if (mkdir(header_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
+                        error("Could not create directory: " + header_dir);
+                }
         }
         string path = header_dir + c.get_name() + ".h";
         ofstream out(path);
@@ -33,7 +43,6 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
                 return;
         }
         
-        // include guard -- TODO: all caps
         string class_name = c.get_name();
         string include_guard = "__";
         for (unsigned int i=0; i<class_name.size(); i++) {
@@ -63,43 +72,55 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
         }
         out << " {" << endl;
         // begin definitions
-        // public
-        out << language::FOUR_SPACES << "public:" << endl;
-        // methods
-        vector<method> methods = c.get_methods();
-        vector<member> members = c.get_members();
-        for (method m : methods) {
-                out << language::EIGHT_SPACES;
-                if (m.is_static()) {
-                        out << "static ";
+        for (auto it = access_prefixes.cbegin(); it != access_prefixes.cend(); it++) {
+                // get method & members
+                vector<method> methods = c.get_methods(&it->first);
+                vector<member> members = c.get_members(&it->first);
+                if (methods.size() == 0 && members.size() == 0) {
+                        // not methods or members--move on to next access level
+                        continue;
                 }
-                // TODO: Convert to C++ type
-                out << m.get_return_type().to_string();
-                out << " " << m.get_name();
-                out << "(";
-                for (auto param : m.get_parameters()) {
-                        // map string -> type_hint
-                        out << param.second.to_string() << " " << param.first << ", ";
+                // print prefix
+                out << language::FOUR_SPACES << it->second << ":" << endl;
+                for (method m : methods) {
+                        out << language::EIGHT_SPACES;
+                        if (m.is_static()) {
+                                out << "static ";
+                        }
+                        // TODO: Convert to C++ type
+                        out << m.get_return_type().to_string();
+                        out << " " << m.get_name();
+                        out << "(";
+                        map<string,type_hint> params = m.get_parameters();
+                        for (auto param_it = params.cbegin(); param_it != params.cend(); param_it++) {
+                                // TODO: parameter modifiers
+                                // map string -> type_hint
+                                out << param_it->second.to_string() << " " << param_it->first;
+                                if (param_it != --params.cend()) {
+                                        out << ", ";
+                                }
+                        }
+                        out << ")";
+                        if (m.is_read_only()) {
+                                out << " const";
+                        }
+                        out << ";" << endl;
+                        if (members.size() > 0) {
+                                out << endl; // extra new line
+                        }
                 }
-                out << ")";
-                if (m.is_read_only()) {
-                        out << " const";
+                // members
+                for (member m : members) {
+                        out << language::EIGHT_SPACES;
+                        // TODO: Convert to C++ type
+                        if (m.is_static()) {
+                                out << "const ";
+                        }
+                        out << m.get_type().to_string();
+                        out << " " << m.get_name();
+                        out << ";" << endl;
                 }
-                out << ";" << endl;
-        }
-        if (methods.size() > 0) {
-                out << endl; // extra new line
-        }
-        // members
-        for (member m : members) {
-                out << language::EIGHT_SPACES;
-                // TODO: Convert to C++ type
-                if (m.is_static()) {
-                        out << "const ";
-                }
-                out << m.get_type().to_string();
-                out << " " << m.get_name();
-                out << ";" << endl;
+                out << endl; // new line after access level
         }
 
         // end class definition
@@ -116,6 +137,33 @@ void lang_cpp::write_cpp(string base_dir, class_def &c) const
         if (!out.is_open()) {
                 error("Could not open file: " + path);
         }
+
+        out << endl;
+        write_cranberry_notice(out, "//");
+        
+        out << "using namespace std;" << endl;
+        out << endl;
+        for (method m : c.get_methods()) {
+                // TODO: Convert to C++ type
+                out << m.get_return_type().to_string() << " ";
+                out << c.get_name() << "::" << m.get_name();
+                out << "(";
+                auto params = m.get_parameters();
+                for (auto param = params.cbegin(); param != params.cend(); param++) {
+                        // TODO: parameter modifiers
+                        out << param->second.to_string() << " " << param->first;
+                        if (param != --params.cend()) {
+                               out << ", ";
+                        }
+                }
+                out << ")";
+                out << endl;
+                out << language::EIGHT_SPACES;
+                out << "// TODO: implement";
+                out << endl;
+                out << "}" << endl;
+                out << endl;
+        }
 }
 
 
@@ -126,9 +174,12 @@ void lang_cpp::create(
 {
         for (class_def c : classes) {
                 debug("Creating code for class: " + c.get_name());
-                string base_dir = "./cpp/";
-                if (mkdir(base_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
-                        error("Could not create directory: " + base_dir);
+                string base_dir = "./cran_cpp/";
+                struct stat sb;
+                if (stat(base_dir.c_str(), &sb) != 0 || !S_ISDIR(sb.st_mode)) {
+                        if (mkdir(base_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
+                                error("Could not create directory: " + base_dir);
+                        }
                 }
                 write_header(base_dir, c);
                 write_cpp(base_dir, c);
