@@ -1,6 +1,7 @@
 #ifndef __CRANBERRY_LANGUAGE_H__
 #define __CRANBERRY_LANGUAGE_H__
 
+#include "type_convertor.h"
 #include <vector>
 #include <string>
 #include <map>
