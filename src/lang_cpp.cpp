@@ -63,8 +63,7 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
                 out << " : ";
                 for (unsigned int i=0; i<parents.size(); i++) {
                         type_hint t = parents[i];
-                        // TODO: Convert to C++ type
-                        out << "public " << t.to_string();
+                        out << "public " << types.convert(t);
                         if (i < parents.size()-1) {
                                 out << ", ";
                         }
@@ -87,15 +86,14 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
                         if (m.is_static()) {
                                 out << "static ";
                         }
-                        // TODO: Convert to C++ type
-                        out << m.get_return_type().to_string();
+                        out << types.convert(m.get_return_type());
                         out << " " << m.get_name();
                         out << "(";
                         map<string,type_hint> params = m.get_parameters();
                         for (auto param_it = params.cbegin(); param_it != params.cend(); param_it++) {
                                 // TODO: parameter modifiers
                                 // map string -> type_hint
-                                out << param_it->second.to_string() << " " << param_it->first;
+                                out << types.convert(param_it->second) << " " << param_it->first;
                                 if (param_it != --params.cend()) {
                                         out << ", ";
                                 }
@@ -112,11 +110,13 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
                 // members
                 for (member m : members) {
                         out << language::EIGHT_SPACES;
-                        // TODO: Convert to C++ type
                         if (m.is_static()) {
-                                out << "const ";
+                                out << "static ";
                         }
-                        out << m.get_type().to_string();
+                        if (m.is_constant()) {
+                                out << "const ";
+                        }       
+                        out << types.convert(m.get_type());
                         out << " " << m.get_name();
                         out << ";" << endl;
                 }
@@ -144,14 +144,13 @@ void lang_cpp::write_cpp(string base_dir, class_def &c) const
         out << "using namespace std;" << endl;
         out << endl;
         for (method m : c.get_methods()) {
-                // TODO: Convert to C++ type
-                out << m.get_return_type().to_string() << " ";
+                out << types.convert(m.get_return_type()) << " ";
                 out << c.get_name() << "::" << m.get_name();
                 out << "(";
                 auto params = m.get_parameters();
                 for (auto param = params.cbegin(); param != params.cend(); param++) {
                         // TODO: parameter modifiers
-                        out << param->second.to_string() << " " << param->first;
+                        out << types.convert(param->second) << " " << param->first;
                         if (param != --params.cend()) {
                                out << ", ";
                         }
@@ -166,6 +165,19 @@ void lang_cpp::write_cpp(string base_dir, class_def &c) const
         }
 }
 
+void lang_cpp::initialize()
+{
+        types.add_type("byte", "char");
+        types.add_type("short", "short");
+        types.add_type("integer", "int");
+        types.add_type("long", "long");
+        types.add_type("character", "char");
+        types.add_type("string", "std::string");
+        types.add_type("float", "float");
+        types.add_type("double", "double");
+        types.add_type("boolean", "bool");
+        types.add_type("void", "void");
+}
 
 void lang_cpp::create(
                         const vector<class_def> &classes,
