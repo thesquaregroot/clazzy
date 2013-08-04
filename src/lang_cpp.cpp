@@ -62,47 +62,60 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
         }
         out << " {" << endl;
         // begin definitions
-        // public
-        out << language::FOUR_SPACES << "public:" << endl;
-        // methods
-        vector<method> methods = c.get_methods();
-        vector<member> members = c.get_members();
-        for (method m : methods) {
-                out << language::EIGHT_SPACES;
-                if (m.is_static()) {
-                        out << "static ";
+        map<access_type, string> access_levels = {
+                {VISIBLE_ACCESS, "public"},
+                {ASSEMBLY_VISIBLE_ACCESS, "public"},
+                {CHILD_VISIBLE_ACCESS, "protected"},
+                {HIDDEN_ACCESS, "private"}
+        };
+        for (auto it = access_levels.cbegin(); it != access_levels.cend(); it++) {
+                // get method & members
+                vector<method> methods = c.get_methods(&it->first);
+                vector<member> members = c.get_members(&it->first);
+                if (methods.size() == 0 && members.size() == 0) {
+                        // not methods or members--move on to next access level
+                        continue;
                 }
-                // TODO: Convert to C++ type
-                out << m.get_return_type().to_string();
-                out << " " << m.get_name();
-                out << "(";
-                map<string,type_hint> params = m.get_parameters();
-                for (auto it = params.cbegin(); it != params.cend(); it++) {
-                        // map string -> type_hint
-                        out << it->second.to_string() << " " << it->first;
-                        if (it != --params.cend()) {
-                                out << ", ";
+                // print prefix
+                out << language::FOUR_SPACES << it->second << ":" << endl;
+                for (method m : methods) {
+                        out << language::EIGHT_SPACES;
+                        if (m.is_static()) {
+                                out << "static ";
+                        }
+                        // TODO: Convert to C++ type
+                        out << m.get_return_type().to_string();
+                        out << " " << m.get_name();
+                        out << "(";
+                        map<string,type_hint> params = m.get_parameters();
+                        for (auto param_it = params.cbegin(); param_it != params.cend(); param_it++) {
+                                // map string -> type_hint
+                                out << param_it->second.to_string() << " " << param_it->first;
+                                if (param_it != --params.cend()) {
+                                        out << ", ";
+                                }
+                        }
+                        out << ")";
+                        if (m.is_read_only()) {
+                                out << " const";
+                        }
+                        out << ";" << endl;
+                        if (members.size() > 0) {
+                                out << endl; // extra new line
                         }
                 }
-                out << ")";
-                if (m.is_read_only()) {
-                        out << " const";
+                // members
+                for (member m : members) {
+                        out << language::EIGHT_SPACES;
+                        // TODO: Convert to C++ type
+                        if (m.is_static()) {
+                                out << "const ";
+                        }
+                        out << m.get_type().to_string();
+                        out << " " << m.get_name();
+                        out << ";" << endl;
                 }
-                out << ";" << endl;
-        }
-        if (methods.size() > 0) {
-                out << endl; // extra new line
-        }
-        // members
-        for (member m : members) {
-                out << language::EIGHT_SPACES;
-                // TODO: Convert to C++ type
-                if (m.is_static()) {
-                        out << "const ";
-                }
-                out << m.get_type().to_string();
-                out << " " << m.get_name();
-                out << ";" << endl;
+                out << endl; // new line after access level
         }
 
         // end class definition

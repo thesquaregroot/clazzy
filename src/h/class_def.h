@@ -26,9 +26,9 @@ namespace cranberry {
             // stores a parent class/interface name
             void add_parent(type_hint&);
             // returns the map of method names to their parameters
-            std::vector<method> get_methods(access_type * = 0) const;
+            std::vector<method> get_methods(const access_type * = 0) const;
             // gets the members of this class
-            std::vector<member> get_members(access_type * = 0) const;
+            std::vector<member> get_members(const access_type * = 0) const;
             // gets the parents of this class
             std::vector<type_hint> get_parents() const;
 

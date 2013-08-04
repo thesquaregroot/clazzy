@@ -43,11 +43,15 @@ void class_def::add_parent(type_hint &t)
         _parents.push_back(t);
 }
 
-vector<method> class_def::get_methods(access_type *visibility) const
+vector<method> class_def::get_methods(const access_type *visibility) const
 {
         if (visibility != 0) {
                 // return methods with given visibilty
-                return _methods.find(*visibility)->second;
+                auto it = _methods.find(*visibility);
+                if (it != _methods.end()) {
+                        return it->second;
+                }
+                return vector<method>();
         }
         // return all methods
         vector<method> all_methods;
@@ -59,11 +63,15 @@ vector<method> class_def::get_methods(access_type *visibility) const
         return all_methods;
 }
 
-vector<member> class_def::get_members(access_type *visibility) const
+vector<member> class_def::get_members(const access_type *visibility) const
 {
         if (visibility != 0) {
                 // return members with given visibilty
-                return _members.find(*visibility)->second;
+                auto it = _members.find(*visibility);
+                if (it != _members.end()) {
+                        return it->second;
+                }
+                return vector<member>();
         }
         // return all members
         vector<member> all_members;
