@@ -93,6 +93,7 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
                         out << "(";
                         map<string,type_hint> params = m.get_parameters();
                         for (auto param_it = params.cbegin(); param_it != params.cend(); param_it++) {
+                                // TODO: parameter modifiers
                                 // map string -> type_hint
                                 out << param_it->second.to_string() << " " << param_it->first;
                                 if (param_it != --params.cend()) {
@@ -139,6 +140,30 @@ void lang_cpp::write_cpp(string base_dir, class_def &c) const
 
         out << endl;
         write_cranberry_notice(out, "//");
+        
+        out << "using namespace std;" << endl;
+        out << endl;
+        for (method m : c.get_methods()) {
+                // TODO: Convert to C++ type
+                out << m.get_return_type().to_string() << " ";
+                out << c.get_name() << "::" << m.get_name();
+                out << "(";
+                auto params = m.get_parameters();
+                for (auto param = params.cbegin(); param != params.cend(); param++) {
+                        // TODO: parameter modifiers
+                        out << param->second.to_string() << " " << param->first;
+                        if (param != --params.cend()) {
+                               out << ", ";
+                        }
+                }
+                out << ")";
+                out << endl;
+                out << language::EIGHT_SPACES;
+                out << "// TODO: implement";
+                out << endl;
+                out << "}" << endl;
+                out << endl;
+        }
 }
 
 
