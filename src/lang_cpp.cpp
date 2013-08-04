@@ -14,6 +14,13 @@
 using namespace cranberry;
 using namespace std;
 
+map<access_type,string> lang_cpp::access_prefixes = {
+        {VISIBLE_ACCESS, "public"},
+        {ASSEMBLY_VISIBLE_ACCESS, "public"},
+        {CHILD_VISIBLE_ACCESS, "protected"},
+        {HIDDEN_ACCESS, "private"}
+};
+
 string lang_cpp::get_name() const
 {
         return "C++";
@@ -62,13 +69,7 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
         }
         out << " {" << endl;
         // begin definitions
-        map<access_type, string> access_levels = {
-                {VISIBLE_ACCESS, "public"},
-                {ASSEMBLY_VISIBLE_ACCESS, "public"},
-                {CHILD_VISIBLE_ACCESS, "protected"},
-                {HIDDEN_ACCESS, "private"}
-        };
-        for (auto it = access_levels.cbegin(); it != access_levels.cend(); it++) {
+        for (auto it = access_prefixes.cbegin(); it != access_prefixes.cend(); it++) {
                 // get method & members
                 vector<method> methods = c.get_methods(&it->first);
                 vector<member> members = c.get_members(&it->first);
@@ -142,7 +143,7 @@ void lang_cpp::create(
 {
         for (class_def c : classes) {
                 debug("Creating code for class: " + c.get_name());
-                string base_dir = "./cpp/";
+                string base_dir = "./cran_cpp/";
                 if (mkdir(base_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
                         error("Could not create directory: " + base_dir);
                 }

@@ -2,6 +2,7 @@
 #define __CRANBERRY_LANG_CPP_H__
 
 #include "language.h"
+#include "access_type.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -20,6 +21,8 @@ namespace cranberry {
         private:
             void write_header(std::string, class_def&) const;
             void write_cpp(std::string, class_def&) const;
+
+            static std::map<access_type,std::string> access_prefixes;
     };
 }
 
