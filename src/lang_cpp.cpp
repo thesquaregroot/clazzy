@@ -29,8 +29,11 @@ string lang_cpp::get_name() const
 void lang_cpp::write_header(string base_dir, class_def &c) const
 {
         string header_dir = base_dir + "h/";
-        if (mkdir(header_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
-                error("Could not create directory: " + header_dir);
+        struct stat sb;
+        if (stat(header_dir.c_str(), &sb) != 0 && !S_ISDIR(sb.st_mode)) {
+                if (mkdir(header_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
+                        error("Could not create directory: " + header_dir);
+                }
         }
         string path = header_dir + c.get_name() + ".h";
         ofstream out(path);
@@ -144,8 +147,11 @@ void lang_cpp::create(
         for (class_def c : classes) {
                 debug("Creating code for class: " + c.get_name());
                 string base_dir = "./cran_cpp/";
-                if (mkdir(base_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
-                        error("Could not create directory: " + base_dir);
+                struct stat sb;
+                if (stat(base_dir.c_str(), &sb) != 0 || !S_ISDIR(sb.st_mode)) {
+                        if (mkdir(base_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
+                                error("Could not create directory: " + base_dir);
+                        }
                 }
                 write_header(base_dir, c);
                 write_cpp(base_dir, c);
