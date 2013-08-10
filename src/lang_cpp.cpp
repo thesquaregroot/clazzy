@@ -11,7 +11,7 @@
 #include <mutex>
 #include <cctype>
 #include <sys/stat.h>
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 map<access_type,string> lang_cpp::access_prefixes = {
@@ -55,7 +55,7 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
         // TODO: Includes?--Use validator?
         // start class definition and inherit from parents
         
-        write_cranberry_notice(out, "//");
+        write_clazzy_notice(out, "//");
 
         out << "class " << c.get_name();
         vector<type_hint> parents = c.get_parents();
@@ -139,7 +139,7 @@ void lang_cpp::write_cpp(string base_dir, class_def &c) const
         }
 
         out << endl;
-        write_cranberry_notice(out, "//");
+        write_clazzy_notice(out, "//");
         
         out << "using namespace std;" << endl;
         out << endl;

@@ -591,14 +591,14 @@ static yyconst flex_int32_t yy_rule_can_match_eol[30] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "src/cranberry.lex"
-#line 2 "src/cranberry.lex"
+#line 1 "src/clazzy.lex"
+#line 2 "src/clazzy.lex"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include "h/token.h"
 #include "h/parser.h"
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 #line 604 "src/lex.yy.cpp"
 
@@ -705,7 +705,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 14 "src/cranberry.lex"
+#line 14 "src/clazzy.lex"
 
 
 #line 712 "src/lex.yy.cpp"
@@ -803,145 +803,145 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 16 "src/cranberry.lex"
+#line 16 "src/clazzy.lex"
 { return PERCENT; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 17 "src/cranberry.lex"
+#line 17 "src/clazzy.lex"
 { return EQUAL; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 18 "src/cranberry.lex"
+#line 18 "src/clazzy.lex"
 { return L_PAREN; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 19 "src/cranberry.lex"
+#line 19 "src/clazzy.lex"
 { return R_PAREN; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 20 "src/cranberry.lex"
+#line 20 "src/clazzy.lex"
 { return L_BRACKET; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 21 "src/cranberry.lex"
+#line 21 "src/clazzy.lex"
 { return R_BRACKET; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 22 "src/cranberry.lex"
+#line 22 "src/clazzy.lex"
 { return COMMA; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 23 "src/cranberry.lex"
+#line 23 "src/clazzy.lex"
 { return SEMICOLON; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 24 "src/cranberry.lex"
+#line 24 "src/clazzy.lex"
 { return PERIOD; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 25 "src/cranberry.lex"
+#line 25 "src/clazzy.lex"
 { return INDEFINITE_ARTICLE; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 26 "src/cranberry.lex"
+#line 26 "src/clazzy.lex"
 { return IS; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 27 "src/cranberry.lex"
+#line 27 "src/clazzy.lex"
 { return HAS; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 28 "src/cranberry.lex"
+#line 28 "src/clazzy.lex"
 { return CAN; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 29 "src/cranberry.lex"
+#line 29 "src/clazzy.lex"
 { return WITH; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 30 "src/cranberry.lex"
+#line 30 "src/clazzy.lex"
 { return AND; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 31 "src/cranberry.lex"
+#line 31 "src/clazzy.lex"
 { return CONSTANT; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 32 "src/cranberry.lex"
+#line 32 "src/clazzy.lex"
 { return STATIC; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 33 "src/cranberry.lex"
+#line 33 "src/clazzy.lex"
 { return REFERENCE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 34 "src/cranberry.lex"
+#line 34 "src/clazzy.lex"
 { return READ_ONLY; }
 	YY_BREAK
 /* access modifiers */
 case 20:
 YY_RULE_SETUP
-#line 36 "src/cranberry.lex"
+#line 36 "src/clazzy.lex"
 { return VISIBLE; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 37 "src/cranberry.lex"
+#line 37 "src/clazzy.lex"
 { return HIDDEN; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 38 "src/cranberry.lex"
+#line 38 "src/clazzy.lex"
 { return CHILD_VISIBLE; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 39 "src/cranberry.lex"
+#line 39 "src/clazzy.lex"
 { return ASSEMBLY_VISIBLE; }
 	YY_BREAK
 /* free-text */
 case 24:
 YY_RULE_SETUP
-#line 41 "src/cranberry.lex"
+#line 41 "src/clazzy.lex"
 { return IDENTIFIER; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 42 "src/cranberry.lex"
+#line 42 "src/clazzy.lex"
 { return PROPERTY; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 43 "src/cranberry.lex"
+#line 43 "src/clazzy.lex"
 /* skip # comments */
 	YY_BREAK
 case 27:
 /* rule 27 can match eol */
 YY_RULE_SETUP
-#line 44 "src/cranberry.lex"
+#line 44 "src/clazzy.lex"
 /* skip whitespace */
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 45 "src/cranberry.lex"
+#line 45 "src/clazzy.lex"
 {
                                 //handle token errors
                                 cout << "ERROR [Line " << yylineno << "]: illegal token \"" << yytext << "\"." << endl;
@@ -950,7 +950,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 51 "src/cranberry.lex"
+#line 51 "src/clazzy.lex"
 ECHO;
 	YY_BREAK
 #line 957 "src/lex.yy.cpp"
@@ -1862,7 +1862,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 51 "src/cranberry.lex"
+#line 51 "src/clazzy.lex"
 
 
 

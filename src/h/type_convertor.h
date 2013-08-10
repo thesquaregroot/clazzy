@@ -1,11 +1,11 @@
-#ifndef __CRANBERRY_TYPE_CONVERTOR__
-#define __CRANBERRY_TYPE_CONVERTOR__
+#ifndef __CLAZZY_TYPE_CONVERTOR__
+#define __CLAZZY_TYPE_CONVERTOR__
 
 #include "type_hint.h"
 #include <string>
 #include <map>
 
-namespace cranberry {
+namespace clazzy {
     class type_convertor {
         public:
             void add_type(const std::string &cran_type, const std::string &lang_type);

@@ -13,7 +13,7 @@ COMPILE_SRC = $(CXX) $(CXXFLAGS) -c
 COMPILE_EXE = $(CXX) $(LIBRARIES)
 
 # Name of the executable.
-EXE = cranberry
+EXE = clazzy
 SOURCE_DIR = src
 OBJECT_DIR = obj
 DEPEND_FILE = Makefile.depend
@@ -35,8 +35,8 @@ GENERATED_FILES = src/lex.yy.cpp
 
 generated_files : $(GENERATED_FILES)
 
-src/lex.yy.cpp : src/cranberry.lex
-	flex -+ -o src/lex.yy.cpp src/cranberry.lex
+src/lex.yy.cpp : src/$(EXE).lex
+	flex -+ -o src/lex.yy.cpp src/$(EXE).lex
 
 #
 # Automatically find cpp files and associate them with object files

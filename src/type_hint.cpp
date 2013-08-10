@@ -1,6 +1,6 @@
 
 #include "h/type_hint.h"
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 // type _base_type

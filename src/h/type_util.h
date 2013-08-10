@@ -1,12 +1,12 @@
-#ifndef __CRANBERRY_TYPE_UTIL_H__
-#define __CRANBERRY_TYPE_UTIL_H__
+#ifndef __CLAZZY_TYPE_UTIL_H__
+#define __CLAZZY_TYPE_UTIL_H__
 
 #include "type.h"
 #include <string>
 #include <map>
 #include <set>
 
-namespace cranberry {
+namespace clazzy {
     class type_util {
         public:
             bool add_type(const std::string &);

@@ -1,5 +1,5 @@
-#ifndef __CRANBERRY_CLASS_DEF_H__
-#define __CRANBERRY_CLASS_DEF_H__
+#ifndef __CLAZZY_CLASS_DEF_H__
+#define __CLAZZY_CLASS_DEF_H__
 
 #include "type_hint.h"
 #include "access_type.h"
@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 
-namespace cranberry {
+namespace clazzy {
     class method;
     class member;
 

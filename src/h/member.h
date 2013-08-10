@@ -1,11 +1,11 @@
-#ifndef __CRANBERRY_MEMBER_H__
-#define __CRANBERRY_MEMBER_H__
+#ifndef __CLAZZY_MEMBER_H__
+#define __CLAZZY_MEMBER_H__
 
 #include "type_hint.h"
 #include "access_type.h"
 #include <string>
 
-namespace cranberry {
+namespace clazzy {
     class member {
         public:
             member(const type_hint &, const std::string &);

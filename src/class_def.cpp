@@ -4,7 +4,7 @@
 #include "h/member.h"
 #include <string>
 #include <vector>
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 // string _name

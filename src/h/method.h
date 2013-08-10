@@ -1,12 +1,12 @@
-#ifndef __CRANBERRY_METHOD_H__
-#define __CRANBERRY_METHOD_H__
+#ifndef __CLAZZY_METHOD_H__
+#define __CLAZZY_METHOD_H__
 
 #include "type_hint.h"
 #include "access_type.h"
 #include <map>
 #include <string>
 
-namespace cranberry {
+namespace clazzy {
     class method {
         public:
             method(type_hint, std::string);

@@ -1,7 +1,7 @@
 
 #include "h/type_util.h"
 #include "h/type.h"
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 // initialize private maps

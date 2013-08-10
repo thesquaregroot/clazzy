@@ -9,7 +9,7 @@
 #include "h/lang_java.h"
 #include "h/lang_python.h"
 // ### Language Includes ###
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 language *language_factory::get_language(const string &name, mutex *io_mutex, bool debug_enabled)
