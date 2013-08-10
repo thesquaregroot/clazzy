@@ -106,7 +106,7 @@ PRIMITIVE_TYPE                  "byte" or "short" or "integer" or "long" or
                                 "double" or "boolean" or "void"
                                 (case insenstive)
 
-NOTE: These are only defined for use below.  See src/cranberry.lex and src/h/token.h for a more complete list.
+NOTE: These are only defined for use below.  See src/clazzy.lex and src/h/token.h for a more complete list.
 
 =========
  Grammar
