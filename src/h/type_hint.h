@@ -1,10 +1,10 @@
-#ifndef __CRANBERRY_TYPE_HINT_H__
-#define __CRANBERRY_TYPE_HINT_H__
+#ifndef __CLAZZY_TYPE_HINT_H__
+#define __CLAZZY_TYPE_HINT_H__
 
 #include <vector>
 #include <string>
 
-namespace cranberry {
+namespace clazzy {
     class type_hint {
         public:
             type_hint() {}

@@ -3,7 +3,7 @@
 #include <vector>
 #include <map>
 #include <string>
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 string lang_java::get_name() const

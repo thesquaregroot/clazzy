@@ -1,7 +1,7 @@
 
 #include "h/member.h"
 #include <string>
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 // string _name

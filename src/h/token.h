@@ -1,7 +1,7 @@
-#ifndef __CRANBERRY_TOKEN_H__
-#define __CRANBERRY_TOKEN_H__
+#ifndef __CLAZZY_TOKEN_H__
+#define __CLAZZY_TOKEN_H__
 
-namespace cranberry {
+namespace clazzy {
     enum token {
         END_OF_FILE,
         // special characters (incl. punctuation)

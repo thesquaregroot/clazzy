@@ -1,5 +1,5 @@
-#ifndef __CRANBERRY_LANGUAGE_H__
-#define __CRANBERRY_LANGUAGE_H__
+#ifndef __CLAZZY_LANGUAGE_H__
+#define __CLAZZY_LANGUAGE_H__
 
 #include "type_convertor.h"
 #include <vector>
@@ -8,7 +8,7 @@
 #include <mutex>
 #include <ostream>
 
-namespace cranberry {
+namespace clazzy {
     class class_def;
 
     class language {
@@ -30,7 +30,7 @@ namespace cranberry {
             // helper functions for all langauges
             void debug(const std::string &) const;
             void error(const std::string &) const;
-            void write_cranberry_notice(std::ostream &, const std::string &) const;
+            void write_clazzy_notice(std::ostream &, const std::string &) const;
 
         private:
             std::mutex *_io_mutex;

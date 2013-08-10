@@ -1,6 +1,6 @@
 
 #include "h/type_convertor.h"
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 // map<string,string> mappings

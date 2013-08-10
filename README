@@ -1,12 +1,12 @@
 =================
- About Cranberry
+ About Clazzy
 =================
 
-Cranberry is a code generation platform, which focuses on handling 
+Clazzy is a code generation platform, which focuses on handling 
 class definition syntax for the user in a variety of programming langauges.
 
 By writing a straight-forward description of a high-level class design,
-Cranberry will generate code in a number of user-specified programming
+Clazzy will generate code in a number of user-specified programming
 languages with "TODO" comments in function bodies.
 
 This allows developers to quickly set up a multi-language project without
@@ -17,7 +17,7 @@ for simple syntax issues, and most importantly saves time.
 =====================
  Supported Languages
 =====================
-Cranberry can generate code for:
+Clazzy can generate code for:
 
     C++
     C

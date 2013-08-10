@@ -16,7 +16,7 @@
 #include <cstdlib>
 #include <thread>
 #include <mutex>
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 // bool _debug_enabled = false

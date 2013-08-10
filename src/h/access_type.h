@@ -1,7 +1,7 @@
-#ifndef __CRANBERRY_ACCESS_TYPE_H__
-#define __CRANBERRY_ACCESS_TYPE_H__
+#ifndef __CLAZZY_ACCESS_TYPE_H__
+#define __CLAZZY_ACCESS_TYPE_H__
 
-namespace cranberry {
+namespace clazzy {
     enum access_type {
         VISIBLE_ACCESS, // public
         HIDDEN_ACCESS, // private

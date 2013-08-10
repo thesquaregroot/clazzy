@@ -1,5 +1,5 @@
-#ifndef __CRANBERRY_LANG_CPP_H__
-#define __CRANBERRY_LANG_CPP_H__
+#ifndef __CLAZZY_LANG_CPP_H__
+#define __CLAZZY_LANG_CPP_H__
 
 #include "language.h"
 #include "access_type.h"
@@ -7,7 +7,7 @@
 #include <map>
 #include <string>
 
-namespace cranberry {
+namespace clazzy {
     class lang_cpp : public language {
         public:
             lang_cpp(std::mutex *io, bool debug) : language(io, debug) { initialize(); }

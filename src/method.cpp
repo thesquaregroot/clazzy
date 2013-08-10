@@ -3,7 +3,7 @@
 #include "h/type_hint.h"
 #include <map>
 #include <string>
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 // string name
