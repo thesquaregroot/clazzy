@@ -8,7 +8,7 @@
 namespace clazzy {
     class type_convertor {
         public:
-            void add_type(const std::string &cran_type, const std::string &lang_type);
+            void add_type(const std::string &clazzy_type, const std::string &lang_type);
             std::string convert(const type_hint &, char generic_start = '<', char generic_end = '>') const;
 
         private:

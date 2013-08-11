@@ -186,7 +186,7 @@ void lang_cpp::create(
 {
         for (class_def c : classes) {
                 debug("Creating code for class: " + c.get_name());
-                string base_dir = "./cran_cpp/";
+                string base_dir = "./clazzy_cpp/";
                 struct stat sb;
                 if (stat(base_dir.c_str(), &sb) != 0 || !S_ISDIR(sb.st_mode)) {
                         if (mkdir(base_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
