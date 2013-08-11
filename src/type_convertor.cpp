@@ -5,9 +5,9 @@ using namespace std;
 
 // map<string,string> mappings
 
-void type_convertor::add_type(const string &cran_type, const string &lang_type)
+void type_convertor::add_type(const string &clazzy_type, const string &lang_type)
 {
-        mappings[cran_type] = lang_type;
+        mappings[clazzy_type] = lang_type;
 }
 
 string type_convertor::convert(const type_hint &in_type, char generic_start, char generic_end) const
