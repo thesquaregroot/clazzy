@@ -3,13 +3,13 @@
 
 #include "type_hint.h"
 #include "access_type.h"
+#include "member.h"
+#include "method.h"
 #include <map>
 #include <vector>
 #include <string>
 
 namespace clazzy {
-    class method;
-    class member;
 
     class class_def {
         public:
