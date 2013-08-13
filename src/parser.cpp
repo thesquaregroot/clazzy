@@ -9,6 +9,7 @@
 #include "h/language_factory.h"
 #include "h/type_hint.h"
 #include "h/access_type.h"
+#include "h/validator.h"
 // system headers
 #include <FlexLexer.h>
 #include <vector>
@@ -126,6 +127,11 @@ void parser::parse()
                 // additional newline
                 cout << "\n";
         }
+        
+        // validate
+        validator v;
+        v.validate(_classes);
+
 }
 
 // for threading langauge implementation of paser::write()
@@ -152,6 +158,8 @@ void parser::write() const
 {
         // write all language files
         vector<thread*> threads;
+
+        // generate code
         for (unsigned int i=0; i<_langs.size(); i++) {
                 threads.push_back(new thread(
                                         write_langauge,
