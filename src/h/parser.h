@@ -1,5 +1,5 @@
-#ifndef __CRANBERRY_PARSER_H__
-#define __CRANBERRY_PARSER_H__
+#ifndef __CLAZZY_PARSER_H__
+#define __CLAZZY_PARSER_H__
 
 #include "class_def.h"
 #include "method.h"
@@ -13,7 +13,7 @@
 
 class FlexLexer;
 
-namespace cranberry {
+namespace clazzy {
     class language;
 
     class parser {

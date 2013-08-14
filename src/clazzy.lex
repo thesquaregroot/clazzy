@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include "h/token.h"
 #include "h/parser.h"
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 %}
 

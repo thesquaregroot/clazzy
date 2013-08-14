@@ -9,6 +9,7 @@
 #include "h/language_factory.h"
 #include "h/type_hint.h"
 #include "h/access_type.h"
+#include "h/validator.h"
 // system headers
 #include <FlexLexer.h>
 #include <vector>
@@ -16,7 +17,7 @@
 #include <cstdlib>
 #include <thread>
 #include <mutex>
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 // bool _debug_enabled = false
@@ -126,6 +127,15 @@ void parser::parse()
                 // additional newline
                 cout << "\n";
         }
+        
+        // validate
+        validator v;
+        string errors = v.validate(_classes);
+        if (errors != "") {
+                cerr << "FATAL: Errors found during validation:\n";
+                cerr << errors;
+                exit(2);
+        }
 }
 
 // for threading langauge implementation of paser::write()
@@ -152,6 +162,8 @@ void parser::write() const
 {
         // write all language files
         vector<thread*> threads;
+
+        // generate code
         for (unsigned int i=0; i<_langs.size(); i++) {
                 threads.push_back(new thread(
                                         write_langauge,

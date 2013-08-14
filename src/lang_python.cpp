@@ -7,7 +7,7 @@
 #include <map>
 #include <string>
 #include <mutex>
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 string lang_python::get_name() const

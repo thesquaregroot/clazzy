@@ -1,5 +1,5 @@
 
-%LANGUAGE=C;
+%LANGUAGE=C++;
 
 A piece_of_bacon
     is a

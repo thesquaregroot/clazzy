@@ -1,5 +1,5 @@
-#ifndef __CRANBERRY_LANG_CPP_H__
-#define __CRANBERRY_LANG_CPP_H__
+#ifndef __CLAZZY_LANG_CPP_H__
+#define __CLAZZY_LANG_CPP_H__
 
 #include "language.h"
 #include "access_type.h"
@@ -7,10 +7,10 @@
 #include <map>
 #include <string>
 
-namespace cranberry {
+namespace clazzy {
     class lang_cpp : public language {
         public:
-            lang_cpp(std::mutex *io, bool debug) : language(io, debug) { }
+            lang_cpp(std::mutex *io, bool debug) : language(io, debug) { initialize(); }
 
             std::string get_name() const;
             void create(
@@ -19,10 +19,13 @@ namespace cranberry {
                     ) const;
         
         private:
+            void initialize();
+
             void write_header(std::string, class_def&) const;
             void write_cpp(std::string, class_def&) const;
 
             static std::map<access_type,std::string> access_prefixes;
+            type_convertor types;
     };
 }
 

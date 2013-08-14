@@ -16,9 +16,10 @@
 Makefile.bak
 
 # Executable
-cranberry
+clazzy
 
-cran_c/
-cran_cpp/
-cran_java/
-cran_python/
+clazzy_c/
+clazzy_cpp/
+clazzy_java/
+clazzy_python/
+

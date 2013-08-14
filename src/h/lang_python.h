@@ -1,12 +1,12 @@
-#ifndef __CRANBERRY_LANG_PYTHON_H__
-#define __CRANBERRY_LANG_PYTHON_H__
+#ifndef __CLAZZY_LANG_PYTHON_H__
+#define __CLAZZY_LANG_PYTHON_H__
 
 #include "language.h"
 #include <vector>
 #include <map>
 #include <string>
 
-namespace cranberry {
+namespace clazzy {
     class lang_python : public language {
         public:
             lang_python(std::mutex *io, bool debug) : language(io, debug) { }

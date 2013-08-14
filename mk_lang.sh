@@ -17,15 +17,15 @@ code_file="src/${class_name}.cpp"
 ### H ###
 echo "Creating src/h/${class_name}.h..."
 
-echo "#ifndef __CRANBERRY_LANG_${upper_case_lang_name}_H__" > $header_file
-echo "#define __CRANBERRY_LANG_${upper_case_lang_name}_H__" >> $header_file
+echo "#ifndef __CLAZZY_LANG_${upper_case_lang_name}_H__" > $header_file
+echo "#define __CLAZZY_LANG_${upper_case_lang_name}_H__" >> $header_file
 echo >> $header_file
 echo "#include \"language.h\"" >> $header_file
 echo "#include <vector>" >> $header_file
 echo "#include <map>" >> $header_file
 echo "#include <string>" >> $header_file
 echo >> $header_file
-echo "namespace cranberry {" >> $header_file
+echo "namespace clazzy {" >> $header_file
 echo "    class ${class_name} : public language {" >> $header_file
 echo "        public:" >> $header_file
 echo "            ${class_name}(std::mutex *io, bool debug) : language(io, debug) { }" >> $header_file
@@ -52,7 +52,7 @@ echo "#include <vector>" >> $code_file
 echo "#include <map>" >> $code_file
 echo "#include <string>" >> $code_file
 echo "#include <mutex>" >> $code_file
-echo "using namespace cranberry;" >> $code_file
+echo "using namespace clazzy;" >> $code_file
 echo "using namespace std;" >> $code_file
 echo >> $code_file
 echo "string ${class_name}::get_name() const" >> $code_file

@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 #include <mutex>
-using namespace cranberry;
+using namespace clazzy;
 using namespace std;
 
 string lang_c::get_name() const

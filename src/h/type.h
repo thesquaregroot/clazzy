@@ -1,7 +1,7 @@
-#ifndef __CRANBERRY_TYPE_H__
-#define __CRANBERRY_TYPE_H__
+#ifndef __CLAZZY_TYPE_H__
+#define __CLAZZY_TYPE_H__
 
-namespace cranberry {
+namespace clazzy {
     enum type {
         // generic types
         ARRAY,
