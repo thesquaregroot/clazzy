@@ -3,15 +3,17 @@
 
 #include "class_def.h"
 #include "type_hint.h"
+#include <string>
 #include <vector>
 
 namespace clazzy {
     class validator {
         public:
-            virtual void validate(class_def &);
-            virtual void validate(std::vector<class_def> &);
+            virtual std::string validate(class_def &);
+            virtual std::string validate(std::vector<class_def> &);
 
         protected:
+            std::string validate(const type_hint &);
             void add_type(const type_hint &);
             std::vector<type_hint*> get_types();
 
