@@ -130,8 +130,12 @@ void parser::parse()
         
         // validate
         validator v;
-        v.validate(_classes);
-
+        string errors = v.validate(_classes);
+        if (errors != "") {
+                cerr << "FATAL: Errors found during validation:\n";
+                cerr << errors;
+                exit(2);
+        }
 }
 
 // for threading langauge implementation of paser::write()
