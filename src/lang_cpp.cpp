@@ -157,6 +157,8 @@ void lang_cpp::write_cpp(string base_dir, class_def &c) const
                 }
                 out << ")";
                 out << endl;
+                out << "{";
+                out << endl;
                 out << language::EIGHT_SPACES;
                 out << "// TODO: implement";
                 out << endl;
