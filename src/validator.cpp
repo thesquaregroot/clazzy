@@ -8,6 +8,9 @@ string validator::validate(class_def &clazz)
         string error;
 
         // get types
+        for (type_hint p : clazz.get_parents()) {
+                error += validate(p);
+        }
         for (method m : clazz.get_methods()) {
                 // return type
                 error += validate(m.get_return_type());
