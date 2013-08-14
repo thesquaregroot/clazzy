@@ -39,3 +39,23 @@ string type_hint::to_string() const
         return s;
 }
 
+bool type_hint::operator==(const type_hint &t) const
+{
+        if (_base_type != t._base_type || _generic_types.size() != t._generic_types.size()) {
+                return false;
+        }
+        // same base, same number of generics, check the generics
+        for (unsigned int i=0; i<_generic_types.size(); i++) {
+                if (_generic_types[i] != t._generic_types[i]) {
+                        return false;
+                }
+        }
+        // same base, same generics (must be the same)
+        return true;
+}
+
+bool type_hint::operator!=(const type_hint &t) const
+{
+        return !(*this == t);
+}
+
