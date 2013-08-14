@@ -15,7 +15,8 @@ string type_convertor::convert(const type_hint &in_type, char generic_start, cha
         string out_type;
         auto it = mappings.find(in_type.get_base_type());
         if (it == mappings.end()) {
-                out_type = in_type.get_base_type();
+                // could not find type, use given clazzy type
+                return in_type.to_string();
         } else {
                 out_type = it->second;
         }
