@@ -26,7 +26,7 @@ string lang_cpp::get_name() const
         return "C++";
 }
 
-void lang_cpp::write_header(string base_dir, class_def &c) const
+string lang_cpp::write_header(string base_dir, class_def &c) const
 {
         string header_dir = base_dir + "h/";
         struct stat sb;
@@ -35,12 +35,13 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
                         error("Could not create directory: " + header_dir);
                 }
         }
-        string path = header_dir + c.get_name() + ".h";
+        string include_path = "h/" + c.get_name() + ".h";
+        string path = base_dir + include_path;
         ofstream out(path);
 
         if (!out.is_open()) {
                 error("Could not open file: " + path);
-                return;
+                return include_path;
         }
         
         string class_name = c.get_name();
@@ -52,9 +53,10 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
         out << "#ifndef " << include_guard << endl;
         out << "#define " << include_guard << endl;
         out << endl;
-        // TODO: Includes?--Use validator?
-        // start class definition and inherit from parents
+        // includes
         
+
+        // start class definition and inherit from parents        
         write_clazzy_notice(out, "//");
 
         out << "class " << c.get_name();
@@ -127,9 +129,11 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
         out << "};" << endl;
         out << endl;
         out << "#endif" << endl;
+
+        return include_path;
 }
 
-void lang_cpp::write_cpp(string base_dir, class_def &c) const
+void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) const
 {
         string path = base_dir + c.get_name() + ".cpp";
         ofstream out(path);
@@ -140,6 +144,9 @@ void lang_cpp::write_cpp(string base_dir, class_def &c) const
 
         out << endl;
         write_clazzy_notice(out, "//");
+        
+        // include this class's header
+        out << "#include \"" + header_file + "\"" << endl;
         
         out << "using namespace std;" << endl;
         out << endl;
@@ -195,7 +202,7 @@ void lang_cpp::create(
                                 error("Could not create directory: " + base_dir);
                         }
                 }
-                write_header(base_dir, c);
-                write_cpp(base_dir, c);
+                string header_name = write_header(base_dir, c);
+                write_cpp(base_dir, c, header_name);
         }
 }
