@@ -117,7 +117,7 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
                         }
                         if (m.is_constant()) {
                                 out << "const ";
-                        }       
+                        }
                         out << types.convert(m.get_type());
                         out << " " << m.get_name();
                         out << ";" << endl;
@@ -166,8 +166,18 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
                 out << endl;
                 out << "{";
                 out << endl;
-                out << language::EIGHT_SPACES;
-                out << "// TODO: implement";
+                if (m.is_setter()) {
+                    out << language::EIGHT_SPACES;
+                    out << m.get_setter_member()->get_name() << " = " << m.get_setter_member()->get_name() << "1;" << endl;
+                }
+                else if (m.is_getter()) {
+                    out << language::EIGHT_SPACES;
+                    out << "return " << m.get_getter_member()->get_name() << ";" << endl;
+                }
+                else {
+                    out << language::EIGHT_SPACES;
+                    out << "// TODO: implement";
+                }
                 out << endl;
                 out << "}" << endl;
                 out << endl;

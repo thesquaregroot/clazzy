@@ -1,0 +1,15 @@
+
+%LANGUAGE=C++;
+
+A piece_of_bacon
+    is a
+        list<integer>;
+    can
+        void smell_delicious;
+    and has
+        hidden gets float width,
+        hidden gets float height,
+        hidden gets integer mg_of_salt,
+        hidden get_set boolean maple_coated,
+        static map<integer,piece_of_bacon> strips.
+

@@ -84,6 +84,8 @@ void parser::parse()
                                 }
                                 if (m.is_static())
                                         modifiers += 's';
+                                if (m.is_get_set())
+                                        modifiers += 'g';
                                 cout << "\t\t\t" << m.get_type().to_string() << "[" << modifiers << "] " << m.get_name() << "\n";
                         }
                         cout << "\t\t)\n";
@@ -506,6 +508,25 @@ member parser::parse_attribute()
                 next_token();
                 member m = parse_attribute();
                 m.set_visibility(ASSEMBLY_VISIBLE_ACCESS);
+                return m;
+        }
+
+        if (_lookahead == GETTER) {
+                next_token();
+                member m = parse_attribute();
+                m.set_getter(true);
+                return m;
+        }
+        else if (_lookahead == SETTER) {
+                next_token();
+                member m = parse_attribute();
+                m.set_setter(true);
+                return m;
+        }
+        else if (_lookahead == GET_SET) {
+                next_token();
+                member m = parse_attribute();
+                m.set_get_set(true);
                 return m;
         }
 

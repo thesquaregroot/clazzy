@@ -3,6 +3,7 @@
 
 #include "type_hint.h"
 #include "access_type.h"
+#include "member.h"
 #include <map>
 #include <string>
 
@@ -10,6 +11,8 @@ namespace clazzy {
     class method {
         public:
             method(type_hint, std::string);
+            method(const method &);
+            ~method();
             
             std::string get_name() const;
             type_hint get_return_type() const;
@@ -23,6 +26,13 @@ namespace clazzy {
             access_type get_visibility() const;
             void set_visibility(const access_type &);
 
+            bool is_getter() const;
+            void set_getter(bool, const member* const = 0); // member is optional if setting to false. member* can be a dynamic variable; we don't store its address: it is copied.
+            bool is_setter() const;
+            void set_setter(bool, const member* const = 0); // member is optional if setting to false. member* can be a dynamic variable; we don't store its address: it is copied.
+            const member* get_getter_member() const;
+            const member* get_setter_member() const;
+
         private:
             std::string _name;
             type_hint _return_type;
@@ -30,6 +40,9 @@ namespace clazzy {
             bool _is_static = false; // static method
             bool _is_read_only = false; // think const keyword in C++
             access_type _visibility = VISIBLE_ACCESS; // think public, private, etc.
+
+            member* _getter_member = 0;
+            member* _setter_member = 0;
     };
 }
 

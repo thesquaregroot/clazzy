@@ -32,11 +32,15 @@ using namespace std;
 (static)|(STATIC)           { return STATIC; }
 (reference)|(REFERENCE)     { return REFERENCE; }
 (read\ only)|(READ\ ONLY)   { return READ_ONLY; }
+(get_set)|(GET_SET)         { return GET_SET; }
     /* access modifiers */
 (visible)|(VISIBLE)                     { return VISIBLE; }
 (hidden)|(HIDDEN)                       { return HIDDEN; }
 (child-visible)|(CHILD-VISIBLE)         { return CHILD_VISIBLE; }
 (assembly-visible)|(assembly-visible)   { return ASSEMBLY_VISIBLE; }
+    /* Describers */
+(gets)|(GETS)               { return GETTER; }
+(sets)|(SETS)               { return SETTER; }
     /* free-text */
 [a-zA-Z_\-]+                { return IDENTIFIER; }
 [a-zA-Z_]+=[^\n;]*          { return PROPERTY; }

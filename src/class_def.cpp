@@ -35,6 +35,18 @@ void class_def::add_method(method &m)
 
 void class_def::add_member(member &m)
 {
+        if (m.is_setter()) {
+            method setter(m.get_type(), "set_"+m.get_name());
+            setter.set_setter(true, &m);
+            setter.add_parameter(m.get_type(), m.get_name()+"1");
+            this->add_method(setter);
+        }
+        if (m.is_getter()) {
+            method getter(m.get_type(), "get_"+m.get_name());
+            getter.set_getter(true, &m);
+            this->add_method(getter);
+        }
+
         _members[m.get_visibility()].push_back(m);
 }
 
