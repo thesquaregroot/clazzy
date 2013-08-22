@@ -5,8 +5,6 @@
 #include "h/member.h"
 #include "h/io_functions.h"
 #include <unordered_set>
-#include <iostream>
-#include <fstream>
 #include <vector>
 #include <map>
 #include <string>
@@ -35,9 +33,8 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
         }
         string include_path = "h/" + c.get_name() + ".h";
         string path = base_dir + include_path;
-        ofstream out(path);
-
-        if (!out.is_open()) {
+        ofstream out;
+        if (!open_file(path, out, "//")) {
                 error("Could not open file: " + path);
                 return include_path;
         }
@@ -51,14 +48,17 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
         out << "#ifndef " << include_guard << endl;
         out << "#define " << include_guard << endl;
         out << endl;
+
         // includes
-        for (const string &header : types.get_imports(c.get_referenced_types())) {
+        vector<string> imports = types.get_imports(c.get_referenced_types());
+        for (const string &header : imports) {
                 out << "#include " << header << endl;
+        }
+        if (imports.size() > 0) {
+                out << endl;
         }
 
         // start class definition and inherit from parents        
-        write_clazzy_notice(out, "//");
-
         out << "class " << c.get_name();
         vector<type_hint> parents = c.get_parents();
         if (parents.size() > 0) {
@@ -136,14 +136,10 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
 void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) const
 {
         string path = base_dir + c.get_name() + ".cpp";
-        ofstream out(path);
-        
-        if (!out.is_open()) {
+        ofstream out;
+        if (!open_file(path, out, "//")) {
                 error("Could not open file: " + path);
         }
-
-        out << endl;
-        write_clazzy_notice(out, "//");
         
         // include this class's header
         out << "#include \"" + header_file + "\"" << endl;
