@@ -25,7 +25,7 @@ namespace clazzy {
             // stores a parent class/interface name
             void add_parent(type_hint&);
             // receive a list of referenced types
-            void set_referenced_types(std::vector<type_hint*> &);
+            void set_referenced_types(const std::vector<type_hint> &);
             // returns the map of method names to their parameters
             std::vector<method> get_methods(const access_type * = 0) const;
             // gets the members of this class
@@ -33,7 +33,7 @@ namespace clazzy {
             // gets the parents of this class
             std::vector<type_hint> get_parents() const;
             // return referenced types
-            std::vector<type_hint*> get_referenced_types() const;
+            std::vector<type_hint> get_referenced_types() const;
 
         private:
             std::string _name;
@@ -44,7 +44,7 @@ namespace clazzy {
             // stores parent class names
             std::vector<type_hint> _parents;
             // stores referenced types
-            std::vector<type_hint*> _referenced_types;
+            std::vector<type_hint> _referenced_types;
     };
 }
 

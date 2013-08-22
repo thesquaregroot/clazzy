@@ -88,13 +88,13 @@ string validator::validate(const type_hint &t)
 // remembers a type temporarily
 void validator::add_type(const type_hint &t)
 {
-        _types_encountered.push_back((type_hint*) &t);
+        _types_encountered.push_back(t);
 }
 
 // returns added types and clears the current state
-vector<type_hint*> validator::get_types()
+vector<type_hint> validator::get_types()
 {
-        vector<type_hint*> tmp = _types_encountered;
+        vector<type_hint> tmp = _types_encountered;
         _types_encountered.clear();
         return tmp;
 }

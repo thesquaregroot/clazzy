@@ -4,6 +4,7 @@
 #include "h/method.h"
 #include "h/member.h"
 #include "h/io_functions.h"
+#include <unordered_set>
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -51,7 +52,9 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
         out << "#define " << include_guard << endl;
         out << endl;
         // includes
-        
+        for (const string &header : types.get_imports(c.get_referenced_types())) {
+                out << "#include " << header << endl;
+        }
 
         // start class definition and inherit from parents        
         write_clazzy_notice(out, "//");
@@ -178,7 +181,7 @@ void lang_cpp::initialize()
         types.add_type("integer", "int");
         types.add_type("long", "long");
         types.add_type("character", "char");
-        types.add_type("string", "std::string");
+        types.add_type("string", "std::string", new string("<string>"));
         types.add_type("float", "float");
         types.add_type("double", "double");
         types.add_type("boolean", "bool");

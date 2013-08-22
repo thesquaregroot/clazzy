@@ -5,7 +5,8 @@ A piece_of_bacon
     is a
         list<integer>;
     can
-        void smell_delicious;
+        void smell_delicious,
+        string get_name;
     and has
         static map<integer,piece_of_bacon> strips.
 

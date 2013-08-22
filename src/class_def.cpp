@@ -43,7 +43,7 @@ void class_def::add_parent(type_hint &t)
         _parents.push_back(t);
 }
 
-void class_def::set_referenced_types(vector<type_hint*> &types)
+void class_def::set_referenced_types(const vector<type_hint> &types)
 {
         _referenced_types = types;
 }
@@ -93,7 +93,7 @@ vector<type_hint> class_def::get_parents() const
         return _parents;
 }
 
-vector<type_hint*> class_def::get_referenced_types() const
+vector<type_hint> class_def::get_referenced_types() const
 {
         return _referenced_types;
 }
