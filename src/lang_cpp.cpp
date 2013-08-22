@@ -3,6 +3,7 @@
 #include "h/class_def.h"
 #include "h/method.h"
 #include "h/member.h"
+#include "h/io_functions.h"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -10,7 +11,6 @@
 #include <string>
 #include <mutex>
 #include <cctype>
-#include <sys/stat.h>
 using namespace clazzy;
 using namespace std;
 
@@ -29,11 +29,8 @@ string lang_cpp::get_name() const
 string lang_cpp::write_header(string base_dir, class_def &c) const
 {
         string header_dir = base_dir + "h/";
-        struct stat sb;
-        if (stat(header_dir.c_str(), &sb) != 0 && !S_ISDIR(sb.st_mode)) {
-                if (mkdir(header_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
-                        error("Could not create directory: " + header_dir);
-                }
+        if (!chk_mkdir(header_dir)) {
+                error("Could not create directory: " + header_dir);
         }
         string include_path = "h/" + c.get_name() + ".h";
         string path = base_dir + include_path;
@@ -196,11 +193,8 @@ void lang_cpp::create(
         for (class_def c : classes) {
                 debug("Creating code for class: " + c.get_name());
                 string base_dir = "./clazzy_cpp/";
-                struct stat sb;
-                if (stat(base_dir.c_str(), &sb) != 0 || !S_ISDIR(sb.st_mode)) {
-                        if (mkdir(base_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
-                                error("Could not create directory: " + base_dir);
-                        }
+                if (!chk_mkdir(base_dir)) {
+                        error("Could not create directory: " + base_dir);
                 }
                 string header_name = write_header(base_dir, c);
                 write_cpp(base_dir, c, header_name);
