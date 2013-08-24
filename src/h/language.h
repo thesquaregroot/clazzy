@@ -1,6 +1,7 @@
 #ifndef __CLAZZY_LANGUAGE_H__
 #define __CLAZZY_LANGUAGE_H__
 
+#include "class_def.h"
 #include <vector>
 #include <string>
 #include <map>
@@ -8,8 +9,6 @@
 #include <ostream>
 
 namespace clazzy {
-    class class_def;
-
     class language {
         public:
             language(std::mutex*, bool = false);
