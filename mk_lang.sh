@@ -62,9 +62,30 @@ echo "#include <mutex>" >> $code_file
 echo "using namespace clazzy;" >> $code_file
 echo "using namespace std;" >> $code_file
 echo >> $code_file
+echo "map<access_type,string> ${class_name}::access_types = {" >> $code_file
+echo "        {VISIBLE_ACCESS, \"\"}," >> $code_file
+echo "        {HIDDEN_ACCESS, \"\"}," >> $code_file
+echo "        {CHILD_VISIBLE_ACCESS, \"\"}," >> $code_file
+echo "        {ASSEMBLY_VISIBLE_ACCESS, \"\"}" >> $code_file
+echo "};" >> $code_file
+echo >> $code_file
 echo "string ${class_name}::get_name() const" >> $code_file
 echo "{" >> $code_file
 echo "        return \"${language}\";" >> $code_file
+echo "}" >> $code_file
+echo >> $code_file
+echo "void ${class_name}::initialize()" >> $code_file
+echo "{" >> $code_file
+echo "        types.add_type(\"byte\", \"\");" >> $code_file
+echo "        types.add_type(\"short\", \"\");" >> $code_file
+echo "        types.add_type(\"integer\", \"\");" >> $code_file
+echo "        types.add_type(\"long\", \"\");" >> $code_file
+echo "        types.add_type(\"character\", \"\");" >> $code_file
+echo "        types.add_type(\"string\", \"\");" >> $code_file
+echo "        types.add_type(\"float\", \"\");" >> $code_file
+echo "        types.add_type(\"double\", \"\");" >> $code_file
+echo "        types.add_type(\"boolean\", \"\");" >> $code_file
+echo "        types.add_type(\"void\", \"\");" >> $code_file
 echo "}" >> $code_file
 echo >> $code_file
 echo "void ${class_name}::create(" >> $code_file
@@ -75,10 +96,6 @@ echo "{" >> $code_file
 echo "        // TODO: Implement code generation" >> $code_file
 echo "}" >> $code_file
 echo >> $code_file
-echo "void ${class_name}::initialize()" >> $code_file
-echo "{" >> $code_file
-echo "        // TODO: initialize access_prefixes at least" >> $code_file
-echo "}" >> $code_file
 
 ### OTHER ###
 echo "Updating language factory..."
