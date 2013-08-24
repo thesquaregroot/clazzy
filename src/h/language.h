@@ -30,7 +30,6 @@ namespace clazzy {
             // helper functions for all langauges
             void debug(const std::string &) const;
             void error(const std::string &) const;
-            void write_clazzy_notice(std::ostream &, const std::string &) const;
 
         private:
             std::mutex *_io_mutex;

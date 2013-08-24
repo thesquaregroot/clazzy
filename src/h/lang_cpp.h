@@ -21,8 +21,9 @@ namespace clazzy {
         private:
             void initialize();
 
-            void write_header(std::string, class_def&) const;
-            void write_cpp(std::string, class_def&) const;
+            // returns the path a cpp file can use to include this class
+            std::string write_header(std::string /* base directory */, class_def&) const;
+            void write_cpp(std::string /* base directory */, class_def&, std::string /* header path */) const;
 
             static std::map<access_type,std::string> access_prefixes;
             type_convertor types;

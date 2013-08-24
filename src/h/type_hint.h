@@ -13,6 +13,9 @@ namespace clazzy {
             std::string get_base_type() const;
             std::vector<type_hint> get_generic_types() const;
             std::string to_string() const;
+
+            bool operator==(const type_hint &) const;
+            bool operator!=(const type_hint &) const;
             
         private:
             std::string _base_type;
