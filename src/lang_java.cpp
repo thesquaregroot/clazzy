@@ -39,8 +39,26 @@ void lang_java::create(
         ) const
 {
         string base_dir = "./clazzy_java/";
+        string default_package = "com.clazzy";
+        // create main directory
         if (!chk_mkdir(base_dir)) {
                 error("Could not create directory " + base_dir + ".");
+        }
+        // get package
+        string package = default_package;
+        if (properties.find("JAVA_PACKAGE") != properties.end()) {
+                package = properties.find("JAVA_PACKAGE")->second;
+        }
+        // create package directories
+        string dir = base_dir;
+        for (unsigned int i=0; i<package.size(); i++) {
+                while (package[i] != '.' && i < package.size()) {
+                        dir += package[i++];
+                }
+                dir += '/';
+                if (!chk_mkdir(dir)) {
+                        error("Could not create directory " + dir + ".");
+                }
         }
         // TODO: implement
 }
