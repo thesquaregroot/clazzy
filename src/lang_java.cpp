@@ -60,6 +60,22 @@ void lang_java::create(
                         error("Could not create directory " + dir + ".");
                 }
         }
-        // TODO: implement
+        // generate source files
+        for (const class_def c : classes) {
+                ofstream out;
+                open_file(dir + c.get_name() + ".java", out, "//");
+                // declare package
+                out << "package " << package << ";" << endl;
+                out << endl;
+                // TODO: imports
+                // define class
+                out << "public class " << c.get_name();
+                for (type_hint parent : c.get_parents()) {
+                        out << " extends " << types.convert(parent);
+                }
+                out << " {" << endl;
+                // TODO: class definition body
+                out << "}" << endl;
+        }
 }
 
