@@ -1,12 +1,13 @@
 
 #include "h/lang_java.h"
+#include "h/io_functions.h"
 #include <vector>
 #include <map>
 #include <string>
 using namespace clazzy;
 using namespace std;
 
-map<access_type,string> lang_java::access_types = {
+map<access_type,string> lang_java::access_prefixes = {
         {VISIBLE_ACCESS, "public "},
         {HIDDEN_ACCESS, "private "},
         {CHILD_VISIBLE_ACCESS, "protected "},
@@ -37,6 +38,10 @@ void lang_java::create(
                         const map<string,string> &properties
         ) const
 {
-        // TODO
+        string base_dir = "./clazzy_java/";
+        if (!chk_mkdir(base_dir)) {
+                error("Could not create directory " + base_dir + ".");
+        }
+        // TODO: implement
 }
 

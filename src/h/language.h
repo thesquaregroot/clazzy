@@ -1,7 +1,6 @@
 #ifndef __CLAZZY_LANGUAGE_H__
 #define __CLAZZY_LANGUAGE_H__
 
-#include "type_convertor.h"
 #include <vector>
 #include <string>
 #include <map>

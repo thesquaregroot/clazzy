@@ -21,6 +21,7 @@ echo "#ifndef __CLAZZY_LANG_${upper_case_lang_name}_H__" > $header_file
 echo "#define __CLAZZY_LANG_${upper_case_lang_name}_H__" >> $header_file
 echo >> $header_file
 echo "#include \"language.h\"" >> $header_file
+echo "#include \"type_convertor.h\"" >> $header_file
 echo "#include \"access_type.h\"" >> $header_file
 echo "#include <vector>" >> $header_file
 echo "#include <map>" >> $header_file
@@ -62,7 +63,8 @@ echo "#include <mutex>" >> $code_file
 echo "using namespace clazzy;" >> $code_file
 echo "using namespace std;" >> $code_file
 echo >> $code_file
-echo "map<access_type,string> ${class_name}::access_types = {" >> $code_file
+echo "map<access_type,string> ${class_name}::access_prefixes = {" >> $code_file
+echo "        // TODO: create mappings" >> $code_file
 echo "        {VISIBLE_ACCESS, \"\"}," >> $code_file
 echo "        {HIDDEN_ACCESS, \"\"}," >> $code_file
 echo "        {CHILD_VISIBLE_ACCESS, \"\"}," >> $code_file
@@ -76,6 +78,7 @@ echo "}" >> $code_file
 echo >> $code_file
 echo "void ${class_name}::initialize()" >> $code_file
 echo "{" >> $code_file
+echo "        // TODO: create mappings and add any additional" >> $code_file
 echo "        types.add_type(\"byte\", \"\");" >> $code_file
 echo "        types.add_type(\"short\", \"\");" >> $code_file
 echo "        types.add_type(\"integer\", \"\");" >> $code_file
