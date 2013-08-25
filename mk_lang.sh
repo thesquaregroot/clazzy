@@ -21,6 +21,8 @@ echo "#ifndef __CLAZZY_LANG_${upper_case_lang_name}_H__" > $header_file
 echo "#define __CLAZZY_LANG_${upper_case_lang_name}_H__" >> $header_file
 echo >> $header_file
 echo "#include \"language.h\"" >> $header_file
+echo "#include \"type_convertor.h\"" >> $header_file
+echo "#include \"access_type.h\"" >> $header_file
 echo "#include <vector>" >> $header_file
 echo "#include <map>" >> $header_file
 echo "#include <string>" >> $header_file
@@ -28,13 +30,19 @@ echo >> $header_file
 echo "namespace clazzy {" >> $header_file
 echo "    class ${class_name} : public language {" >> $header_file
 echo "        public:" >> $header_file
-echo "            ${class_name}(std::mutex *io, bool debug) : language(io, debug) { }" >> $header_file
+echo "            ${class_name}(std::mutex *io, bool debug) : language(io, debug) { initialize(); }" >> $header_file
 echo >> $header_file
 echo "            std::string get_name() const;" >> $header_file
 echo "            void create(" >> $header_file
 echo "                        const std::vector<class_def>&," >> $header_file
 echo "                        const std::map<std::string,std::string>&" >> $header_file
 echo "                    ) const;" >> $header_file
+echo >> $header_file
+echo "        private:" >> $header_file
+echo "            void initialize();" >> $header_file
+echo >> $header_file
+echo "            static std::map<access_type,std::string> access_prefixes;" >> $header_file
+echo "            type_convertor types;" >> $header_file
 echo "    };" >> $header_file
 echo "}" >> $header_file
 echo >> $header_file
@@ -55,9 +63,32 @@ echo "#include <mutex>" >> $code_file
 echo "using namespace clazzy;" >> $code_file
 echo "using namespace std;" >> $code_file
 echo >> $code_file
+echo "map<access_type,string> ${class_name}::access_prefixes = {" >> $code_file
+echo "        // TODO: create mappings" >> $code_file
+echo "        {VISIBLE_ACCESS, \"\"}," >> $code_file
+echo "        {HIDDEN_ACCESS, \"\"}," >> $code_file
+echo "        {CHILD_VISIBLE_ACCESS, \"\"}," >> $code_file
+echo "        {ASSEMBLY_VISIBLE_ACCESS, \"\"}" >> $code_file
+echo "};" >> $code_file
+echo >> $code_file
 echo "string ${class_name}::get_name() const" >> $code_file
 echo "{" >> $code_file
 echo "        return \"${language}\";" >> $code_file
+echo "}" >> $code_file
+echo >> $code_file
+echo "void ${class_name}::initialize()" >> $code_file
+echo "{" >> $code_file
+echo "        // TODO: create mappings and add any additional" >> $code_file
+echo "        types.add_type(\"byte\", \"\");" >> $code_file
+echo "        types.add_type(\"short\", \"\");" >> $code_file
+echo "        types.add_type(\"integer\", \"\");" >> $code_file
+echo "        types.add_type(\"long\", \"\");" >> $code_file
+echo "        types.add_type(\"character\", \"\");" >> $code_file
+echo "        types.add_type(\"string\", \"\");" >> $code_file
+echo "        types.add_type(\"float\", \"\");" >> $code_file
+echo "        types.add_type(\"double\", \"\");" >> $code_file
+echo "        types.add_type(\"boolean\", \"\");" >> $code_file
+echo "        types.add_type(\"void\", \"\");" >> $code_file
 echo "}" >> $code_file
 echo >> $code_file
 echo "void ${class_name}::create(" >> $code_file
@@ -67,7 +98,7 @@ echo "        ) const" >> $code_file
 echo "{" >> $code_file
 echo "        // TODO: Implement code generation" >> $code_file
 echo "}" >> $code_file
-
+echo >> $code_file
 
 ### OTHER ###
 echo "Updating language factory..."
@@ -80,3 +111,4 @@ sed -i.bak "s/\(\/\/ ### Language Instantiations ###\)/} else if (name == \"$lan
 rm ${langauge_factory_file}.bak
 
 echo "Complete."
+

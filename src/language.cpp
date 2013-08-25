@@ -28,6 +28,12 @@ void language::debug(const string &s) const {
         }
 }
 
+void language::warn(const string &s) const {
+        _io_mutex->lock();
+        cout << "[WARN:" << this->get_name() << "] " << s << endl;
+        _io_mutex->unlock();
+}
+
 void language::error(const string &s) const {
         _io_mutex->lock();
         cerr << "[ERROR:" << this->get_name() << "] " << s << endl;

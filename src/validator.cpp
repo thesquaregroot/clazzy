@@ -47,38 +47,22 @@ string validator::validate(const type_hint &t)
         int size = t.get_generic_types().size();
         
         string error;
-        if (type == "array") {
-                if (size != 1) {
-                        error = "Type 'array' must have only 1 parameter.\n";
-                }
-        } else if (type == "deque") {
-                if (size != 1) {
-                        error = "Type 'deque' must have only 1 parameter.\n";
-                }
-        } else if (type == "list") {
-                if (size != 1) {
-                        error = "Type 'list' must have only 1 parameter.\n";
-                }
-        } else if (type == "set") {
-                if (size != 1) {
-                        error = "Type 'set' must have only 1 parameter.\n";
-                }
-        } else if (type == "stack") {
-                if (size != 1) {
-                        error = "Type 'stack' must have only 1 parameter.\n";
-                }
-        } else if (type == "queue") {
-                if (size != 1) {
-                        error = "Type 'queue' must have only 1 parameter.\n";
-                }
-        } else if (type == "map") {
-                if (size != 2) {
-                        error = "Type 'map' must have exactly 2 parameters.\n";
-                }
-        } else if (type == "pointer") {
-                if (size != 1) {
-                        error = "Type 'pointer' must have only 1 parameter.\n";
-                }
+        if (type == "array" && size != 1) {
+                error = "Type 'array' must have only 1 parameter.\n";
+        } else if (type == "deque" && size != 1) {
+                error = "Type 'deque' must have only 1 parameter.\n";
+        } else if (type == "list" && size != 1) {
+                error = "Type 'list' must have only 1 parameter.\n";
+        } else if (type == "set" && size != 1) {
+                error = "Type 'set' must have only 1 parameter.\n";
+        } else if (type == "stack" && size != 1) {
+                error = "Type 'stack' must have only 1 parameter.\n";
+        } else if (type == "queue" && size != 1) {
+                error = "Type 'queue' must have only 1 parameter.\n";
+        } else if (type == "map" && size != 2) {
+                error = "Type 'map' must have exactly 2 parameters.\n";
+        } else if (type == "pointer" && size != 1) {
+                error = "Type 'pointer' must have only 1 parameter.\n";
         } else {
                 add_type(t);
         }

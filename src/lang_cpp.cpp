@@ -20,6 +20,25 @@ map<access_type,string> lang_cpp::access_prefixes = {
         {HIDDEN_ACCESS, "private"}
 };
 
+void lang_cpp::initialize()
+{
+        types.add_type("byte", "char");
+        types.add_type("short", "short");
+        types.add_type("integer", "int");
+        types.add_type("long", "long");
+        types.add_type("character", "char");
+        types.add_type("string", "std::string", new string("<string>"));
+        types.add_type("float", "float");
+        types.add_type("double", "double");
+        types.add_type("boolean", "bool");
+        types.add_type("void", "void");
+        types.add_type("list", "vector", new string("<vector>"));
+        types.add_type("set", "set", new string("<set>"));
+        types.add_type("stack", "stack", new string("<stack>"));
+        types.add_type("queue", "queue", new string("<queue>"));
+        types.add_type("map", "map", new string("<map>"));
+}
+
 string lang_cpp::get_name() const
 {
         return "C++";
@@ -168,20 +187,6 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
                 out << "}" << endl;
                 out << endl;
         }
-}
-
-void lang_cpp::initialize()
-{
-        types.add_type("byte", "char");
-        types.add_type("short", "short");
-        types.add_type("integer", "int");
-        types.add_type("long", "long");
-        types.add_type("character", "char");
-        types.add_type("string", "std::string", new string("<string>"));
-        types.add_type("float", "float");
-        types.add_type("double", "double");
-        types.add_type("boolean", "bool");
-        types.add_type("void", "void");
 }
 
 void lang_cpp::create(
