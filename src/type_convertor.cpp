@@ -1,5 +1,6 @@
 
 #include "h/type_convertor.h"
+#include "h/string_functions.h"
 #include <unordered_set>
 using namespace clazzy;
 using namespace std;
@@ -15,13 +16,23 @@ void type_convertor::add_type(const string &clazzy_type, const string &lang_type
         }
 }
 
-string type_convertor::convert(const type_hint &in_type, char generic_start, char generic_end) const
+string type_convertor::convert_with_case(const type_hint &in_type, char generic_start, char generic_end, case_conversion cc) const
 {
         string out_type;
         auto it = mappings.find(in_type.get_base_type());
         if (it == mappings.end()) {
                 // could not find type, use given clazzy type
-                out_type = in_type.get_base_type();
+                switch (cc) {
+                case NONE:
+                        out_type = in_type.get_base_type();
+                        break;
+                case LOWER:
+                        out_type = to_lower_case(in_type.get_base_type());
+                        break;
+                case CAMEL:
+                        out_type = to_full_camel_case(in_type.get_base_type());
+                        break;
+                }
         } else {
                 out_type = it->second;
         }
@@ -37,6 +48,24 @@ string type_convertor::convert(const type_hint &in_type, char generic_start, cha
                 out_type += generic_end;
         }
         return out_type;
+}
+
+// convert with case as-is
+string type_convertor::convert(const type_hint &in_type, char generic_start, char generic_end) const
+{
+        return convert_with_case(in_type, generic_start, generic_end, NONE);
+}
+
+// convert to lower_case with underscores
+string type_convertor::convert_lc(const type_hint &in_type, char generic_start, char generic_end) const
+{
+        return convert_with_case(in_type, generic_start, generic_end, LOWER);
+}
+
+// convert to camel case
+string type_convertor::convert_cc(const type_hint &in_type, char generic_start, char generic_end) const
+{
+        return convert_with_case(in_type, generic_start, generic_end, CAMEL);
 }
 
 bool type_convertor::has_import(const string &name) const

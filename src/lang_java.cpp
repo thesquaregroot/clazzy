@@ -1,6 +1,7 @@
 
 #include "h/lang_java.h"
 #include "h/io_functions.h"
+#include "h/string_functions.h"
 #include <vector>
 #include <map>
 #include <string>
@@ -69,7 +70,7 @@ void lang_java::create(
         // generate source files
         for (const class_def c : classes) {
                 ofstream out;
-                open_file(dir + c.get_name() + ".java", out, "//");
+                open_file(dir + to_full_camel_case(c.get_name()) + ".java", out, "//");
                 // declare package
                 out << "package " << package << ";" << endl;
                 out << endl;
@@ -82,9 +83,9 @@ void lang_java::create(
                         out << endl;
                 }
                 // define class
-                out << "public class " << c.get_name();
+                out << "public class " << to_full_camel_case(c.get_name());
                 for (type_hint parent : c.get_parents()) {
-                        out << " extends " << types.convert(parent);
+                        out << " extends " << types.convert_cc(parent);
                 }
                 out << " {" << endl;
                 // members
@@ -100,8 +101,8 @@ void lang_java::create(
                                 out << "final ";
                         }
                         // definition
-                        out << types.convert(m.get_type()) << " ";
-                        out << m.get_name() << ";" << endl;
+                        out << types.convert_cc(m.get_type()) << " ";
+                        out << to_camel_case(m.get_name()) << ";" << endl;
                 }
                 // extra newline between members and methods (if there are members)
                 if (c.get_members().size() > 0) {
@@ -117,16 +118,16 @@ void lang_java::create(
                                 out << "static ";
                         }
                         if (m.is_read_only()) {
-                                warn("In class " + c.get_name() + ": the method " + m.get_name() + " cannot be declared read-only as Java does not support this feature.");
+                                warn("In class " + to_full_camel_case(c.get_name()) + ": the method " + to_camel_case(m.get_name()) + " cannot be declared read-only as Java does not support this feature.");
                         }
                         // definition
-                        out << types.convert(m.get_return_type()) << " ";
-                        out << m.get_name();
+                        out << types.convert_cc(m.get_return_type()) << " ";
+                        out << to_camel_case(m.get_name());
                         out << "(";
                         map<string,type_hint> params = m.get_parameters();
                         auto it = params.cbegin();
                         while (it != params.end()) {
-                                out << types.convert(it->second) << " ";
+                                out << types.convert_cc(it->second) << " ";
                                 out << it->first;
                                 if (++it != params.cend()) {
                                         out << ", ";

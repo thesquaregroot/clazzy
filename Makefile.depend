@@ -14,6 +14,7 @@ obj/lang_cpp.o: src/h/method.h src/h/member.h src/h/io_functions.h
 obj/lang_java.o: src/h/lang_java.h src/h/language.h src/h/class_def.h
 obj/lang_java.o: src/h/type_hint.h src/h/access_type.h src/h/member.h
 obj/lang_java.o: src/h/method.h src/h/type_convertor.h src/h/io_functions.h
+obj/lang_java.o: src/h/string_functions.h
 obj/lang_python.o: src/h/lang_python.h src/h/language.h src/h/class_def.h
 obj/lang_python.o: src/h/type_hint.h src/h/access_type.h src/h/member.h
 obj/lang_python.o: src/h/method.h src/h/type_convertor.h src/h/class_def.h
@@ -36,7 +37,9 @@ obj/parser.o: src/h/type_util.h src/h/type.h src/h/class_def.h src/h/method.h
 obj/parser.o: src/h/member.h src/h/token.h src/h/language.h
 obj/parser.o: src/h/language_factory.h src/h/language.h src/h/type_hint.h
 obj/parser.o: src/h/access_type.h src/h/validator.h
+obj/string_functions.o: src/h/string_functions.h
 obj/type_convertor.o: src/h/type_convertor.h src/h/type_hint.h
+obj/type_convertor.o: src/h/string_functions.h
 obj/type_hint.o: src/h/type_hint.h
 obj/type_util.o: src/h/type_util.h src/h/type.h src/h/type.h
 obj/validator.o: src/h/validator.h src/h/class_def.h src/h/type_hint.h
