@@ -27,3 +27,4 @@ language *language_factory::get_language(const string &name, mutex *io_mutex, bo
                 return 0;
         }
 }
+

@@ -1,5 +1,6 @@
 
 #include "h/type_convertor.h"
+#include "h/string_functions.h"
 #include <unordered_set>
 using namespace clazzy;
 using namespace std;
@@ -15,20 +16,30 @@ void type_convertor::add_type(const string &clazzy_type, const string &lang_type
         }
 }
 
-string type_convertor::convert(const type_hint &in_type, char generic_start, char generic_end) const
+string type_convertor::convert_with_case(const type_hint &in_type, char generic_start, char generic_end, case_conversion cc) const
 {
         string out_type;
         auto it = mappings.find(in_type.get_base_type());
         if (it == mappings.end()) {
                 // could not find type, use given clazzy type
-                return in_type.to_string();
+                switch (cc) {
+                case NONE:
+                        out_type = in_type.get_base_type();
+                        break;
+                case LOWER:
+                        out_type = to_lower_case(in_type.get_base_type());
+                        break;
+                case CAMEL:
+                        out_type = to_full_camel_case(in_type.get_base_type());
+                        break;
+                }
         } else {
                 out_type = it->second;
         }
         vector<type_hint> generics = in_type.get_generic_types();
         if (generics.size() > 0) {
                 out_type += generic_start;
-                for (int unsigned i=0; i<generics.size(); i++) {
+                for (unsigned int i=0; i<generics.size(); i++) {
                         out_type += this->convert(generics[i], generic_start, generic_end);
                         if (i != generics.size()-1) {
                                 out_type += ",";
@@ -39,11 +50,28 @@ string type_convertor::convert(const type_hint &in_type, char generic_start, cha
         return out_type;
 }
 
+// convert with case as-is
+string type_convertor::convert(const type_hint &in_type, char generic_start, char generic_end) const
+{
+        return convert_with_case(in_type, generic_start, generic_end, NONE);
+}
+
+// convert to lower_case with underscores
+string type_convertor::convert_lc(const type_hint &in_type, char generic_start, char generic_end) const
+{
+        return convert_with_case(in_type, generic_start, generic_end, LOWER);
+}
+
+// convert to camel case
+string type_convertor::convert_cc(const type_hint &in_type, char generic_start, char generic_end) const
+{
+        return convert_with_case(in_type, generic_start, generic_end, CAMEL);
+}
+
 bool type_convertor::has_import(const string &name) const
 {
         auto it = imports.find(name);
         return it != imports.end();
-        
 }
 
 vector<string> type_convertor::get_imports(const vector<type_hint> &types) const
