@@ -27,6 +27,7 @@ namespace clazzy {
         protected:
             // helper functions for all langauges
             void debug(const std::string &) const;
+            void warn(const std::string &) const;
             void error(const std::string &) const;
 
         private:

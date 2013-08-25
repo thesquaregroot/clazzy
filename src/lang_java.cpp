@@ -74,7 +74,58 @@ void lang_java::create(
                         out << " extends " << types.convert(parent);
                 }
                 out << " {" << endl;
-                // TODO: class definition body
+                // members
+                for (member m : c.get_members()) {
+                        out << language::FOUR_SPACES;
+                        // visibility (prefixes include following whitespace)
+                        out << access_prefixes[m.get_visibility()];
+                        // modifiers
+                        if (m.is_static()) {
+                                out << "static ";
+                        }
+                        if (m.is_constant()) {
+                                out << "final ";
+                        }
+                        // definition
+                        out << types.convert(m.get_type()) << " ";
+                        out << m.get_name() << ";" << endl;
+                }
+                // extra newline between members and methods (if there are members)
+                if (c.get_members().size() > 0) {
+                        out << language::FOUR_SPACES << endl;
+                }
+                // methods
+                for (method m : c.get_methods()) {
+                        out << language::FOUR_SPACES;
+                        // visibility (prefixes include following whitespace)
+                        out << access_prefixes[m.get_visibility()];
+                        // modifiers
+                        if (m.is_static()) {
+                                out << "static ";
+                        }
+                        if (m.is_read_only()) {
+                                warn("In class " + c.get_name() + ": the method " + m.get_name() + " cannot be declared read-only as Java does not support this feature.");
+                        }
+                        // definition
+                        out << types.convert(m.get_return_type()) << " ";
+                        out << m.get_name();
+                        out << "(";
+                        map<string,type_hint> params = m.get_parameters();
+                        auto it = params.cbegin();
+                        while (it != params.end()) {
+                                out << types.convert(it->second) << " ";
+                                out << it->first;
+                                if (++it != params.cend()) {
+                                        out << ", ";
+                                }
+                        }
+                        out << ")" << endl;
+                        // body shell
+                        out << language::FOUR_SPACES << "{" << endl;
+                        out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                        out << language::FOUR_SPACES << "}" << endl;
+                        out << endl;
+                }
                 out << "}" << endl;
         }
 }
