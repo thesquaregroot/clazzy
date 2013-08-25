@@ -32,6 +32,11 @@ void lang_cpp::initialize()
         types.add_type("double", "double");
         types.add_type("boolean", "bool");
         types.add_type("void", "void");
+        types.add_type("list", "vector", new string("<vector>"));
+        types.add_type("set", "set", new string("<set>"));
+        types.add_type("stack", "stack", new string("<stack>"));
+        types.add_type("queue", "queue", new string("<queue>"));
+        types.add_type("map", "map", new string("<map>"));
 }
 
 string lang_cpp::get_name() const

@@ -26,6 +26,12 @@ void lang_java::initialize()
         types.add_type("double", "double");
         types.add_type("boolean", "boolean");
         types.add_type("void", "void");
+        types.add_type("deque", "Deque", new string("java.util.Deque"));
+        types.add_type("list", "List", new string("java.util.List"));
+        types.add_type("set", "Set", new string("java.util.Set"));
+        types.add_type("stack", "Stack", new string("java.util.Stack"));
+        types.add_type("queue", "Queue", new string("java.util.Queue"));
+        types.add_type("map", "Map", new string("java.util.Map"));
 }
 
 string lang_java::get_name() const
@@ -67,7 +73,14 @@ void lang_java::create(
                 // declare package
                 out << "package " << package << ";" << endl;
                 out << endl;
-                // TODO: imports
+                // imports
+                vector<string> imports = types.get_imports(c.get_referenced_types());
+                for (string import : imports) {
+                        out << "import " << import << ";" << endl;
+                }
+                if (imports.size() > 0) {
+                        out << endl;
+                }
                 // define class
                 out << "public class " << c.get_name();
                 for (type_hint parent : c.get_parents()) {

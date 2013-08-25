@@ -21,14 +21,14 @@ string type_convertor::convert(const type_hint &in_type, char generic_start, cha
         auto it = mappings.find(in_type.get_base_type());
         if (it == mappings.end()) {
                 // could not find type, use given clazzy type
-                return in_type.to_string();
+                out_type = in_type.get_base_type();
         } else {
                 out_type = it->second;
         }
         vector<type_hint> generics = in_type.get_generic_types();
         if (generics.size() > 0) {
                 out_type += generic_start;
-                for (int unsigned i=0; i<generics.size(); i++) {
+                for (unsigned int i=0; i<generics.size(); i++) {
                         out_type += this->convert(generics[i], generic_start, generic_end);
                         if (i != generics.size()-1) {
                                 out_type += ",";
@@ -43,7 +43,6 @@ bool type_convertor::has_import(const string &name) const
 {
         auto it = imports.find(name);
         return it != imports.end();
-        
 }
 
 vector<string> type_convertor::get_imports(const vector<type_hint> &types) const
