@@ -3,14 +3,13 @@
 #include "h/class_def.h"
 #include "h/method.h"
 #include "h/member.h"
-#include <iostream>
-#include <fstream>
+#include "h/io_functions.h"
+#include <unordered_set>
 #include <vector>
 #include <map>
 #include <string>
 #include <mutex>
 #include <cctype>
-#include <sys/stat.h>
 using namespace clazzy;
 using namespace std;
 
@@ -26,21 +25,18 @@ string lang_cpp::get_name() const
         return "C++";
 }
 
-void lang_cpp::write_header(string base_dir, class_def &c) const
+string lang_cpp::write_header(string base_dir, class_def &c) const
 {
         string header_dir = base_dir + "h/";
-        struct stat sb;
-        if (stat(header_dir.c_str(), &sb) != 0 && !S_ISDIR(sb.st_mode)) {
-                if (mkdir(header_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
-                        error("Could not create directory: " + header_dir);
-                }
+        if (!chk_mkdir(header_dir)) {
+                error("Could not create directory: " + header_dir);
         }
-        string path = header_dir + c.get_name() + ".h";
-        ofstream out(path);
-
-        if (!out.is_open()) {
+        string include_path = "h/" + c.get_name() + ".h";
+        string path = base_dir + include_path;
+        ofstream out;
+        if (!open_file(path, out, "//")) {
                 error("Could not open file: " + path);
-                return;
+                return include_path;
         }
         
         string class_name = c.get_name();
@@ -52,11 +48,17 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
         out << "#ifndef " << include_guard << endl;
         out << "#define " << include_guard << endl;
         out << endl;
-        // TODO: Includes?--Use validator?
-        // start class definition and inherit from parents
-        
-        write_clazzy_notice(out, "//");
 
+        // includes
+        vector<string> imports = types.get_imports(c.get_referenced_types());
+        for (const string &header : imports) {
+                out << "#include " << header << endl;
+        }
+        if (imports.size() > 0) {
+                out << endl;
+        }
+
+        // start class definition and inherit from parents        
         out << "class " << c.get_name();
         vector<type_hint> parents = c.get_parents();
         if (parents.size() > 0) {
@@ -127,19 +129,20 @@ void lang_cpp::write_header(string base_dir, class_def &c) const
         out << "};" << endl;
         out << endl;
         out << "#endif" << endl;
+
+        return include_path;
 }
 
-void lang_cpp::write_cpp(string base_dir, class_def &c) const
+void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) const
 {
         string path = base_dir + c.get_name() + ".cpp";
-        ofstream out(path);
-        
-        if (!out.is_open()) {
+        ofstream out;
+        if (!open_file(path, out, "//")) {
                 error("Could not open file: " + path);
         }
-
-        out << endl;
-        write_clazzy_notice(out, "//");
+        
+        // include this class's header
+        out << "#include \"" + header_file + "\"" << endl;
         
         out << "using namespace std;" << endl;
         out << endl;
@@ -174,7 +177,7 @@ void lang_cpp::initialize()
         types.add_type("integer", "int");
         types.add_type("long", "long");
         types.add_type("character", "char");
-        types.add_type("string", "std::string");
+        types.add_type("string", "std::string", new string("<string>"));
         types.add_type("float", "float");
         types.add_type("double", "double");
         types.add_type("boolean", "bool");
@@ -189,13 +192,10 @@ void lang_cpp::create(
         for (class_def c : classes) {
                 debug("Creating code for class: " + c.get_name());
                 string base_dir = "./clazzy_cpp/";
-                struct stat sb;
-                if (stat(base_dir.c_str(), &sb) != 0 || !S_ISDIR(sb.st_mode)) {
-                        if (mkdir(base_dir.c_str(), S_IRWXU|S_IRWXG) != 0) {
-                                error("Could not create directory: " + base_dir);
-                        }
+                if (!chk_mkdir(base_dir)) {
+                        error("Could not create directory: " + base_dir);
                 }
-                write_header(base_dir, c);
-                write_cpp(base_dir, c);
+                string header_name = write_header(base_dir, c);
+                write_cpp(base_dir, c, header_name);
         }
 }

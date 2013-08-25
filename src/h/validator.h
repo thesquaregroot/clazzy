@@ -15,10 +15,10 @@ namespace clazzy {
         protected:
             std::string validate(const type_hint &);
             void add_type(const type_hint &);
-            std::vector<type_hint*> get_types();
+            std::vector<type_hint> get_types();
 
         private:
-            std::vector<type_hint*> _types_encountered;
+            std::vector<type_hint> _types_encountered;
     };
 }
 
