@@ -1,6 +1,6 @@
 
 # this should be an interesting test
-%LANGUAGE=Java,C++,C; # multiple langauges
+%LANGUAGE=Java,C++,C,Python; # multiple langauges
 
 A person
     can
