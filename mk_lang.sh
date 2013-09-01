@@ -21,6 +21,7 @@ echo "#ifndef __CLAZZY_LANG_${upper_case_lang_name}_H__" > $header_file
 echo "#define __CLAZZY_LANG_${upper_case_lang_name}_H__" >> $header_file
 echo >> $header_file
 echo "#include \"language.h\"" >> $header_file
+echo "#include \"class_def.h\"" >> $header_file
 echo "#include \"type_convertor.h\"" >> $header_file
 echo "#include \"access_type.h\"" >> $header_file
 echo "#include <vector>" >> $header_file
@@ -53,9 +54,7 @@ echo "Creating src/${class_name}.cpp..."
 
 echo > $code_file
 echo "#include \"h/${class_name}.h\"" >> $code_file
-echo "#include \"h/class_def.h\"" >> $code_file
-echo "#include \"h/method.h\"" >> $code_file
-echo "#include \"h/member.h\"" >> $code_file
+echo "#include \"h/io_functions.h\"" >> $code_file
 echo "#include <vector>" >> $code_file
 echo "#include <map>" >> $code_file
 echo "#include <string>" >> $code_file
