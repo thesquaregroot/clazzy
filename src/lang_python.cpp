@@ -81,7 +81,7 @@ void lang_python::create(
                 // class body
                 for (method m : c.get_methods()) {
                         out << language::TWO_SPACES;
-                        out << m.get_name();
+                        out << "def " << m.get_name();
                         out << "(self";
                         for (auto param : m.get_parameters()) {
                                 out << ", " << param.first;
