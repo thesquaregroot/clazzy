@@ -23,7 +23,6 @@ string lang_python::get_name() const
 
 void lang_python::initialize()
 {
-        // TODO: create mappings and add any additional
         types.add_type("byte", "");
         types.add_type("short", "");
         types.add_type("integer", "");
@@ -34,6 +33,15 @@ void lang_python::initialize()
         types.add_type("double", "");
         types.add_type("boolean", "");
         types.add_type("void", "");
+        // container types
+        types.add_type("array", "list");
+        types.add_type("deque", "list");
+        types.add_type("list", "list");
+        types.add_type("set", "Set", new string("from sets import Set"));
+        types.add_type("stack", "list");
+        types.add_type("queue", "list");
+        types.add_type("map", "dict");
+        types.add_type("pointer", "");
 }
 
 void lang_python::create(

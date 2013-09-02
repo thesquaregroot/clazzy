@@ -88,6 +88,15 @@ echo "        types.add_type(\"float\", \"\");" >> $code_file
 echo "        types.add_type(\"double\", \"\");" >> $code_file
 echo "        types.add_type(\"boolean\", \"\");" >> $code_file
 echo "        types.add_type(\"void\", \"\");" >> $code_file
+echo "        // container types" >> $code_file
+echo "        types.add_type(\"array\", \"\");" >> $code_file
+echo "        types.add_type(\"deque\", \"\")" >> $code_file;
+echo "        types.add_type(\"list\", \"\");" >> $code_file
+echo "        types.add_type(\"set\", \"\");" >> $code_file
+echo "        types.add_type(\"stack\", \"\");" >> $code_file
+echo "        types.add_type(\"queue\", \"\");" >> $code_file
+echo "        types.add_type(\"map\", \"\");" >> $code_file
+echo "        types.add_type(\"pointer\", \"\");" >> $code_file
 echo "}" >> $code_file
 echo >> $code_file
 echo "void ${class_name}::create(" >> $code_file
