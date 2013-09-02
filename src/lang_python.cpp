@@ -78,8 +78,14 @@ void lang_python::create(
                         out << ")";
                 }
                 out << ":" << endl;
+                // static members
+                
                 // class body
                 for (method m : c.get_methods()) {
+                        if (m.is_static()) {
+                                out << language::TWO_SPACES;
+                                out << "@staticmethod" << endl;
+                        }
                         out << language::TWO_SPACES;
                         out << "def " << m.get_name();
                         out << "(self";
