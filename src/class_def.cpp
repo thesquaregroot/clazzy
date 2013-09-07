@@ -1,7 +1,5 @@
 
 #include "h/class_def.h"
-#include "h/method.h"
-#include "h/member.h"
 #include <string>
 #include <vector>
 using namespace clazzy;
