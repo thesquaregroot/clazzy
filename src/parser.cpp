@@ -62,6 +62,13 @@ void parser::parse()
                 cout << "-Classes:\n";
                 for (class_def c : _classes) {
                         cout << "\t" << c.get_name() << "\n";
+                        for (design_pattern d : c.get_design_patterns()) {
+                                for (auto it = design_pattern_map.cbegin(); it != design_pattern_map.cend(); it++) {
+                                        if (d == it->second) {
+                                                cout << "\t\t-- @" << it->first << "\n";
+                                        }
+                                }
+                        }
                         for (type_hint p : c.get_parents()) {
                                 cout << "\t\t-- " << p.to_string() << "\n";
                         }
@@ -347,14 +354,29 @@ void parser::parse_definition(class_def& c)
 
 void parser::parse_parent_list(class_def &c)
 {
-        type_hint t = parse_type_hint();
-        c.add_parent(t);
+        debug("Parsing parent list.");
+
+        parse_parent(c);
         if (_lookahead != COMMA) {
                 // must be done
                 return;
         }
         // COMMA
+        next_token();
         parse_parent_list(c);
+}
+
+void parser::parse_parent(class_def &c)
+{
+        debug("Parsing parent.");
+        if (_lookahead == AT_SYMBOL) {
+                next_token();
+                c.add_design_pattern(design_pattern_map[token_text()]);
+                next_token();
+        } else {
+                type_hint t = parse_type_hint();
+                c.add_parent(t);
+        }
 }
 
 void parser::parse_action_list(class_def& c)

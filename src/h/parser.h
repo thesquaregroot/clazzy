@@ -44,6 +44,7 @@ namespace clazzy {
             void parse_definition_list(class_def&);
             void parse_definition(class_def&);
             void parse_parent_list(class_def&);
+            void parse_parent(class_def&);
             void parse_action_list(class_def&);
             method parse_action();
             void parse_parameter_list(method&);

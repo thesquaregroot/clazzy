@@ -13,6 +13,7 @@ using namespace std;
 
 %%
 
+"@"                         { return AT_SYMBOL; }
 "%"                         { return PERCENT; }
 "="                         { return EQUAL; }
 "("                         { return L_PAREN; }

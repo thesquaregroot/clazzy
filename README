@@ -130,8 +130,11 @@ definition: "is" INDEFINITE_ARTICLE parent-list
         |   "has" attribute-list
         |   "can" action-list
 
-parent-list:    type-hint "," parent-list
-            |   type-hint
+parent-list:    parent "," parent-list
+            |   parent
+
+parent: type-hint
+    |   "@" IDENTIFIER
 
 action-list:    action "," action-list
             |   action

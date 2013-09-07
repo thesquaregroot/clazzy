@@ -11,6 +11,7 @@ using namespace std;
 // map<access_type,vector<method>> _methods
 // map<access_type,vector<member>> _members
 // vector<type_hint> _parents
+// vector<design_pattern> _design_pattern
 
 class_def::class_def(const string& name)
 {
@@ -41,6 +42,11 @@ void class_def::add_member(member &m)
 void class_def::add_parent(type_hint &t)
 {
         _parents.push_back(t);
+}
+
+void class_def::add_design_pattern(design_pattern &d)
+{
+        _design_patterns.push_back(d);
 }
 
 void class_def::set_referenced_types(const vector<type_hint> &types)
@@ -98,4 +104,8 @@ vector<type_hint> class_def::get_referenced_types() const
         return _referenced_types;
 }
 
+vector<design_pattern> class_def::get_design_patterns() const
+{
+        return _design_patterns;
+}
 

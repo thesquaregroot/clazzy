@@ -1,42 +1,49 @@
 # DO NOT DELETE
 
 obj/class_def.o: src/h/class_def.h src/h/type_hint.h src/h/access_type.h
-obj/class_def.o: src/h/member.h src/h/method.h src/h/method.h src/h/member.h
+obj/class_def.o: src/h/member.h src/h/method.h src/h/design_pattern.h
+obj/class_def.o: src/h/method.h src/h/member.h
+obj/design_pattern.o: src/h/design_pattern.h
 obj/io_functions.o: src/h/io_functions.h
 obj/lang_c.o: src/h/lang_c.h src/h/language.h src/h/class_def.h
 obj/lang_c.o: src/h/type_hint.h src/h/access_type.h src/h/member.h
-obj/lang_c.o: src/h/method.h src/h/type_convertor.h src/h/class_def.h
-obj/lang_c.o: src/h/method.h src/h/member.h
+obj/lang_c.o: src/h/method.h src/h/design_pattern.h src/h/type_convertor.h
+obj/lang_c.o: src/h/class_def.h src/h/method.h src/h/member.h
 obj/lang_cpp.o: src/h/lang_cpp.h src/h/language.h src/h/class_def.h
 obj/lang_cpp.o: src/h/type_hint.h src/h/access_type.h src/h/member.h
-obj/lang_cpp.o: src/h/method.h src/h/type_convertor.h src/h/class_def.h
-obj/lang_cpp.o: src/h/method.h src/h/member.h src/h/io_functions.h
+obj/lang_cpp.o: src/h/method.h src/h/design_pattern.h src/h/type_convertor.h
+obj/lang_cpp.o: src/h/class_def.h src/h/method.h src/h/member.h
+obj/lang_cpp.o: src/h/io_functions.h
 obj/lang_java.o: src/h/lang_java.h src/h/language.h src/h/class_def.h
 obj/lang_java.o: src/h/type_hint.h src/h/access_type.h src/h/member.h
-obj/lang_java.o: src/h/method.h src/h/type_convertor.h src/h/io_functions.h
-obj/lang_java.o: src/h/string_functions.h
+obj/lang_java.o: src/h/method.h src/h/design_pattern.h src/h/type_convertor.h
+obj/lang_java.o: src/h/io_functions.h src/h/string_functions.h
 obj/lang_python.o: src/h/lang_python.h src/h/language.h src/h/class_def.h
 obj/lang_python.o: src/h/type_hint.h src/h/access_type.h src/h/member.h
-obj/lang_python.o: src/h/method.h src/h/type_convertor.h src/h/class_def.h
-obj/lang_python.o: src/h/method.h src/h/member.h
+obj/lang_python.o: src/h/method.h src/h/design_pattern.h
+obj/lang_python.o: src/h/type_convertor.h src/h/class_def.h src/h/method.h
+obj/lang_python.o: src/h/member.h
 obj/language.o: src/h/language.h src/h/class_def.h src/h/type_hint.h
 obj/language.o: src/h/access_type.h src/h/member.h src/h/method.h
+obj/language.o: src/h/design_pattern.h
 obj/language_factory.o: src/h/language_factory.h src/h/language.h
 obj/language_factory.o: src/h/class_def.h src/h/type_hint.h
 obj/language_factory.o: src/h/access_type.h src/h/member.h src/h/method.h
-obj/language_factory.o: src/h/lang_cpp.h src/h/type_convertor.h
-obj/language_factory.o: src/h/lang_c.h src/h/lang_java.h src/h/lang_python.h
+obj/language_factory.o: src/h/design_pattern.h src/h/lang_cpp.h
+obj/language_factory.o: src/h/type_convertor.h src/h/lang_c.h
+obj/language_factory.o: src/h/lang_java.h src/h/lang_python.h
 obj/lex.yy.o: src/h/token.h src/h/parser.h src/h/class_def.h
 obj/lex.yy.o: src/h/type_hint.h src/h/access_type.h src/h/member.h
-obj/lex.yy.o: src/h/method.h src/h/type_util.h src/h/type.h
+obj/lex.yy.o: src/h/method.h src/h/design_pattern.h src/h/type_util.h
+obj/lex.yy.o: src/h/type.h
 obj/member.o: src/h/member.h
 obj/method.o: src/h/method.h src/h/type_hint.h
 obj/parser.o: src/h/parser.h src/h/class_def.h src/h/type_hint.h
 obj/parser.o: src/h/access_type.h src/h/member.h src/h/method.h
-obj/parser.o: src/h/type_util.h src/h/type.h src/h/class_def.h src/h/method.h
-obj/parser.o: src/h/member.h src/h/token.h src/h/language.h
-obj/parser.o: src/h/language_factory.h src/h/language.h src/h/type_hint.h
-obj/parser.o: src/h/access_type.h src/h/validator.h
+obj/parser.o: src/h/design_pattern.h src/h/type_util.h src/h/type.h
+obj/parser.o: src/h/class_def.h src/h/method.h src/h/member.h src/h/token.h
+obj/parser.o: src/h/language.h src/h/language_factory.h src/h/language.h
+obj/parser.o: src/h/type_hint.h src/h/access_type.h src/h/validator.h
 obj/string_functions.o: src/h/string_functions.h
 obj/type_convertor.o: src/h/type_convertor.h src/h/type_hint.h
 obj/type_convertor.o: src/h/string_functions.h
@@ -44,3 +51,4 @@ obj/type_hint.o: src/h/type_hint.h
 obj/type_util.o: src/h/type_util.h src/h/type.h src/h/type.h
 obj/validator.o: src/h/validator.h src/h/class_def.h src/h/type_hint.h
 obj/validator.o: src/h/access_type.h src/h/member.h src/h/method.h
+obj/validator.o: src/h/design_pattern.h
