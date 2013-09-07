@@ -2,6 +2,7 @@
 #define __CLAZZY_LANG_PYTHON_H__
 
 #include "language.h"
+#include "class_def.h"
 #include "type_convertor.h"
 #include "access_type.h"
 #include <vector>
