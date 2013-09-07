@@ -1,7 +1,7 @@
 # DO NOT DELETE
 
 obj/class_def.o: src/h/class_def.h src/h/type_hint.h src/h/access_type.h
-obj/class_def.o: src/h/member.h src/h/method.h src/h/method.h src/h/member.h
+obj/class_def.o: src/h/member.h src/h/method.h
 obj/io_functions.o: src/h/io_functions.h
 obj/lang_c.o: src/h/lang_c.h src/h/language.h src/h/class_def.h
 obj/lang_c.o: src/h/type_hint.h src/h/access_type.h src/h/member.h
