@@ -27,12 +27,15 @@ void lang_java::initialize()
         types.add_type("double", "double");
         types.add_type("boolean", "boolean");
         types.add_type("void", "void");
+        // container types
+        //types.add_type("array", "");
         types.add_type("deque", "Deque", new string("java.util.Deque"));
         types.add_type("list", "List", new string("java.util.List"));
         types.add_type("set", "Set", new string("java.util.Set"));
         types.add_type("stack", "Stack", new string("java.util.Stack"));
         types.add_type("queue", "Queue", new string("java.util.Queue"));
         types.add_type("map", "Map", new string("java.util.Map"));
+        //types.add_type("pointer", "");
 }
 
 string lang_java::get_name() const

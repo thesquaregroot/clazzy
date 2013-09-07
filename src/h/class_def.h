@@ -5,6 +5,7 @@
 #include "access_type.h"
 #include "member.h"
 #include "method.h"
+#include "design_pattern.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -24,6 +25,8 @@ namespace clazzy {
             void add_member(member&);
             // stores a parent class/interface name
             void add_parent(type_hint&);
+            // stores a design pattern
+            void add_design_pattern(design_pattern&);
             // receive a list of referenced types
             void set_referenced_types(const std::vector<type_hint> &);
             // returns the map of method names to their parameters
@@ -34,6 +37,8 @@ namespace clazzy {
             std::vector<type_hint> get_parents() const;
             // return referenced types
             std::vector<type_hint> get_referenced_types() const;
+            // return design patterns
+            std::vector<design_pattern> get_design_patterns() const;
 
         private:
             std::string _name;
@@ -45,6 +50,8 @@ namespace clazzy {
             std::vector<type_hint> _parents;
             // stores referenced types
             std::vector<type_hint> _referenced_types;
+            // store design paterns
+            std::vector<design_pattern> _design_patterns;
     };
 }
 

@@ -36,6 +36,15 @@ void lang_c::initialize()
         types.add_type("double", "");
         types.add_type("boolean", "");
         types.add_type("void", "");
+        // container types
+        types.add_type("array", "");
+        types.add_type("deque", "");
+        types.add_type("list", "");
+        types.add_type("set", "");
+        types.add_type("stack", "");
+        types.add_type("queue", "");
+        types.add_type("map", "");
+        types.add_type("pointer", "");
 }
 
 void lang_c::create(

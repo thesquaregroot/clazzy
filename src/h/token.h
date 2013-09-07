@@ -5,6 +5,7 @@ namespace clazzy {
     enum token {
         END_OF_FILE,
         // special characters (incl. punctuation)
+        AT_SYMBOL,
         PERCENT,
         EQUAL,
         L_PAREN,

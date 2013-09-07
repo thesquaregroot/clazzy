@@ -3,7 +3,8 @@
 
 A piece_of_bacon
     is a
-        list<integer>;
+        list<integer>,
+        @singleton;
     can
         void smell_delicious,
         string get_name;
