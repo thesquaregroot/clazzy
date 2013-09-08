@@ -30,9 +30,9 @@ namespace clazzy {
             // receive a list of referenced types
             void set_referenced_types(const std::vector<type_hint> &);
             // returns the map of method names to their parameters
-            std::vector<method> get_methods(const access_type * = 0) const;
+            std::vector<method> get_methods(const access_type * = nullptr) const;
             // gets the members of this class
-            std::vector<member> get_members(const access_type * = 0) const;
+            std::vector<member> get_members(const access_type * = nullptr) const;
             // gets the parents of this class
             std::vector<type_hint> get_parents() const;
             // return referenced types

@@ -91,6 +91,8 @@ void parser::parse()
                                 }
                                 if (m.is_static())
                                         modifiers += 's';
+                                if (m.has_get_set())
+                                        modifiers += 'g';
                                 cout << "\t\t\t" << m.get_type().to_string() << "[" << modifiers << "] " << m.get_name() << "\n";
                         }
                         cout << "\t\t)\n";
@@ -480,7 +482,21 @@ void parser::parse_attribute_list(class_def& c)
         debug("Parsing attribute list.");
 
         member m = parse_attribute();
+        if (_lookahead == WITH) {
+                next_token();
+                if (_lookahead == GETTER) {
+                        m.set_getter(true);
+                }
+                else if (_lookahead == SETTER) {
+                        m.set_setter(true);
+                }
+                else if (_lookahead == GET_SET) {
+                        m.set_get_set(true);
+                }
+                next_token();
+        }
         c.add_member(m);
+
         if (_lookahead != COMMA) {
                 // must be done
                 return;

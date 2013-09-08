@@ -56,3 +56,42 @@ void member::set_visibility(const access_type &val)
         _visibility = val;
 }
 
+bool member::has_get_set() const
+{
+        return (_getter_setter & 0x03);
+}
+
+void member::set_get_set(bool val)
+{
+        if (val)
+            _getter_setter |= 0x03;
+        else
+            _getter_setter &= 0x03^0xFF;
+}
+
+bool member::has_getter() const
+{
+        return (_getter_setter & 0x01);
+}
+
+void member::set_getter(bool val)
+{
+        if (val) 
+            _getter_setter |= 0x01;
+        else
+            _getter_setter &= 0x01^0xFF;
+}
+
+bool member::has_setter() const
+{
+        return (_getter_setter & 0x02);
+}
+
+void member::set_setter(bool val)
+{
+        if (val)
+            _getter_setter |= 0x02;
+        else
+            _getter_setter &= 0x02^0xFF;
+}
+
