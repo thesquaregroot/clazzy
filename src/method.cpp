@@ -24,13 +24,13 @@ method::method(const method& original) {
     _is_read_only = original._is_read_only;
     _visibility = original._visibility;
 
-    if (original._getter_member != 0) _getter_member = new member(*original._getter_member);
-    if (original._setter_member != 0) _setter_member = new member(*original._setter_member);
+    if (original._getter_member != nullptr) _getter_member = new member(*original._getter_member);
+    if (original._setter_member != nullptr) _setter_member = new member(*original._setter_member);
 }
 
 method::~method() {
-    if (_getter_member != 0) delete _getter_member;
-    if (_setter_member != 0) delete _setter_member;
+    if (_getter_member != nullptr) delete _getter_member;
+    if (_setter_member != nullptr) delete _setter_member;
 }
 
 string method::get_name() const
@@ -85,48 +85,50 @@ void method::set_visibility(const access_type &val)
 
 bool method::is_getter() const
 {
-    return (_getter_member != 0 && _getter_member->is_getter());
+    return (_getter_member != nullptr && _getter_member->has_getter());
 }
 
 void method::set_getter(const bool val, const member* const m)
 {
     if (val) {
-        if (m != 0)
+        if (m != nullptr)
             _getter_member = new member(*m);
     }
     else {
-        if (_getter_member != 0) delete _getter_member;
-        _getter_member = 0;
+        if (_getter_member != nullptr) delete _getter_member;
+        _getter_member = nullptr;
     }
 
-    if (_getter_member != 0)
+    if (_getter_member != nullptr)
         _getter_member->set_getter(val);
 }
 
 bool method::is_setter() const
 {
-    return (_setter_member != 0 && _setter_member->is_setter());
+    return (_setter_member != nullptr && _setter_member->has_setter());
 }
 
 void method::set_setter(bool val, const member* const m)
 {
     if (val) {
-        if (m != 0) {
+        if (m != nullptr) {
             _setter_member = new member(*m);
         }
     }
     else {
-        if (_setter_member != 0) delete _setter_member;
-        _setter_member = 0;
+        if (_setter_member != nullptr) delete _setter_member;
+        _setter_member = nullptr;
     }
 
-    if (_setter_member != 0)
+    if (_setter_member != nullptr)
         _setter_member->set_setter(val);
 }
 
 const member* method::get_getter_member() const {
     return _getter_member;
 }
+
 const member* method::get_setter_member() const {
     return _setter_member;
 }
+

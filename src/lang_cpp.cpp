@@ -168,7 +168,7 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
                 out << endl;
                 if (m.is_setter()) {
                     out << language::EIGHT_SPACES;
-                    out << m.get_setter_member()->get_name() << " = " << m.get_setter_member()->get_name() << "1;" << endl;
+                    out << m.get_setter_member()->get_name() << " = value;" << endl;
                 }
                 else if (m.is_getter()) {
                     out << language::EIGHT_SPACES;
@@ -176,9 +176,8 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
                 }
                 else {
                     out << language::EIGHT_SPACES;
-                    out << "// TODO: implement";
+                    out << "// TODO: implement" << endl;
                 }
-                out << endl;
                 out << "}" << endl;
                 out << endl;
         }

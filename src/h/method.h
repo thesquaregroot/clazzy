@@ -27,9 +27,9 @@ namespace clazzy {
             void set_visibility(const access_type &);
 
             bool is_getter() const;
-            void set_getter(bool, const member* const = 0); // member is optional if setting to false. member* can be a dynamic variable; we don't store its address: it is copied.
+            void set_getter(bool, const member* const = nullptr); // member is optional if setting to false. member* can be a dynamic variable; we don't store its address: it is copied.
             bool is_setter() const;
-            void set_setter(bool, const member* const = 0); // member is optional if setting to false. member* can be a dynamic variable; we don't store its address: it is copied.
+            void set_setter(bool, const member* const = nullptr); // member is optional if setting to false. member* can be a dynamic variable; we don't store its address: it is copied.
             const member* get_getter_member() const;
             const member* get_setter_member() const;
 
@@ -41,8 +41,8 @@ namespace clazzy {
             bool _is_read_only = false; // think const keyword in C++
             access_type _visibility = VISIBLE_ACCESS; // think public, private, etc.
 
-            member* _getter_member = 0;
-            member* _setter_member = 0;
+            member* _getter_member = nullptr;
+            member* _setter_member = nullptr;
     };
 }
 

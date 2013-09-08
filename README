@@ -44,8 +44,8 @@ If you haven't changed any of the code, you should be able to simply run:
 
     make
 
-If you have changed the code, you may need to have flex (and flexc++)
-installed, but the same process will work.
+If you have changed the code, you may need to have flex++ installed, but 
+the same process will work.
 
 =========
  Classes
@@ -155,6 +155,9 @@ parameter:  type-hint IDENTIFIER
 
 attribute-list: attribute "," attribute-list
             |   attribute
+            |   attribute "with" "get"
+            |   attribute "with" "set"
+            |   attribute "with" "getset"
 
 attribute:  "static" attribute
         |   "constant" attribute

@@ -84,7 +84,7 @@ void parser::parse()
                                 }
                                 if (m.is_static())
                                         modifiers += 's';
-                                if (m.is_get_set())
+                                if (m.has_get_set())
                                         modifiers += 'g';
                                 cout << "\t\t\t" << m.get_type().to_string() << "[" << modifiers << "] " << m.get_name() << "\n";
                         }
@@ -460,7 +460,21 @@ void parser::parse_attribute_list(class_def& c)
         debug("Parsing attribute list.");
 
         member m = parse_attribute();
+        if (_lookahead == WITH) {
+                next_token();
+                if (_lookahead == GETTER) {
+                        m.set_getter(true);
+                }
+                else if (_lookahead == SETTER) {
+                        m.set_setter(true);
+                }
+                else if (_lookahead == GET_SET) {
+                        m.set_get_set(true);
+                }
+                next_token();
+        }
         c.add_member(m);
+
         if (_lookahead != COMMA) {
                 // must be done
                 return;
@@ -508,25 +522,6 @@ member parser::parse_attribute()
                 next_token();
                 member m = parse_attribute();
                 m.set_visibility(ASSEMBLY_VISIBLE_ACCESS);
-                return m;
-        }
-
-        if (_lookahead == GETTER) {
-                next_token();
-                member m = parse_attribute();
-                m.set_getter(true);
-                return m;
-        }
-        else if (_lookahead == SETTER) {
-                next_token();
-                member m = parse_attribute();
-                m.set_setter(true);
-                return m;
-        }
-        else if (_lookahead == GET_SET) {
-                next_token();
-                member m = parse_attribute();
-                m.set_get_set(true);
                 return m;
         }
 

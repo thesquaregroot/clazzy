@@ -7,9 +7,9 @@ A piece_of_bacon
     can
         void smell_delicious;
     and has
-        hidden gets float width,
-        hidden gets float height,
-        hidden gets integer mg_of_salt,
-        hidden get_set boolean maple_coated,
+        hidden float width with get,
+        hidden float height with get,
+        hidden integer mg_of_salt with get,
+        hidden boolean maple_coated with getset,
         static map<integer,piece_of_bacon> strips.
 
