@@ -12,12 +12,8 @@ namespace clazzy {
             void add_parameter(type_hint, std::string);
             std::map<std::string, type_hint> get_parameters() const;
 
-            access_type get_visibility() const;
-            void set_visibility(const access_type &);
-
         private:
             std::map<std::string, type_hint> _params;
-            access_type _visibility = VISIBLE_ACCESS; // think public, private, etc.
     };
 }
 

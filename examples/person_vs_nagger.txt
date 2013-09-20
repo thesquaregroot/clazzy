@@ -4,15 +4,15 @@
 
 A person
     can
-        visible @construct(),
-        visible @construct(person p),
         # methods
-        visible void jump,
+        visible void jump(),
         visible void talk(person to),
         visible void walk(integer distance),
         visible void run(integer distance, integer speed), # another comment!
         visible void sprint(integer distance);
     has
+        visible @construct(),
+        visible @construct(person p),
         #members
         hidden integer left_arm,
         hidden integer right_arm,

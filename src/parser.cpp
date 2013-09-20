@@ -73,6 +73,12 @@ void parser::parse()
                                 cout << "\t\t-- " << p.to_string() << "\n";
                         }
                         cout << "\t\t(\n";
+                        for (constructor ctor : c.get_constructors()) {
+                                cout << "\t\t\t" << (ctor.is_destructor()?"~":"") + c.get_name();
+                                print_arguments(&ctor);
+                                cout << "\n";
+                        }
+                        cout << "\n";
                         for (member m : c.get_members()) {
                                 string modifiers;
                                 switch (m.get_visibility()) {
@@ -118,12 +124,9 @@ void parser::parse()
                                 if (m.is_read_only())
                                         modifiers += 'c';
                                 type_hint t = m.get_return_type();
-                                cout << "\t\t\t" << t.to_string() << " " << m.get_name() << "[" << modifiers << "]( ";
-                                for (auto &arg : m.get_parameters()) {
-                                        // parameter modifiers
-                                        cout << arg.second.to_string() << ":" << arg.first << " ";
-                                }
-                                cout << ")\n";
+                                cout << "\t\t\t" << t.to_string() << " " << m.get_name() << "[" << modifiers << "]";
+                                print_arguments(&m);
+                                cout << "\n";
                         }
                         cout << "\t\t]\n";
                 }
@@ -412,28 +415,11 @@ method parser::parse_action()
                 m.set_read_only(true);
                 return m;
         }
-        if (_lookahead == VISIBLE) {
+        if (is_access_type(_lookahead)) {
+                access_type at = get_access_type(_lookahead);
                 next_token();
                 method m = parse_action();
-                m.set_visibility(VISIBLE_ACCESS);
-                return m;
-        }
-        if (_lookahead == HIDDEN) {
-                next_token();
-                method m = parse_action();
-                m.set_visibility(HIDDEN_ACCESS);
-                return m;
-        }
-        if (_lookahead == CHILD_VISIBLE) {
-                next_token();
-                method m = parse_action();
-                m.set_visibility(CHILD_VISIBLE_ACCESS);
-                return m;
-        }
-        if (_lookahead == ASSEMBLY_VISIBLE) {
-                next_token();
-                method m = parse_action();
-                m.set_visibility(ASSEMBLY_VISIBLE_ACCESS);
+                m.set_visibility(at);
                 return m;
         }
         
@@ -445,25 +431,41 @@ method parser::parse_action()
 
         next_token();
         if (_lookahead == L_PAREN) {
-                next_token();
-                parse_parameter_list(m);
-                if (_lookahead != R_PAREN) {
-                        error("Expected ')' after parameter list.");
-                }
-                // R_PAREN
-                next_token();
+                parse_parameters(&m);
         }
         return m;
 }
 
-void parser::parse_parameter_list(method &m)
+void parser::parse_parameters(callable * const m)
+{
+        debug("Parsing parameters.");
+        if (_lookahead != L_PAREN) {
+                error("Parameter list must start with '(' token.");
+        }
+        // L_PAREN
+        next_token();
+        if (_lookahead == R_PAREN) {
+                // R_PAREN
+                next_token();
+                return;
+        }
+        // not R_PAREN (must have parameters)
+        parse_parameter_list(m);
+        if (_lookahead != R_PAREN) {
+                error("Expected ')' token after parameter list.");
+        }
+        // R_PAREN
+        next_token();
+}
+
+void parser::parse_parameter_list(callable * const m)
 {
         debug("Parsing parameter list.");
         type_hint t = parse_type_hint();
         if (_lookahead != IDENTIFIER) {
                error("Invalid parameter list, expected identifier at token '" + token_text() + "'."); 
         }
-        m.add_parameter(t, token_text());
+        m->add_parameter(t, token_text());
         next_token();
         if (_lookahead != COMMA) {
                 // must be done
@@ -481,21 +483,7 @@ void parser::parse_attribute_list(class_def& c)
 {
         debug("Parsing attribute list.");
 
-        member m = parse_attribute();
-        if (_lookahead == WITH) {
-                next_token();
-                if (_lookahead == GETTER) {
-                        m.set_getter(true);
-                }
-                else if (_lookahead == SETTER) {
-                        m.set_setter(true);
-                }
-                else if (_lookahead == GET_SET) {
-                        m.set_get_set(true);
-                }
-                next_token();
-        }
-        c.add_member(m);
+        parse_attribute(c);
 
         if (_lookahead != COMMA) {
                 // must be done
@@ -506,53 +494,77 @@ void parser::parse_attribute_list(class_def& c)
         parse_attribute_list(c);
 }
 
-member parser::parse_attribute()
+void parser::parse_attribute(class_def& c)
 {
         debug("Parsing attribute.");
 
+        access_type *at = nullptr;
+        while (is_access_type(_lookahead)) {
+                at = new access_type(get_access_type(_lookahead));
+                next_token();
+        }
+        // have optional access_type
+        if (_lookahead == CONSTRUCTOR || _lookahead == DESTRUCTOR) {
+                constructor ctor = parse_constructor();
+                if (at != nullptr) {
+                        ctor.set_visibility(*at);
+                }
+                c.add_constructor(ctor);
+        }
+        else {
+                member m = parse_member();
+                if (at != nullptr) {
+                        m.set_visibility(*at);
+                }
+                // additional member processing
+                if (_lookahead == WITH) {
+                        next_token();
+                        if (_lookahead == GETTER) {
+                                m.set_getter(true);
+                        }
+                        else if (_lookahead == SETTER) {
+                                m.set_setter(true);
+                        }
+                        else if (_lookahead == GET_SET) {
+                                m.set_get_set(true);
+                        }
+                        next_token();
+                }
+                c.add_member(m);
+        }
+}
+
+constructor parser::parse_constructor()
+{
+        debug("Parsing constructor.");
+        // CONSTRUCTOR or DESTRUCTOR
+        constructor c(_lookahead == DESTRUCTOR);
+        next_token();
+        parse_parameters(&c);
+        return c;
+}
+
+member parser::parse_member()
+{
+        debug("Parsing member.");
         if (_lookahead == STATIC) {
                 next_token();
-                member m = parse_attribute();
+                member m = parse_member();
                 m.set_static(true);
                 return m;
         }
         if (_lookahead == CONSTANT) {
                 next_token();
-                member m = parse_attribute();
+                member m = parse_member();
                 m.set_constant(true);
-                return m;
-        }
-        if (_lookahead == VISIBLE) {
-                next_token();
-                member m = parse_attribute();
-                m.set_visibility(VISIBLE_ACCESS);
-                return m;
-        }
-        if (_lookahead == HIDDEN) {
-                next_token();
-                member m = parse_attribute();
-                m.set_visibility(HIDDEN_ACCESS);
-                return m;
-        }
-        if (_lookahead == CHILD_VISIBLE) {
-                next_token();
-                member m = parse_attribute();
-                m.set_visibility(CHILD_VISIBLE_ACCESS);
-                return m;
-        }
-        if (_lookahead == ASSEMBLY_VISIBLE) {
-                next_token();
-                member m = parse_attribute();
-                m.set_visibility(ASSEMBLY_VISIBLE_ACCESS);
                 return m;
         }
 
         type_hint t = parse_type_hint();
         if (_lookahead != IDENTIFIER) {
-                error("Invalid attribute name: '" + token_text() + "'.");
+                error("Invalid member name: '" + token_text() + "'.");
         }
         member m(t, token_text());
-
         next_token();
         return m;
 }
@@ -598,3 +610,34 @@ vector<type_hint> parser::parse_generic_type_list()
         }
         return generics;
 }
+
+void parser::print_arguments(callable * const c) const {
+        cout << "( ";
+        for (auto &arg : c->get_parameters()) {
+                // parameter modifiers
+                cout << arg.second.to_string() << ":" << arg.first << " ";
+        }
+        cout << ")";
+}
+
+bool parser::is_access_type(const int token) const
+{
+        return (token == VISIBLE
+                || token == HIDDEN
+                || token == CHILD_VISIBLE
+                || token == ASSEMBLY_VISIBLE);
+}
+
+access_type parser::get_access_type(const int token) const
+{
+        switch (token) {
+        case VISIBLE:           return VISIBLE_ACCESS;
+        case HIDDEN:            return HIDDEN_ACCESS;
+        case CHILD_VISIBLE:     return CHILD_VISIBLE_ACCESS;
+        case ASSEMBLY_VISIBLE:  return ASSEMBLY_VISIBLE_ACCESS;
+        }
+        // this should never actually happen
+        // but we TECHNICALLY need a catch-all
+        return VISIBLE_ACCESS;
+}
+

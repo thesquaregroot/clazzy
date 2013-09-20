@@ -1,13 +1,14 @@
 #ifndef __CLAZZY_METHOD_H__
 #define __CLAZZY_METHOD_H__
 
+#include "declarable.h"
 #include "callable.h"
 #include "member.h"
 #include <map>
 #include <string>
 
 namespace clazzy {
-    class method : public callable {
+    class method : public declarable, public callable {
         public:
             method(type_hint, std::string);
             method(const method &);

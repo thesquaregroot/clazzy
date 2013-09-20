@@ -23,6 +23,10 @@ using namespace std;
 ","                         { return COMMA; }
 ";"                         { return SEMICOLON; }
 "."                         { return PERIOD; }
+"@construct"                { return CONSTRUCTOR; }
+"@CONSTRUCT"                { return CONSTRUCTOR; }
+"@destruct"                 { return DESTRUCTOR; }
+"@DESTRUCT"                 { return DESTRUCTOR; }
 (a(n)?)|(A(N)?)             { return INDEFINITE_ARTICLE; }
 (is)|(IS)                   { return IS; }
 (has)|(HAS)                 { return HAS; }

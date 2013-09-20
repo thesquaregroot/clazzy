@@ -6,9 +6,11 @@ using namespace clazzy;
 using namespace std;
 
 // string _name
+// map<access_type,vector<constructor> _ctors;
 // map<access_type,vector<method>> _methods
 // map<access_type,vector<member>> _members
 // vector<type_hint> _parents
+// vector<type_hint _referenced_types
 // vector<design_pattern> _design_pattern
 
 class_def::class_def(const string& name)
@@ -25,6 +27,11 @@ void class_def::set_name(const string& name)
 string class_def::get_name() const
 {
         return _name;
+}
+
+void class_def::add_constructor(constructor &c)
+{
+        _ctors[c.get_visibility()].push_back(c);
 }
 
 void class_def::add_method(method &m)
@@ -64,9 +71,44 @@ void class_def::set_referenced_types(const vector<type_hint> &types)
         _referenced_types = types;
 }
 
+vector<constructor> class_def::get_constructors(const access_type *visibility, short types)
+{
+        if (visibility != nullptr) {
+                // return constructors with given visibilty
+                auto it = _ctors.find(*visibility);
+                if (it != _ctors.end()) {
+                        if (types == ALL_CTORS) {
+                                return it->second;
+                        } else {
+                                vector<constructor> selected;
+                                for (constructor c : it->second) {
+                                        if (c.is_destructor() && types | DTORS) {
+                                                // destructor and we want destructors
+                                                selected.push_back(c);
+                                        }
+                                        if ((!c.is_destructor()) && types | CTORS) {
+                                                // not destructor (so actually a constructor)
+                                                // and we're looking for constructors
+                                                selected.push_back(c);
+                                        }
+                                }
+                        }
+                }
+                return vector<constructor>();
+        }
+        // return all constructors
+        vector<constructor> all_constructors;
+        for (auto p : _ctors) {
+                for (constructor m : p.second) {
+                        all_constructors.push_back(m);
+                }
+        }
+        return all_constructors;
+}
+
 vector<method> class_def::get_methods(const access_type *visibility) const
 {
-        if (visibility != 0) {
+        if (visibility != nullptr) {
                 // return methods with given visibilty
                 auto it = _methods.find(*visibility);
                 if (it != _methods.end()) {

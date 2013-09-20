@@ -2,9 +2,10 @@
 #define __CONSTRUCTOR_H__
 
 #include "callable.h"
+#include "declarable.h"
 
 namespace clazzy {
-    class constructor : public callable {
+    class constructor : public callable, public declarable {
         public:
             constructor(bool /* is_destructor */ = true);
             
