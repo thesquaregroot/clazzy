@@ -1,6 +1,7 @@
 #ifndef __CLAZZY_CLASS_DEF_H__
 #define __CLAZZY_CLASS_DEF_H__
 
+#include "constructor.h"
 #include "type_hint.h"
 #include "access_type.h"
 #include "member.h"
@@ -19,9 +20,11 @@ namespace clazzy {
             void set_name(const std::string&);
             std::string get_name() const;
 
-            // stores a class with a set of names parameters
+            // stores a constructor/destructor
+            void add_constructor(constructor&);
+            // stores a method
             void add_method(method&);
-            // stores a member variable name
+            // stores a member
             void add_member(member&);
             // stores a parent class/interface name
             void add_parent(type_hint&);
@@ -29,7 +32,9 @@ namespace clazzy {
             void add_design_pattern(design_pattern&);
             // receive a list of referenced types
             void set_referenced_types(const std::vector<type_hint> &);
-            // returns the map of method names to their parameters
+            // gets the constructors/destructors of this class
+            std::vector<constructor> get_constructors(short = 0);
+            // gets the methods of this class
             std::vector<method> get_methods(const access_type * = nullptr) const;
             // gets the members of this class
             std::vector<member> get_members(const access_type * = nullptr) const;
@@ -42,6 +47,8 @@ namespace clazzy {
 
         private:
             std::string _name;
+            // stores constructors/destructors
+            std::map<access_type,std::vector<constructor>> _ctors;
             // stores methods (name to parameter list mapping)
             std::map<access_type,std::vector<method>> _methods;
             // stores member variables (names)

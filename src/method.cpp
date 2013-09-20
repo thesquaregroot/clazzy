@@ -6,9 +6,12 @@
 using namespace clazzy;
 using namespace std;
 
-// string name
-// type_hint return_type
-// map<string, type_hint> params
+// string _name
+// type_hint _return_type
+// bool _is_static
+// bool _is_read_only
+// member *_getter_member
+// member *_setter_member
 
 method::method(type_hint returns, string name)
 {
@@ -16,19 +19,25 @@ method::method(type_hint returns, string name)
         _name = name;
 }
 
-method::method(const method& original) {
-    _return_type = original._return_type;
-    _name = original._name;
-    _params = original._params;
-    _is_static = original._is_static;
-    _is_read_only = original._is_read_only;
-    _visibility = original._visibility;
+method::method(const method& original)
+{
+        _return_type = original._return_type;
+        _name = original._name;
+        // copy parameters
+        for (auto param : original.get_parameters()) {
+                add_parameter(param.second, param.first);
+        }
+        _is_static = original._is_static;
+        _is_read_only = original._is_read_only;
+        // copy visibility
+        set_visibility(original.get_visibility());
 
-    if (original._getter_member != nullptr) _getter_member = new member(*original._getter_member);
-    if (original._setter_member != nullptr) _setter_member = new member(*original._setter_member);
+        if (original._getter_member != nullptr) _getter_member = new member(*original._getter_member);
+        if (original._setter_member != nullptr) _setter_member = new member(*original._setter_member);
 }
 
-method::~method() {
+method::~method()
+{
     if (_getter_member != nullptr) delete _getter_member;
     if (_setter_member != nullptr) delete _setter_member;
 }
@@ -43,16 +52,7 @@ type_hint method::get_return_type() const
         return _return_type;
 }
 
-void method::add_parameter(type_hint type, string p)
-{
-        _params[p] = type;
-}
-
-map<string, type_hint> method::get_parameters() const
-{
-        return _params;
-}
-
+// modifiers
 bool method::is_static() const
 {
         return _is_static;
@@ -73,16 +73,7 @@ void method::set_read_only(const bool &val)
         _is_read_only = val;
 }
 
-access_type method::get_visibility() const
-{
-        return _visibility;
-}
-
-void method::set_visibility(const access_type &val)
-{
-        _visibility = val;
-}
-
+// getter-setter methods
 bool method::is_getter() const
 {
     return (_getter_member != nullptr && _getter_member->has_getter());

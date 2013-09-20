@@ -4,6 +4,8 @@
 
 A person
     can
+        visible @construct(),
+        visible @construct(person p),
         # methods
         visible void jump,
         visible void talk(person to),
