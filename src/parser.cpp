@@ -74,7 +74,22 @@ void parser::parse()
                         }
                         cout << "\t\t(\n";
                         for (constructor ctor : c.get_constructors()) {
-                                cout << "\t\t\t" << (ctor.is_destructor()?"~":"") + c.get_name();
+                                string modifiers;
+                                switch (ctor.get_visibility()) {
+                                case VISIBLE_ACCESS:
+                                        modifiers += 'v';
+                                        break;
+                                case HIDDEN_ACCESS:
+                                        modifiers += 'h';
+                                        break;
+                                case CHILD_VISIBLE_ACCESS:
+                                        modifiers += 'l';
+                                        break;
+                                case ASSEMBLY_VISIBLE_ACCESS:
+                                        modifiers += 'a';
+                                        break;
+                                }
+                                cout << "\t\t\t" << (ctor.is_destructor()?"~":"") + c.get_name() << "[" << modifiers << "]";
                                 print_arguments(&ctor);
                                 cout << "\n";
                         }
@@ -99,7 +114,7 @@ void parser::parse()
                                         modifiers += 's';
                                 if (m.has_get_set())
                                         modifiers += 'g';
-                                cout << "\t\t\t" << m.get_type().to_string() << "[" << modifiers << "] " << m.get_name() << "\n";
+                                cout << "\t\t\t" << m.get_type().to_string() << " " << m.get_name() << "[" << modifiers << "]\n";
                         }
                         cout << "\t\t)\n";
                         cout << "\t\t[\n";

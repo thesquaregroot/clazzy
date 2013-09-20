@@ -13,6 +13,7 @@ A person
     has
         visible @construct(),
         visible @construct(person p),
+        hidden @destruct(),
         #members
         hidden integer left_arm,
         hidden integer right_arm,
