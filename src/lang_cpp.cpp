@@ -98,14 +98,31 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
         // begin definitions
         for (auto it = access_prefixes.cbegin(); it != access_prefixes.cend(); it++) {
                 // get method & members
+                vector<constructor> ctors = c.get_constructors(&it->first);
                 vector<method> methods = c.get_methods(&it->first);
                 vector<member> members = c.get_members(&it->first);
-                if (methods.size() == 0 && members.size() == 0) {
-                        // not methods or members--move on to next access level
+                if (ctors.size() == 0 && methods.size() == 0 && members.size() == 0) {
+                        // nothing here--move on to next access level
                         continue;
                 }
                 // print prefix
                 out << language::FOUR_SPACES << it->second << ":" << endl;
+                // constructors
+                for (constructor ctor : ctors) {
+                        out << language::EIGHT_SPACES;
+                        if (ctor.is_destructor()) {
+                                out << "~";
+                        }
+                        out << c.get_name();
+                        out << "(";
+                        print_parameters(out, &ctor);
+                        out << ");" << endl;
+                }
+                // optional extra newline
+                if (methods.size() > 0) {
+                        out << endl;
+                }
+                //methods
                 for (method m : methods) {
                         out << language::EIGHT_SPACES;
                         if (m.is_static()) {
@@ -114,23 +131,16 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
                         out << types.convert(m.get_return_type());
                         out << " " << m.get_name();
                         out << "(";
-                        map<string,type_hint> params = m.get_parameters();
-                        for (auto param_it = params.cbegin(); param_it != params.cend(); param_it++) {
-                                // TODO: parameter modifiers
-                                // map string -> type_hint
-                                out << types.convert(param_it->second) << " " << param_it->first;
-                                if (param_it != --params.cend()) {
-                                        out << ", ";
-                                }
-                        }
+                        print_parameters(out, &m);
                         out << ")";
                         if (m.is_read_only()) {
                                 out << " const";
                         }
                         out << ";" << endl;
-                        if (members.size() > 0) {
-                                out << endl; // extra new line
-                        }
+                }
+                // optional extra newline
+                if (members.size() > 0) {
+                        out << endl;
                 }
                 // members
                 for (member m : members) {
@@ -169,18 +179,26 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
         
         out << "using namespace std;" << endl;
         out << endl;
+
+        for (constructor ctor : c.get_constructors()) {
+                out << c.get_name() << "::";
+                if (ctor.is_destructor()) {
+                        out << "~";
+                }
+                out << c.get_name();
+                out << "(";
+                print_parameters(out, &ctor);
+                out << ")" << endl;
+                out << "{" << endl;
+                out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                out << "}" << endl;
+                out << endl;
+        }
         for (method m : c.get_methods()) {
                 out << types.convert(m.get_return_type()) << " ";
                 out << c.get_name() << "::" << m.get_name();
                 out << "(";
-                auto params = m.get_parameters();
-                for (auto param = params.cbegin(); param != params.cend(); param++) {
-                        // TODO: parameter modifiers
-                        out << types.convert(param->second) << " " << param->first;
-                        if (param != --params.cend()) {
-                               out << ", ";
-                        }
-                }
+                print_parameters(out, &m);
                 out << ")";
                 out << endl;
                 out << "{";
@@ -190,12 +208,10 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
                     out << m.get_setter_member()->get_name() << " = value;" << endl;
                 }
                 else if (m.is_getter()) {
-                    out << language::EIGHT_SPACES;
-                    out << "return " << m.get_getter_member()->get_name() << ";" << endl;
+                    out << language::EIGHT_SPACES << "return " << m.get_getter_member()->get_name() << ";" << endl;
                 }
                 else {
-                    out << language::EIGHT_SPACES;
-                    out << "// TODO: implement" << endl;
+                    out << language::EIGHT_SPACES << "// TODO: implement" << endl;
                 }
                 out << "}" << endl;
                 out << endl;
@@ -217,3 +233,17 @@ void lang_cpp::create(
                 write_cpp(base_dir, c, header_name);
         }
 }
+
+void lang_cpp::print_parameters(ofstream &out, callable * const c) const
+{
+        map<string,type_hint> params = c->get_parameters();
+        for (auto param_it = params.cbegin(); param_it != params.cend(); param_it++) {
+                // TODO: parameter modifiers
+                // map string -> type_hint
+                out << types.convert(param_it->second) << " " << param_it->first;
+                if (param_it != --params.cend()) {
+                        out << ", ";
+                }
+        }
+}
+

@@ -2,8 +2,10 @@
 #define __CLAZZY_LANG_CPP_H__
 
 #include "language.h"
+#include "callable.h"
 #include "type_convertor.h"
 #include "access_type.h"
+#include <fstream>
 #include <vector>
 #include <map>
 #include <string>
@@ -25,6 +27,8 @@ namespace clazzy {
             // returns the path a cpp file can use to include this class
             std::string write_header(std::string /* base directory */, class_def&) const;
             void write_cpp(std::string /* base directory */, class_def&, std::string /* header path */) const;
+
+            void print_parameters(std::ofstream&, callable * const) const;
 
             static std::map<access_type,std::string> access_prefixes;
             type_convertor types;
