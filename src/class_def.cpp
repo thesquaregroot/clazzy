@@ -71,7 +71,7 @@ void class_def::set_referenced_types(const vector<type_hint> &types)
         _referenced_types = types;
 }
 
-vector<constructor> class_def::get_constructors(const access_type *visibility, short types)
+vector<constructor> class_def::get_constructors(const access_type *visibility, short types) const
 {
         if (visibility != nullptr) {
                 // return constructors with given visibilty

@@ -33,7 +33,7 @@ namespace clazzy {
             // receive a list of referenced types
             void set_referenced_types(const std::vector<type_hint> &);
             // gets the constructors/destructors of this class
-            std::vector<constructor> get_constructors(const access_type * = nullptr, short = ALL_CTORS);
+            std::vector<constructor> get_constructors(const access_type * = nullptr, short = ALL_CTORS) const;
             // gets the methods of this class
             std::vector<method> get_methods(const access_type * = nullptr) const;
             // gets the members of this class
