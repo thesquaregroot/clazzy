@@ -60,7 +60,7 @@ void parser::parse()
                 cout << "\nParsing complete:\n";
                 // debug classes
                 cout << "-Classes:\n";
-                for (class_def c : _classes) {
+                for (const class_def c : _classes) {
                         cout << "\t" << c.get_name() << "\n";
                         for (design_pattern d : c.get_design_patterns()) {
                                 for (auto it = design_pattern_map.cbegin(); it != design_pattern_map.cend(); it++) {
@@ -89,11 +89,36 @@ void parser::parse()
                                         modifiers += 'a';
                                         break;
                                 }
-                                cout << "\t\t\t" << (ctor.is_destructor()?"~":"") + c.get_name() << "[" << modifiers << "]";
+                                cout << "\t\t\t" << c.get_name() << "[" << modifiers << "]";
                                 print_arguments(&ctor);
-                                cout << "\n";
+                                cout << endl;
                         }
-                        cout << "\n";
+                        if (c.has_explicit_destructor()) {
+                                string modifiers;
+                                access_type *at = c.get_destructor_visibility();
+                                if (at != nullptr) {
+                                    switch (*at) {
+                                    case VISIBLE_ACCESS:
+                                            modifiers += 'v';
+                                            break;
+                                    case HIDDEN_ACCESS:
+                                            modifiers += 'h';
+                                            break;
+                                    case CHILD_VISIBLE_ACCESS:
+                                            modifiers += 'l';
+                                            break;
+                                    case ASSEMBLY_VISIBLE_ACCESS:
+                                            modifiers += 'a';
+                                            break;
+                                    }
+                                }
+                                cout << "\t\t\t" << "~" << c.get_name();
+                                if (modifiers != "") {
+                                        cout << "[" << modifiers << "]";
+                                }
+                                cout << "()" << endl;
+                        }
+                        cout << endl;
                         for (member m : c.get_members()) {
                                 string modifiers;
                                 switch (m.get_visibility()) {
@@ -114,10 +139,10 @@ void parser::parse()
                                         modifiers += 's';
                                 if (m.has_get_set())
                                         modifiers += 'g';
-                                cout << "\t\t\t" << m.get_type().to_string() << " " << m.get_name() << "[" << modifiers << "]\n";
+                                cout << "\t\t\t" << m.get_type().to_string() << " " << m.get_name() << "[" << modifiers << "]" << endl;
                         }
-                        cout << "\t\t)\n";
-                        cout << "\t\t[\n";
+                        cout << "\t\t)" << endl;
+                        cout << "\t\t[" << endl;
                         for (method m : c.get_methods()) {
                                 string modifiers;
                                 switch (m.get_visibility()) {
@@ -141,18 +166,18 @@ void parser::parse()
                                 type_hint t = m.get_return_type();
                                 cout << "\t\t\t" << t.to_string() << " " << m.get_name() << "[" << modifiers << "]";
                                 print_arguments(&m);
-                                cout << "\n";
+                                cout << endl;
                         }
-                        cout << "\t\t]\n";
+                        cout << "\t\t]" << endl;
                 }
                 cout << "\n";
                 // debug properties
                 cout << "-Properties:\n";
                 for (auto prop : _properties) {
-                        cout << "\t" << prop.first << " : " << prop.second + "\n";
+                        cout << "\t" << prop.first << " : " << prop.second  << endl;
                 }
                 // additional newline
-                cout << "\n";
+                cout << endl;
         }
         
         // validate
@@ -245,7 +270,7 @@ void parser::parse_statement()
                 break;
         case INDEFINITE_ARTICLE:
                 _classes.push_back(parse_type_definition());
-                break;
+               break;
         default:
                 // not a valid statement
                 error("Unexpected token: " + token_text());
@@ -515,18 +540,31 @@ void parser::parse_attribute(class_def& c)
 
         access_type *at = nullptr;
         while (is_access_type(_lookahead)) {
+                // deleted at end of method
                 at = new access_type(get_access_type(_lookahead));
                 next_token();
         }
         // have optional access_type
-        if (_lookahead == CONSTRUCTOR || _lookahead == DESTRUCTOR) {
+        if (_lookahead == CONSTRUCTOR) {
                 constructor ctor = parse_constructor();
                 if (at != nullptr) {
                         ctor.set_visibility(*at);
                 }
                 c.add_constructor(ctor);
-        }
-        else {
+        } else if (_lookahead == DESTRUCTOR) {
+                c.set_explicit_destructor(true, at);
+                next_token();
+                // option parens
+                if (_lookahead == L_PAREN) {
+                        // L_PAREN
+                        next_token();
+                        if (_lookahead != R_PAREN) {
+                                error("Destructors should not accept arguments.");
+                        }
+                        // R_PAREN
+                        next_token();
+                }
+        } else {
                 member m = parse_member();
                 if (at != nullptr) {
                         m.set_visibility(*at);
@@ -547,14 +585,15 @@ void parser::parse_attribute(class_def& c)
                 }
                 c.add_member(m);
         }
+        delete at;
 }
 
 constructor parser::parse_constructor()
 {
         debug("Parsing constructor.");
-        // CONSTRUCTOR or DESTRUCTOR
-        constructor c(_lookahead == DESTRUCTOR);
+        // CONSTRUCTOR
         next_token();
+        constructor c;
         parse_parameters(&c);
         return c;
 }

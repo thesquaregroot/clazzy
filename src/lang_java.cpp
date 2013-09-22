@@ -111,34 +111,32 @@ void lang_java::create(
                 if (c.get_members().size() > 0 && c.get_constructors().size() > 0) {
                         out << language::FOUR_SPACES << endl;
                 }
-                bool have_dtor = false;
                 for (constructor ctor : c.get_constructors()) {
                         out << language::FOUR_SPACES;
-                        if (ctor.is_destructor()) {
-                                if (have_dtor) {
-                                        // no need for multiple since they have the same signature
-                                        continue;
+                        // use normal sort of constructor
+                        out << access_prefixes[ctor.get_visibility()];
+                        out << to_full_camel_case(c.get_name());
+                        out << "(";
+                        map<string,type_hint> params = ctor.get_parameters();
+                        auto it = params.cbegin();
+                        while (it != params.end()) {
+                                out << types.convert_cc(it->second) << " ";
+                                out << it->first;
+                                if (++it != params.cend()) {
+                                        out << ", ";
                                 }
-                                // destructors in Java (finalize) must be protected
-                                out << "protected finalize() throws Throwable" << endl;
-                                have_dtor = true;
-                        } else {
-                                // use normal sort of constructor
-                                out << access_prefixes[ctor.get_visibility()];
-                                out << to_full_camel_case(c.get_name());
-                                out << "(";
-                                map<string,type_hint> params = ctor.get_parameters();
-                                auto it = params.cbegin();
-                                while (it != params.end()) {
-                                        out << types.convert_cc(it->second) << " ";
-                                        out << it->first;
-                                        if (++it != params.cend()) {
-                                                out << ", ";
-                                        }
-                                }
-                                out << ")" << endl;
                         }
+                        out << ")" << endl;
                         // body shell
+                        out << language::FOUR_SPACES << "{" << endl;
+                        out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                        out << language::FOUR_SPACES << "}" << endl;
+                        out << endl;
+                }
+                if (c.has_explicit_destructor()) {
+                        out << language::FOUR_SPACES;
+                        // destructors in Java (finalize) must be protected
+                        out << "protected finalize() throws Throwable" << endl;
                         out << language::FOUR_SPACES << "{" << endl;
                         out << language::EIGHT_SPACES << "// TODO: implement" << endl;
                         out << language::FOUR_SPACES << "}" << endl;

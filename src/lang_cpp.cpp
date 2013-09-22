@@ -101,7 +101,16 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
                 vector<constructor> ctors = c.get_constructors(&it->first);
                 vector<method> methods = c.get_methods(&it->first);
                 vector<member> members = c.get_members(&it->first);
-                if (ctors.size() == 0 && methods.size() == 0 && members.size() == 0) {
+                bool valid_destructor = false;
+                if (c.has_explicit_destructor()) {
+                        access_type *dtor_access = c.get_destructor_visibility();
+                        // conditions for destructor for this access level:
+                        //  - no access defined, default to public
+                        //  - access defined and we're in that iteration
+                        valid_destructor = (dtor_access == nullptr && it->first == VISIBLE_ACCESS)
+                                        || (dtor_access != nullptr && it->first == *dtor_access);
+                }
+                if (ctors.size() == 0 && !valid_destructor && methods.size() == 0 && members.size() == 0) {
                         // nothing here--move on to next access level
                         continue;
                 }
@@ -110,16 +119,18 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
                 // constructors
                 for (constructor ctor : ctors) {
                         out << language::EIGHT_SPACES;
-                        if (ctor.is_destructor()) {
-                                out << "~";
-                        }
                         out << c.get_name();
                         out << "(";
                         print_parameters(out, &ctor);
                         out << ");" << endl;
                 }
+                if (valid_destructor) {
+                        out << language::EIGHT_SPACES;
+                        out << "~" << c.get_name();
+                        out << "();" << endl;
+                }
                 // optional extra newline
-                if (methods.size() > 0) {
+                if (ctors.size() > 0 || valid_destructor) {
                         out << endl;
                 }
                 //methods
@@ -139,7 +150,7 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
                         out << ";" << endl;
                 }
                 // optional extra newline
-                if (members.size() > 0) {
+                if (methods.size() > 0) {
                         out << endl;
                 }
                 // members
@@ -182,13 +193,18 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
 
         for (constructor ctor : c.get_constructors()) {
                 out << c.get_name() << "::";
-                if (ctor.is_destructor()) {
-                        out << "~";
-                }
                 out << c.get_name();
                 out << "(";
                 print_parameters(out, &ctor);
                 out << ")" << endl;
+                out << "{" << endl;
+                out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                out << "}" << endl;
+                out << endl;
+        }
+        if (c.has_explicit_destructor()) {
+                out << c.get_name() << "::";
+                out << "~" << c.get_name() << "()" << endl;
                 out << "{" << endl;
                 out << language::EIGHT_SPACES << "// TODO: implement" << endl;
                 out << "}" << endl;

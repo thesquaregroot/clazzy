@@ -172,7 +172,8 @@ attribute:  access-type attribute [IMPLEMENTED NON-RECURSIVELY]
         |   member "with" "getset"
 
 constructor:    "@construct" parameters
-            |   "@destruct" parameters
+            |   "@destruct"
+            |   "@destruct" "(" ")"
 
 member: "static" member
     |   "constant" member
