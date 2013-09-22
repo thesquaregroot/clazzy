@@ -27,12 +27,15 @@ void lang_java::initialize()
         types.add_type("double", "double");
         types.add_type("boolean", "boolean");
         types.add_type("void", "void");
+        // container types
+        //types.add_type("array", "");
         types.add_type("deque", "Deque", new string("java.util.Deque"));
         types.add_type("list", "List", new string("java.util.List"));
         types.add_type("set", "Set", new string("java.util.Set"));
         types.add_type("stack", "Stack", new string("java.util.Stack"));
         types.add_type("queue", "Queue", new string("java.util.Queue"));
         types.add_type("map", "Map", new string("java.util.Map"));
+        //types.add_type("pointer", "");
 }
 
 string lang_java::get_name() const
@@ -104,9 +107,40 @@ void lang_java::create(
                         out << types.convert_cc(m.get_type()) << " ";
                         out << to_camel_case(m.get_name()) << ";" << endl;
                 }
-                // extra newline between members and methods (if there are members)
-                if (c.get_members().size() > 0) {
+                // extra newline between members and constructors
+                if (c.get_members().size() > 0 && c.get_constructors().size() > 0) {
                         out << language::FOUR_SPACES << endl;
+                }
+                for (constructor ctor : c.get_constructors()) {
+                        out << language::FOUR_SPACES;
+                        // use normal sort of constructor
+                        out << access_prefixes[ctor.get_visibility()];
+                        out << to_full_camel_case(c.get_name());
+                        out << "(";
+                        map<string,type_hint> params = ctor.get_parameters();
+                        auto it = params.cbegin();
+                        while (it != params.end()) {
+                                out << types.convert_cc(it->second) << " ";
+                                out << it->first;
+                                if (++it != params.cend()) {
+                                        out << ", ";
+                                }
+                        }
+                        out << ")" << endl;
+                        // body shell
+                        out << language::FOUR_SPACES << "{" << endl;
+                        out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                        out << language::FOUR_SPACES << "}" << endl;
+                        out << endl;
+                }
+                if (c.has_explicit_destructor()) {
+                        out << language::FOUR_SPACES;
+                        // destructors in Java (finalize) must be protected
+                        out << "protected finalize() throws Throwable" << endl;
+                        out << language::FOUR_SPACES << "{" << endl;
+                        out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                        out << language::FOUR_SPACES << "}" << endl;
+                        out << endl;
                 }
                 // methods
                 for (method m : c.get_methods()) {

@@ -44,7 +44,7 @@ If you haven't changed any of the code, you should be able to simply run:
 
     make
 
-If you have changed the code, you may need to have flex installed, but
+If you have changed the code, you may need to have flex++ installed, but 
 the same process will work.
 
 =========
@@ -139,14 +139,19 @@ parent: type-hint
 action-list:    action "," action-list
             |   action
 
-action: type-hint IDENTIFIER "(" parameter-list ")"
+action: type-hint IDENTIFIER parameters
     |   type-hint IDENTIFIER
     |   "static" action
     |   "read-only" action
-    |   "visible" action
-    |   "hidden" action
-    |   "child-visible" action
-    |   "assembly-visible action
+    |   access-type action
+
+access-type:    "visible"
+            |   "hidden"
+            |   "child-visible"
+            |   "assembly-visible"
+
+parameters: "(" parameter-list ")"
+        |   "(" ")"
 
 parameter-list: parameter "," parameter-list
             |   parameter
@@ -159,13 +164,20 @@ parameter:  type-hint IDENTIFIER
 attribute-list: attribute "," attribute-list
             |   attribute
 
-attribute:  "static" attribute
-        |   "constant" attribute
-        |   "visible" attribute
-        |   "hidden" attribute
-        |   "child-visible" attribute
-        |   "assembly-visible attribute
-        |   type-hint IDENTIFIER
+attribute:  access-type attribute [IMPLEMENTED NON-RECURSIVELY]
+        |   constructor
+        |   member
+        |   member "with" "get"
+        |   member "with" "set"
+        |   member "with" "getset"
+
+constructor:    "@construct" parameters
+            |   "@destruct"
+            |   "@destruct" "(" ")"
+
+member: "static" member
+    |   "constant" member
+    |   type-hint IDENTIFIER
 
 type-hint:  IDENTIFIER "<" generic-type-list ">"
         |   IDENTIFIER

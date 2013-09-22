@@ -15,6 +15,9 @@ namespace clazzy {
         COMMA,
         SEMICOLON,
         PERIOD,
+        // special names
+        CONSTRUCTOR,
+        DESTRUCTOR,
         // normal keywords
         INDEFINITE_ARTICLE,
         IS,
@@ -32,6 +35,10 @@ namespace clazzy {
         STATIC,
         REFERENCE,
         READ_ONLY,
+        GET_SET,
+        // describers
+        GETTER,
+        SETTER,
         // other
         IDENTIFIER,
         PROPERTY
