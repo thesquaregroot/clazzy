@@ -38,6 +38,26 @@ class_def::class_def(const class_def &c)
         _design_patterns = c._design_patterns;
 }
 
+class_def::class_def(class_def &&c)
+{
+        _name = c._name;
+        _ctors = c._ctors;
+        _has_destructor = c._has_destructor;
+        if (c._destructor_access != nullptr) {
+                // steal pointer location
+                _destructor_access = c._destructor_access;
+                // remove temporary class_def's memory of this pointer
+                c._destructor_access = nullptr;
+        } else {
+                _destructor_access = nullptr;
+        }
+        _methods = c._methods;
+        _members = c._members;
+        _parents = c._parents;
+        _referenced_types = c._referenced_types;
+        _design_patterns = c._design_patterns;
+}
+
 class_def::~class_def() {
         delete _destructor_access;
         _destructor_access = nullptr;
