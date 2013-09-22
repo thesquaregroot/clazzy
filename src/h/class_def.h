@@ -1,6 +1,7 @@
 #ifndef __CLAZZY_CLASS_DEF_H__
 #define __CLAZZY_CLASS_DEF_H__
 
+#include "constructor.h"
 #include "type_hint.h"
 #include "access_type.h"
 #include "member.h"
@@ -13,35 +14,37 @@
 namespace clazzy {
     class class_def {
         public:
-            class_def() {};
+            class_def() = default;
             class_def(const std::string&);
+            class_def(const class_def&);
+            ~class_def();
 
             void set_name(const std::string&);
             std::string get_name() const;
 
-            // stores a class with a set of names parameters
+            void add_constructor(constructor&);
+            void set_explicit_destructor(const bool, const access_type * = nullptr);
             void add_method(method&);
-            // stores a member variable name
             void add_member(member&);
-            // stores a parent class/interface name
             void add_parent(type_hint&);
-            // stores a design pattern
             void add_design_pattern(design_pattern&);
-            // receive a list of referenced types
             void set_referenced_types(const std::vector<type_hint> &);
-            // returns the map of method names to their parameters
+            std::vector<constructor> get_constructors(const access_type * = nullptr) const;
+            bool has_explicit_destructor() const;
+            access_type *get_destructor_visibility() const;
             std::vector<method> get_methods(const access_type * = nullptr) const;
-            // gets the members of this class
             std::vector<member> get_members(const access_type * = nullptr) const;
-            // gets the parents of this class
             std::vector<type_hint> get_parents() const;
-            // return referenced types
             std::vector<type_hint> get_referenced_types() const;
-            // return design patterns
             std::vector<design_pattern> get_design_patterns() const;
 
         private:
             std::string _name;
+            // stores constructors/destructors
+            std::map<access_type,std::vector<constructor>> _ctors;
+            // true iff class should explictly define a destructor
+            bool _has_destructor = false;
+            access_type *_destructor_access = nullptr;
             // stores methods (name to parameter list mapping)
             std::map<access_type,std::vector<method>> _methods;
             // stores member variables (names)
@@ -52,6 +55,10 @@ namespace clazzy {
             std::vector<type_hint> _referenced_types;
             // store design paterns
             std::vector<design_pattern> _design_patterns;
+            
+            // helper method for returning store vectors
+            template<class T>
+            std::vector<T> get(const std::map<access_type,std::vector<T>>&, const access_type *) const;
     };
 }
 

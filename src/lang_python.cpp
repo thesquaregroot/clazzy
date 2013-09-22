@@ -81,6 +81,25 @@ void lang_python::create(
                 // static members
                 
                 // class body
+                // constructors/destructors
+                for (constructor ctor : c.get_constructors()) {
+                        out << language::TWO_SPACES;
+                        out << "def __init__(self";
+                        for (auto param : ctor.get_parameters()) {
+                                out << ", " << param.first;
+                        }
+                        out << "):" << endl;
+                        out << language::FOUR_SPACES << "# TODO: Implement" << endl;
+                        out << language::TWO_SPACES << endl;
+                }
+                if (c.has_explicit_destructor()) {
+                        // may want to print a warning about how this should be used...
+                        out << language::TWO_SPACES;
+                        out << "def __del__(self):" << endl;
+                        out << language::FOUR_SPACES << "# TODO: Implement" << endl;
+                        out << language::TWO_SPACES << endl;
+                }
+                // methods
                 for (method m : c.get_methods()) {
                         if (m.is_static()) {
                                 out << language::TWO_SPACES;

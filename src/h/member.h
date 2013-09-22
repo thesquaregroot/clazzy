@@ -1,12 +1,12 @@
 #ifndef __CLAZZY_MEMBER_H__
 #define __CLAZZY_MEMBER_H__
 
+#include "declarable.h"
 #include "type_hint.h"
-#include "access_type.h"
 #include <string>
 
 namespace clazzy {
-    class member {
+    class member : public declarable {
         public:
             member(const type_hint &, const std::string &);
 
@@ -17,8 +17,6 @@ namespace clazzy {
             void set_static(const bool &);
             bool is_constant() const;
             void set_constant(const bool &);
-            access_type get_visibility() const;
-            void set_visibility(const access_type &);
 
             bool has_getter() const;
             void set_getter(const bool);
@@ -32,7 +30,6 @@ namespace clazzy {
             type_hint _type;
             bool _is_static = false;
             bool _is_constant = false;
-            access_type _visibility = VISIBLE_ACCESS; // think public, private, etc.
 
             short _getter_setter = 0;   // automatically print getter and setters
                                         // 0: neither, 1: getter, 2: setter, 3: both
