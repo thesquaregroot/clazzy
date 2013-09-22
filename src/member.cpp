@@ -9,7 +9,6 @@ using namespace std;
 // bool _is_static
 // bool _is_reference
 
-
 member::member(const type_hint &type, const string& name)
 {
         _type = type;
@@ -44,16 +43,6 @@ bool member::is_constant() const
 void member::set_constant(const bool &val)
 {
         _is_constant = val;
-}
-
-access_type member::get_visibility() const
-{
-        return _visibility;
-}
-
-void member::set_visibility(const access_type &val)
-{
-        _visibility = val;
 }
 
 bool member::has_get_set() const

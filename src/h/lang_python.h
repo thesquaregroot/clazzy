@@ -14,11 +14,11 @@ namespace clazzy {
         public:
             lang_python(std::mutex *io, bool debug) : language(io, debug) { initialize(); }
 
-            std::string get_name() const;
+            std::string get_name() const override;
             void create(
                         const std::vector<class_def>&,
                         const std::map<std::string,std::string>&
-                    ) const;
+                    ) const override;
 
         private:
             void initialize();
