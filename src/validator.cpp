@@ -25,6 +25,8 @@ string validator::validate(class_def &clazz)
         
         // give class its types
         clazz.set_referenced_types(_types_encountered);
+
+        error += handle_design_patterns(clazz);
         
         if (error != "") {
                 error = "In definition of class '" + clazz.get_name() + "':\n" + error;
@@ -81,5 +83,33 @@ vector<type_hint> validator::get_types()
         vector<type_hint> tmp = _types_encountered;
         _types_encountered.clear();
         return tmp;
+}
+
+string validator::handle_design_patterns(class_def& c) const {
+        string errors;
+        // handle design patterns
+        for (design_pattern dp : c.get_design_patterns()) {
+                switch (dp) {
+                case SINGLETON: {
+                        if (c.get_constructors(new access_type(VISIBLE_ACCESS)).size() > 0) {
+                                errors += "Visible constructors are not permitted with a singleton.";
+                                break;
+                        }
+                        // create member
+                        member mem(type_hint(c.get_name()), "_instance");
+                        mem.set_getter(true, "get_instance");
+                        mem.set_static(true);
+                        c.add_member(mem);
+                        // create private constructor
+                        constructor ctor;
+                        ctor.set_visibility(HIDDEN_ACCESS);
+                        c.add_constructor(ctor);
+                        break;
+                }
+                //case MULTITON:
+                //        break;
+                }
+        }
+        return errors;
 }
 

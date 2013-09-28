@@ -19,11 +19,13 @@ namespace clazzy {
             void set_constant(const bool &);
 
             bool has_getter() const;
-            void set_getter(const bool);
+            std::string get_getter_name() const;
+            void set_getter(const bool, const std::string& = "");
             bool has_setter() const;
-            void set_setter(const bool);
+            std::string get_setter_name() const;
+            void set_setter(const bool, const std::string& = "");
             bool has_get_set() const;        // True IFF both get && set
-            void set_get_set(const bool);   // Sets both get && set
+            void set_get_set(const bool, const std::string& = "", const std::string& = "");   // Sets both get && set
 
         private:
             std::string _name;
@@ -31,8 +33,15 @@ namespace clazzy {
             bool _is_static = false;
             bool _is_constant = false;
 
-            short _getter_setter = 0;   // automatically print getter and setters
-                                        // 0: neither, 1: getter, 2: setter, 3: both
+            // automatically print getter and setters
+            // 0: neither, 1: getter, 2: setter, 3: both
+            short _getter_setter = 0;
+            static const short _NEITHER = 0x00;
+            static const short _GETTER  = 0x01;
+            static const short _SETTER  = 0x02;
+            static const short _BOTH    = 0x03;
+            std::string _getter_name;
+            std::string _setter_name;
     };
 }
 

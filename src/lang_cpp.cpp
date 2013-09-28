@@ -240,6 +240,7 @@ void lang_cpp::create(
         ) const
 {
         for (class_def c : classes) {
+                // create file
                 debug("Creating code for class: " + c.get_name());
                 string base_dir = "./clazzy_cpp/";
                 if (!chk_mkdir(base_dir)) {

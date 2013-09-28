@@ -16,6 +16,7 @@ namespace clazzy {
             std::string validate(const type_hint &);
             void add_type(const type_hint &);
             std::vector<type_hint> get_types();
+            std::string handle_design_patterns(class_def&) const;
 
         private:
             std::vector<type_hint> _types_encountered;

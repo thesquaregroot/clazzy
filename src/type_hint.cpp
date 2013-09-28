@@ -6,7 +6,7 @@ using namespace std;
 // type _base_type
 // vector<type> _generic_types
 
-type_hint::type_hint(string base, std::vector<type_hint> &generics)
+type_hint::type_hint(string base, const std::vector<type_hint> &generics)
 {
         _base_type = base;
         _generic_types = generics;

@@ -76,50 +76,55 @@ void method::set_read_only(const bool &val)
 // getter-setter methods
 bool method::is_getter() const
 {
-    return (_getter_member != nullptr && _getter_member->has_getter());
+        return (_getter_member != nullptr && _getter_member->has_getter());
 }
 
 void method::set_getter(const bool val, const member* const m)
 {
-    if (val) {
-        if (m != nullptr)
-            _getter_member = new member(*m);
-    }
-    else {
-        if (_getter_member != nullptr) delete _getter_member;
-        _getter_member = nullptr;
-    }
+        if (val) {
+                if (m != nullptr) {
+                        _getter_member = new member(*m);
+                }
+        } else {
+                if (_getter_member != nullptr) {
+                        delete _getter_member;
+                }
+                _getter_member = nullptr;
+        }
 
-    if (_getter_member != nullptr)
-        _getter_member->set_getter(val);
+        if (_getter_member != nullptr) {
+                _getter_member->set_getter(val);
+        }
 }
 
 bool method::is_setter() const
 {
-    return (_setter_member != nullptr && _setter_member->has_setter());
+        return (_setter_member != nullptr && _setter_member->has_setter());
 }
 
 void method::set_setter(bool val, const member* const m)
 {
-    if (val) {
-        if (m != nullptr) {
-            _setter_member = new member(*m);
+        if (val) {
+                if (m != nullptr) {
+                        _setter_member = new member(*m);
+                }
+        } else {
+                if (_setter_member != nullptr) {
+                        delete _setter_member;
+                }
+                _setter_member = nullptr;
         }
-    }
-    else {
-        if (_setter_member != nullptr) delete _setter_member;
-        _setter_member = nullptr;
-    }
 
-    if (_setter_member != nullptr)
-        _setter_member->set_setter(val);
+        if (_setter_member != nullptr) {
+                _setter_member->set_setter(val);
+        }
 }
 
 const member* method::get_getter_member() const {
-    return _getter_member;
+        return _getter_member;
 }
 
 const member* method::get_setter_member() const {
-    return _setter_member;
+        return _setter_member;
 }
 
