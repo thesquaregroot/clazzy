@@ -74,5 +74,5 @@ $(EXE) : $(OBJS)
 
 # Get rid of all the signs of compilation.
 clean:
+	find . -name "clazzy_*" -type d -prune -exec rm -rf "{}" \;
 	rm -rf $(EXE) $(OBJECT_DIR)/*.o Makefile.bak Makefile.depend
-
