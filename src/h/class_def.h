@@ -17,6 +17,7 @@ namespace clazzy {
             class_def() = default;
             class_def(const std::string&);
             class_def(const class_def&);
+            class_def(class_def &&);
             ~class_def();
 
             void set_name(const std::string&);
