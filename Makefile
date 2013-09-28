@@ -5,7 +5,7 @@
 CXX = g++
 
 # C++ compiler flags
-CXXFLAGS = -g -std=c++11 -Wall
+CXXFLAGS = -std=c++11
 LIBRARIES = -lpthread
 
 # Creating a .o file
