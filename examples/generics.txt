@@ -7,7 +7,9 @@ A piece_of_bacon
         @singleton;
     can
         void smell_delicious,
-        string get_name;
+        string get_name,
+        piece_of_bacon get_strip(integer i);
     and has
-        static map<integer,piece_of_bacon> strips.
+        static map<integer,piece_of_bacon> strips,
+        integer current_index.
 
