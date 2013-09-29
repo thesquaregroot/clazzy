@@ -6,7 +6,7 @@ using namespace std;
 // type _base_type
 // vector<type> _generic_types
 
-type_hint::type_hint(string base, std::vector<type_hint> &generics)
+type_hint::type_hint(string base, const std::vector<type_hint> &generics)
 {
         _base_type = base;
         _generic_types = generics;
@@ -57,5 +57,18 @@ bool type_hint::operator==(const type_hint &t) const
 bool type_hint::operator!=(const type_hint &t) const
 {
         return !(*this == t);
+}
+
+size_t hash<type_hint>::operator()(const type_hint &t) const
+{
+        hash<string> str_hash;
+        size_t h = str_hash(t.get_base_type());
+        // recursively hash on generic types
+        hash<type_hint> type_hash;
+        vector<type_hint> gens =  t.get_generic_types();
+        for (unsigned int i=0; i<gens.size(); i++) {
+                h = h ^ (type_hash(gens[i])+i);
+        }
+        return h;
 }
 

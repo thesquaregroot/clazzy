@@ -61,8 +61,28 @@ void lang_python::create(
                 if (!open_file(file_name, out, "#")) {
                         error("Failure creating file: " + file_name);
                 }
-                // class definition
+                // imports
                 out << endl;
+                bool imports = false;
+                // built-in classes
+                for (string import_stmt : types.get_imports(c.get_referenced_types())) {
+                        imports = true;
+                        out << import_stmt << endl;
+                }
+                // local classes
+                for (type_hint t : c.get_referenced_types()) {
+                        string type = t.get_base_type();
+                        for (const class_def &c2 : classes) {
+                                if (c2.get_name() != c.get_name() && type == c2.get_name()) {
+                                        imports = true;
+                                        out << "import " << to_full_camel_case(c2.get_name()) << endl;
+                                }
+                        }
+                }
+                // class definition
+                if (imports) {
+                        out << endl;
+                }
                 out << "class " << to_full_camel_case(c.get_name());
                 // parents
                 vector<type_hint> parents = c.get_parents();
