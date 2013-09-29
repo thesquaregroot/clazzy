@@ -24,7 +24,7 @@ string validator::validate(class_def &clazz)
         }
         
         // give class its types
-        clazz.set_referenced_types(_types_encountered);
+        clazz.set_referenced_types(get_types());
         
         if (error != "") {
                 error = "In definition of class '" + clazz.get_name() + "':\n" + error;
@@ -72,13 +72,16 @@ string validator::validate(const type_hint &t)
 // remembers a type temporarily
 void validator::add_type(const type_hint &t)
 {
-        _types_encountered.push_back(t);
+        _types_encountered.insert(t);
 }
 
 // returns added types and clears the current state
 vector<type_hint> validator::get_types()
 {
-        vector<type_hint> tmp = _types_encountered;
+        vector<type_hint> tmp;
+        for (type_hint type :  _types_encountered) {
+                tmp.push_back(type);
+        }
         _types_encountered.clear();
         return tmp;
 }
