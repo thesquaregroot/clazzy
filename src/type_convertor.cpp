@@ -40,7 +40,7 @@ string type_convertor::convert_with_case(const type_hint &in_type, char generic_
         if (generics.size() > 0) {
                 out_type += generic_start;
                 for (unsigned int i=0; i<generics.size(); i++) {
-                        out_type += this->convert(generics[i], generic_start, generic_end);
+                        out_type += this->convert_with_case(generics[i], generic_start, generic_end, cc);
                         if (i != generics.size()-1) {
                                 out_type += ",";
                         }

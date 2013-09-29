@@ -107,9 +107,40 @@ void lang_java::create(
                         out << types.convert_cc(m.get_type()) << " ";
                         out << to_camel_case(m.get_name()) << ";" << endl;
                 }
-                // extra newline between members and methods (if there are members)
-                if (c.get_members().size() > 0) {
+                // extra newline between members and constructors
+                if (c.get_members().size() > 0 && (c.get_constructors().size() > 0 || c.get_methods().size() > 0)) {
                         out << language::FOUR_SPACES << endl;
+                }
+                for (constructor ctor : c.get_constructors()) {
+                        out << language::FOUR_SPACES;
+                        // use normal sort of constructor
+                        out << access_prefixes[ctor.get_visibility()];
+                        out << to_full_camel_case(c.get_name());
+                        out << "(";
+                        map<string,type_hint> params = ctor.get_parameters();
+                        auto it = params.cbegin();
+                        while (it != params.end()) {
+                                out << types.convert_cc(it->second) << " ";
+                                out << it->first;
+                                if (++it != params.cend()) {
+                                        out << ", ";
+                                }
+                        }
+                        out << ")" << endl;
+                        // body shell
+                        out << language::FOUR_SPACES << "{" << endl;
+                        out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                        out << language::FOUR_SPACES << "}" << endl;
+                        out << endl;
+                }
+                if (c.has_explicit_destructor()) {
+                        out << language::FOUR_SPACES;
+                        // destructors in Java (finalize) must be protected
+                        out << "protected finalize() throws Throwable" << endl;
+                        out << language::FOUR_SPACES << "{" << endl;
+                        out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                        out << language::FOUR_SPACES << "}" << endl;
+                        out << endl;
                 }
                 // methods
                 for (method m : c.get_methods()) {

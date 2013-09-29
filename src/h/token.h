@@ -5,6 +5,7 @@ namespace clazzy {
     enum token {
         END_OF_FILE,
         // special characters (incl. punctuation)
+        AT_SYMBOL,
         PERCENT,
         EQUAL,
         L_PAREN,
@@ -14,6 +15,9 @@ namespace clazzy {
         COMMA,
         SEMICOLON,
         PERIOD,
+        // special names
+        CONSTRUCTOR,
+        DESTRUCTOR,
         // normal keywords
         INDEFINITE_ARTICLE,
         IS,
@@ -31,6 +35,10 @@ namespace clazzy {
         STATIC,
         REFERENCE,
         READ_ONLY,
+        GET_SET,
+        // describers
+        GETTER,
+        SETTER,
         // other
         IDENTIFIER,
         PROPERTY

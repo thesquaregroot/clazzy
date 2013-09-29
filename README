@@ -14,46 +14,50 @@ having to shift between language syntaxes for the boiler-plate class
 definitions.  This avoids typos between projects, prevents compile-time errors
 for simple syntax issues, and most importantly saves time.
 
-=====================
- Supported Languages
-=====================
-Clazzy can generate code for:
 
-    C++
-    C
-    Java
-    Python
+===============
+ Functionality
+===============
 
-=========================
- Supported Functionality
-=========================
+Clazzy should, in general, be able to build code skeletons that can be used
+to quickly get new projects on their feet quickly.  The generated code is 
+expected to be edited by the user and is not necessarily expected to compile.
 
-TODO
+However, clazzy should be able to build portable, object-oriented code in many
+languages.  Clazzy, should focus, at a minimum on providing some form of the 
+key concepts in object-oriented programming including modularity, encapsulation,
+and inheritance.
 
-===========================
- Unsupported Functionality
-===========================
+Clazzy will also attempt to emulate the most common practices for a given 
+langauge, including code formatting, capitalization, and directory structure
+from the same, common input.
 
-TODO
+For a more complete list of clazzy's features, see:
+
+    http://wiki.clazzy.org/index.php/Feature_List
 
 ===========
  Compiling
 ===========
 
-If you haven't changed any of the code, you should be able to simply run:
+Code-distribution-wise, you should theoretically be able to compile clazzy
+with recent versions of g++ and Gnu Make.  
 
-    make
+If you run into issues, or would like to do development on clazzy, you may
+need to install flex/flex++ and makedepend.  However, for simple edits, only
+g++ and make should be necessary.
 
-If you have changed the code, you may need to have flex installed, but
-the same process will work.
+Clazzy is officially developed only in a GNU/Linux environment and portability
+is not guaranteed, though the vast majority of the code base should be fairly
+portable.
 
 =========
  Classes
 =========
 
----------
- Parsing
----------
+------------------
+ Input Processing
+------------------
 
 parser:
     Implements functions corresponding to the grammar rules below (in 
@@ -62,24 +66,44 @@ parser:
     Contains a vector of class-def's and an array of languages it will 
     generate.
 
+type_hint:
+    Defines a high-level "type" that can optionally accept template or "generic"
+    parameters.
+
+type_convertor:
+    Used by a language to convert type_hint objects into language-specific
+    strings.
+
+validator:
+    Used just after parsing to find any issues in the class definitions and
+    any intermediate processing.
+
 ---------------
  Data Modeling
 ---------------
 
 class_def:
-    Represents a class definition.
+    Represents a class definition.  Is responsible for storing all relevant
+    data for a "class" including high-level intentions like design patterns.
 
-    Contains a vector of functions and another of members.
+constructor:
+    Represents a constructor definition, includes parameters and access 
+    information.
 
-function:
-    Represents a function declaration.
-
-    Contains a map from function names to parameter names.
+method:
+    Represents a function definition.  Contains parameter names and types, as
+    well as access and return type information.
 
 member:
-    Represenets a class member.
+    Represenets a class member, with type and access information.
 
-    Contains a name.
+callable:
+    A programming structure that accepts parameters (inherited by constrcutor
+    and method).
+
+declarable:
+    A programming structure that has an access level (inherited by constructor,
+    method, member, etc.).
 
 -----------
  Languages
@@ -92,21 +116,45 @@ language_factory:
     A class with a single static method, with acts as a bridge between
     the parser and the language implementations themselves.
 
+----------------
+ Helper Methods
+----------------
+
+io_functions:
+    Provides methods for creating files and directories.
+
+    First place to start for porting code.
+
+string_functions:
+    Provides methods for changing case for different language implementations.
+
+=======
+ Types
+=======
+
+Generic Types:
+    "array", "deque", "list", "set",
+    "stack", "queue", "map", "pointer" 
+
+Primitive Types:
+    "byte", "short", "integer", "long",
+    "character", "string", "float",
+    "double", "boolean", "void"
+
 ========
  Tokens
 ========
-INDEFINITE_ARTICLE              "a" or "an" (case insensitive)
+
+NOTE: These are only defined for the grammar below.
+      See src/clazzy.lex and src/h/token.h for a more complete list.
+
+
+INDEFINITE_ARTICLE              "a" or "an"
 IDENTIFIER                      [a-zA-Z_\-]+
 PROPERTY                        [a-zA-Z_]+=[^;]*
-GENERIC_TYPE                    "array" or "deque" or "list" or "set" or
-                                "stack" or "queue" or "map" or "pointer" 
-                                (case insensitive)
-PRIMITIVE_TYPE                  "byte" or "short" or "integer" or "long" or
-                                "character" or "string" or "float" or
-                                "double" or "boolean" or "void"
-                                (case insenstive)
 
-NOTE: These are only defined for use below.  See src/clazzy.lex and src/h/token.h for a more complete list.
+ACCESS_TYPE                     "visible" or "hidden" or
+                                "child-visible" or "assembly-visible"
 
 =========
  Grammar
@@ -130,20 +178,23 @@ definition: "is" INDEFINITE_ARTICLE parent-list
         |   "has" attribute-list
         |   "can" action-list
 
-parent-list:    type-hint "," parent-list
-            |   type-hint
+parent-list:    parent "," parent-list
+            |   parent
+
+parent: type-hint
+    |   "@" IDENTIFIER
 
 action-list:    action "," action-list
             |   action
 
-action: type-hint IDENTIFIER "(" parameter-list ")"
+action: type-hint IDENTIFIER parameters
     |   type-hint IDENTIFIER
     |   "static" action
     |   "read-only" action
-    |   "visible" action
-    |   "hidden" action
-    |   "child-visible" action
-    |   "assembly-visible action
+    |   ACCESS_TYPE action
+
+parameters: "(" parameter-list ")"
+        |   "(" ")"
 
 parameter-list: parameter "," parameter-list
             |   parameter
@@ -156,13 +207,20 @@ parameter:  type-hint IDENTIFIER
 attribute-list: attribute "," attribute-list
             |   attribute
 
-attribute:  "static" attribute
-        |   "constant" attribute
-        |   "visible" attribute
-        |   "hidden" attribute
-        |   "child-visible" attribute
-        |   "assembly-visible attribute
-        |   type-hint IDENTIFIER
+attribute:  ACCESS_TYPE attribute [IMPLEMENTED NON-RECURSIVELY]
+        |   constructor
+        |   member
+        |   member "with" "get"
+        |   member "with" "set"
+        |   member "with" "getset"
+
+constructor:    "@construct" parameters
+            |   "@destruct"
+            |   "@destruct" "(" ")"
+
+member: "static" member
+    |   "constant" member
+    |   type-hint IDENTIFIER
 
 type-hint:  IDENTIFIER "<" generic-type-list ">"
         |   IDENTIFIER
