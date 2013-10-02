@@ -108,7 +108,7 @@ void lang_java::create(
                         out << to_camel_case(m.get_name()) << ";" << endl;
                 }
                 // extra newline between members and constructors
-                if (c.get_members().size() > 0 && c.get_constructors().size() > 0) {
+                if (c.get_members().size() > 0 && (c.get_constructors().size() > 0 || c.get_methods().size() > 0)) {
                         out << language::FOUR_SPACES << endl;
                 }
                 for (constructor ctor : c.get_constructors()) {
