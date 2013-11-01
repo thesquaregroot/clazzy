@@ -71,7 +71,22 @@ void lang_java::create(
                 }
         }
         // generate source files
-        for (const class_def c : classes) {
+        for (class_def c : classes) {
+                for (design_pattern dp : c.get_design_patterns()) {
+                        if (dp == SINGLETON) {
+                                // create member
+                                member mem(type_hint(c.get_name()), "instance");
+                                mem.set_getter(true, "getInstance");
+                                mem.set_static(true);
+                                mem.set_initialized(true);
+                                c.add_member(mem);
+                                // create private constructor
+                                constructor ctor;
+                                ctor.set_visibility(HIDDEN_ACCESS);
+                                c.add_constructor(ctor);
+                        }
+                }
+                
                 ofstream out;
                 open_file(dir + to_full_camel_case(c.get_name()) + ".java", out, "//");
                 // declare package

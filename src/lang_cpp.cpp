@@ -244,6 +244,20 @@ void lang_cpp::create(
         ) const
 {
         for (class_def c : classes) {
+                for (design_pattern dp : c.get_design_patterns()) {
+                        if (dp == SINGLETON) {
+                                // create member
+                                member mem(type_hint(c.get_name()), "_instance");
+                                mem.set_getter(true, "get_instance");
+                                mem.set_static(true);
+                                mem.set_initialized(true);
+                                c.add_member(mem);
+                                // create private constructor
+                                constructor ctor;
+                                ctor.set_visibility(HIDDEN_ACCESS);
+                                c.add_constructor(ctor);
+                        }
+                }
                 // create file
                 debug("Creating code for class: " + c.get_name());
                 string base_dir = "./clazzy_cpp/";
