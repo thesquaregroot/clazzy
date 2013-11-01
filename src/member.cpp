@@ -30,7 +30,7 @@ bool member::is_static() const
         return _is_static;
 }
 
-void member::set_static(const bool &val)
+void member::set_static(const bool val)
 {
         _is_static = val;
 }
@@ -40,7 +40,7 @@ bool member::is_constant() const
         return _is_constant;
 }
 
-void member::set_constant(const bool &val)
+void member::set_constant(const bool val)
 {
         _is_constant = val;
 }
@@ -107,5 +107,15 @@ void member::set_setter(bool val, const string &name)
         } else {
                 _getter_setter &= _SETTER^0xFF;
         }
+}
+
+bool member::is_initialized() const
+{
+        return _is_initialized;
+}
+
+void member::set_initialized(const bool val)
+{
+        _is_initialized = val;
 }
 

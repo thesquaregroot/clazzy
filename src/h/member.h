@@ -9,14 +9,15 @@ namespace clazzy {
     class member : public declarable {
         public:
             member(const type_hint &, const std::string &);
+            member(const member&) = default;
 
             std::string get_name() const;
             type_hint get_type() const;
 
             bool is_static() const;
-            void set_static(const bool &);
+            void set_static(const bool);
             bool is_constant() const;
-            void set_constant(const bool &);
+            void set_constant(const bool);
 
             bool has_getter() const;
             std::string get_getter_name() const;
@@ -26,6 +27,9 @@ namespace clazzy {
             void set_setter(const bool, const std::string& = "");
             bool has_get_set() const;        // True IFF both get && set
             void set_get_set(const bool, const std::string& = "", const std::string& = "");   // Sets both get && set
+
+            bool is_initialized() const;
+            void set_initialized(const bool);
 
         private:
             std::string _name;
@@ -42,6 +46,8 @@ namespace clazzy {
             static const short _BOTH    = 0x03;
             std::string _getter_name;
             std::string _setter_name;
+
+            bool _is_initialized = false;
     };
 }
 

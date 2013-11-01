@@ -99,6 +99,7 @@ string validator::handle_design_patterns(class_def& c) const {
                         member mem(type_hint(c.get_name()), "_instance");
                         mem.set_getter(true, "get_instance");
                         mem.set_static(true);
+                        mem.set_initialized(true);
                         c.add_member(mem);
                         // create private constructor
                         constructor ctor;

@@ -164,7 +164,11 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
                         }
                         out << types.convert(m.get_type());
                         out << " " << m.get_name();
-                        out << ";" << endl;
+                        if (m.is_initialized()) {
+                                out << " = " << types.convert(m.get_type()) << "();" << " // clazzy default value" << endl;
+                        } else {
+                                out << ";" << endl;
+                        }
                 }
                 out << endl; // new line after access level
         }
