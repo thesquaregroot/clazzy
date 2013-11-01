@@ -5,6 +5,7 @@
 #include "type_hint.h"
 #include <string>
 #include <vector>
+#include <unordered_set>
 
 namespace clazzy {
     class validator {
@@ -19,7 +20,7 @@ namespace clazzy {
             std::string handle_design_patterns(class_def&) const;
 
         private:
-            std::vector<type_hint> _types_encountered;
+            std::unordered_set<type_hint> _types_encountered;
     };
 }
 

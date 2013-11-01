@@ -59,3 +59,16 @@ bool type_hint::operator!=(const type_hint &t) const
         return !(*this == t);
 }
 
+size_t hash<type_hint>::operator()(const type_hint &t) const
+{
+        hash<string> str_hash;
+        size_t h = str_hash(t.get_base_type());
+        // recursively hash on generic types
+        hash<type_hint> type_hash;
+        vector<type_hint> gens =  t.get_generic_types();
+        for (unsigned int i=0; i<gens.size(); i++) {
+                h = h ^ (type_hash(gens[i])+i);
+        }
+        return h;
+}
+

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <functional>
 
 namespace clazzy {
     class type_hint {
@@ -21,6 +22,13 @@ namespace clazzy {
         private:
             std::string _base_type;
             std::vector<type_hint> _generic_types;
+    };
+}
+
+namespace std {
+    template<>
+    struct hash<clazzy::type_hint> {
+        size_t operator()(const clazzy::type_hint&) const;
     };
 }
 
