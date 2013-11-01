@@ -225,10 +225,10 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
                 out << endl;
                 if (m.is_setter()) {
                     out << language::EIGHT_SPACES;
-                    out << m.get_setter_member()->get_name() << " = value;" << endl;
+                    out << m.get_member()->get_name() << " = value;" << endl;
                 }
                 else if (m.is_getter()) {
-                    out << language::EIGHT_SPACES << "return " << m.get_getter_member()->get_name() << ";" << endl;
+                    out << language::EIGHT_SPACES << "return " << m.get_member()->get_name() << ";" << endl;
                 }
                 else {
                     out << language::EIGHT_SPACES << "// TODO: implement" << endl;

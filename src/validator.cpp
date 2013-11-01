@@ -24,7 +24,7 @@ string validator::validate(class_def &clazz)
         }
         
         // give class its types
-        clazz.set_referenced_types(_types_encountered);
+        clazz.set_referenced_types(get_types());
 
         error += handle_design_patterns(clazz);
         

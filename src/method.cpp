@@ -10,8 +10,7 @@ using namespace std;
 // type_hint _return_type
 // bool _is_static
 // bool _is_read_only
-// member *_getter_member
-// member *_setter_member
+// member *_member
 
 method::method(type_hint returns, string name)
 {
@@ -32,14 +31,13 @@ method::method(const method& original)
         // copy visibility
         set_visibility(original.get_visibility());
 
-        if (original._getter_member != nullptr) _getter_member = new member(*original._getter_member);
-        if (original._setter_member != nullptr) _setter_member = new member(*original._setter_member);
+        if (original._member != nullptr) _member = new member(*original._member);
+        _is_getter = original._is_getter;
 }
 
 method::~method()
 {
-    if (_getter_member != nullptr) delete _getter_member;
-    if (_setter_member != nullptr) delete _setter_member;
+    if (_member != nullptr) delete _member;
 }
 
 string method::get_name() const
@@ -58,7 +56,7 @@ bool method::is_static() const
         return _is_static;
 }
 
-void method::set_static(const bool &val)
+void method::set_static(const bool val)
 {
         _is_static = val;
 }
@@ -68,7 +66,7 @@ bool method::is_read_only() const
         return _is_read_only;
 }
 
-void method::set_read_only(const bool &val)
+void method::set_read_only(const bool val)
 {
         _is_read_only = val;
 }
@@ -76,55 +74,40 @@ void method::set_read_only(const bool &val)
 // getter-setter methods
 bool method::is_getter() const
 {
-        return (_getter_member != nullptr && _getter_member->has_getter());
+        return (_member != nullptr && _is_getter);
 }
 
-void method::set_getter(const bool val, const member* const m)
+void method::set_getter(const member* const m)
 {
-        if (val) {
-                if (m != nullptr) {
-                        _getter_member = new member(*m);
-                }
-        } else {
-                if (_getter_member != nullptr) {
-                        delete _getter_member;
-                }
-                _getter_member = nullptr;
-        }
-
-        if (_getter_member != nullptr) {
-                _getter_member->set_getter(val);
-        }
+        set_member(true, m);
 }
 
 bool method::is_setter() const
 {
-        return (_setter_member != nullptr && _setter_member->has_setter());
+        return (_member != nullptr && !_is_getter);
 }
 
-void method::set_setter(bool val, const member* const m)
+void method::set_setter(const member* const m)
 {
-        if (val) {
-                if (m != nullptr) {
-                        _setter_member = new member(*m);
-                }
+        set_member(false, m);
+}
+
+const member* method::get_member() const {
+        return _member;
+}
+
+void method::set_member(bool getter, const member* const m) {
+        if (m != nullptr) {
+                // copy member locally
+                _member = new member(*m);
+                _is_getter = getter;
         } else {
-                if (_setter_member != nullptr) {
-                        delete _setter_member;
+                // null passed, if this is the appropriate type, remove the underlying member
+                if (_is_getter == getter) {
+                        if (_member != nullptr) {
+                                delete _member;
+                                _member = nullptr;
+                        }
                 }
-                _setter_member = nullptr;
-        }
-
-        if (_setter_member != nullptr) {
-                _setter_member->set_setter(val);
         }
 }
-
-const member* method::get_getter_member() const {
-        return _getter_member;
-}
-
-const member* method::get_setter_member() const {
-        return _setter_member;
-}
-
