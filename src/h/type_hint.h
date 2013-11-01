@@ -8,8 +8,9 @@
 namespace clazzy {
     class type_hint {
         public:
-            type_hint() {}
-            type_hint(std::string, const std::vector<type_hint>&);
+            type_hint() = default;
+            type_hint(const type_hint&) = default;
+            type_hint(std::string, const std::vector<type_hint>& = std::vector<type_hint>());
 
             std::string get_base_type() const;
             std::vector<type_hint> get_generic_types() const;

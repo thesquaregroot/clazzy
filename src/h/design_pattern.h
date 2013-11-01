@@ -6,10 +6,8 @@
 
 namespace clazzy {
     enum design_pattern {
-        SINGLETON,
-        MULTITON,
-        FACTORY_METHOD,
-        ABSTRACT_FACTORY,
+        SINGLETON
+        //MULTITON
     };
 
     static std::map<std::string, design_pattern> design_pattern_map;
