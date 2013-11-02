@@ -35,11 +35,11 @@ void lang_cpp::initialize()
         // container types
         //types.add_type("array", "");
         //types.add_type("deque", "");
-        types.add_type("list", "vector", new string("<vector>"));
-        types.add_type("set", "set", new string("<set>"));
-        types.add_type("stack", "stack", new string("<stack>"));
-        types.add_type("queue", "queue", new string("<queue>"));
-        types.add_type("map", "map", new string("<map>"));
+        types.add_type("list", "std::vector", new string("<vector>"));
+        types.add_type("set", "std::set", new string("<set>"));
+        types.add_type("stack", "std::stack", new string("<stack>"));
+        types.add_type("queue", "std::queue", new string("<queue>"));
+        types.add_type("map", "std::map", new string("<map>"));
         //types.add_type("pointer", "");
 }
 
