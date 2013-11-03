@@ -13,10 +13,8 @@ namespace clazzy {
             std::string get_name() const;
             type_hint get_type() const;
 
-            bool is_static() const;
-            void set_static(const bool &);
             bool is_constant() const;
-            void set_constant(const bool &);
+            void set_constant(const bool);
 
             bool has_getter() const;
             void set_getter(const bool);
@@ -28,7 +26,6 @@ namespace clazzy {
         private:
             std::string _name;
             type_hint _type;
-            bool _is_static = false;
             bool _is_constant = false;
 
             short _getter_setter = 0;   // automatically print getter and setters

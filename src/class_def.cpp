@@ -41,7 +41,7 @@ class_def::class_def(const class_def &c)
 class_def::class_def(class_def &&c)
 {
         _name = c._name;
-        _ctors = c._ctors;
+        _ctors = std::move(c._ctors);
         _has_destructor = c._has_destructor;
         if (c._destructor_access != nullptr) {
                 // steal pointer location
@@ -51,11 +51,11 @@ class_def::class_def(class_def &&c)
         } else {
                 _destructor_access = nullptr;
         }
-        _methods = c._methods;
-        _members = c._members;
-        _parents = c._parents;
-        _referenced_types = c._referenced_types;
-        _design_patterns = c._design_patterns;
+        _methods = std::move(c._methods);
+        _members = std::move(c._members);
+        _parents = std::move(c._parents);
+        _referenced_types = std::move(c._referenced_types);
+        _design_patterns = std::move(c._design_patterns);
 }
 
 class_def::~class_def() {
@@ -73,7 +73,7 @@ string class_def::get_name() const
         return _name;
 }
 
-void class_def::add_constructor(constructor &c)
+void class_def::add_constructor(const constructor &c)
 {
         _ctors[c.get_visibility()].push_back(c);
 }
@@ -89,12 +89,12 @@ void class_def::set_explicit_destructor(const bool b, const access_type * visibi
         }
 }
 
-void class_def::add_method(method &m)
+void class_def::add_method(const method &m)
 {
         _methods[m.get_visibility()].push_back(m);
 }
 
-void class_def::add_member(member &m)
+void class_def::add_member(const member &m)
 {
         if (m.has_setter()) {
             method setter(m.get_type(), "set_"+m.get_name());
@@ -111,12 +111,12 @@ void class_def::add_member(member &m)
         _members[m.get_visibility()].push_back(m);
 }
 
-void class_def::add_parent(type_hint &t)
+void class_def::add_parent(const type_hint &t)
 {
         _parents.push_back(t);
 }
 
-void class_def::add_design_pattern(design_pattern &d)
+void class_def::add_design_pattern(const design_pattern &d)
 {
         _design_patterns.push_back(d);
 }
@@ -146,9 +146,19 @@ vector<method> class_def::get_methods(const access_type *visibility) const
         return get<method>(_methods, visibility);
 }
 
+vector<method> class_def::get_static_methods(const access_type *visibility) const
+{
+        return get_static<method>(_methods, visibility);
+}
+
 vector<member> class_def::get_members(const access_type *visibility) const
 {
         return get<member>(_members, visibility);
+}
+
+vector<member> class_def::get_static_members(const access_type *visibility) const
+{
+        return get_static<member>(_members, visibility);
 }
 
 vector<type_hint> class_def::get_parents() const
@@ -184,5 +194,19 @@ vector<T> class_def::get(const map<access_type,vector<T>> &m, const access_type 
                 }
         }
         return all;
+}
+
+template<class T>
+vector<T> class_def::get_static(const map<access_type,vector<T>> &m, const access_type *visibility) const {
+        vector<T> v_tmp = get<T>(m, visibility);
+        vector<T> s_tmp;
+        for (T t : v_tmp) {
+                declarable *d = dynamic_cast<declarable*>(&t);
+                if (d != nullptr && d->is_static()) {
+                        s_tmp.push_back(t);
+                }
+        }
+        return s_tmp;
+        
 }
 

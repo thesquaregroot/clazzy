@@ -8,7 +8,6 @@ using namespace std;
 
 // string _name
 // type_hint _return_type
-// bool _is_static
 // bool _is_read_only
 // member *_getter_member
 // member *_setter_member
@@ -23,14 +22,15 @@ method::method(const method& original)
 {
         _return_type = original._return_type;
         _name = original._name;
-        // copy parameters
+        _is_read_only = original._is_read_only;
+        // copy inherited values
+        // from callable
         for (auto param : original.get_parameters()) {
                 add_parameter(param.second, param.first);
         }
-        _is_static = original._is_static;
-        _is_read_only = original._is_read_only;
-        // copy visibility
+        // from declarable
         set_visibility(original.get_visibility());
+        set_static(original.is_static());
 
         if (original._getter_member != nullptr) _getter_member = new member(*original._getter_member);
         if (original._setter_member != nullptr) _setter_member = new member(*original._setter_member);
@@ -53,16 +53,6 @@ type_hint method::get_return_type() const
 }
 
 // modifiers
-bool method::is_static() const
-{
-        return _is_static;
-}
-
-void method::set_static(const bool &val)
-{
-        _is_static = val;
-}
-
 bool method::is_read_only() const
 {
         return _is_read_only;

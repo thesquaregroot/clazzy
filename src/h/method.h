@@ -17,8 +17,6 @@ namespace clazzy {
             std::string get_name() const;
             type_hint get_return_type() const;
 
-            bool is_static() const;
-            void set_static(const bool &);
             bool is_read_only() const;
             void set_read_only(const bool &);
 
@@ -32,7 +30,6 @@ namespace clazzy {
         private:
             std::string _name;
             type_hint _return_type;
-            bool _is_static = false; // static method
             bool _is_read_only = false; // think const keyword in C++
 
             member* _getter_member = nullptr;

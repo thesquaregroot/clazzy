@@ -4,6 +4,7 @@ using namespace clazzy;
 using namespace std;
 
 // access_type _visibility
+// bool _is_static
 
 access_type declarable::get_visibility() const
 {
@@ -13,5 +14,15 @@ access_type declarable::get_visibility() const
 void declarable::set_visibility(const access_type &val)
 {
         _visibility = val;
+}
+
+bool declarable::is_static() const
+{
+        return _is_static;
+}
+
+void declarable::set_static(const bool val)
+{
+        _is_static = val;
 }
 
