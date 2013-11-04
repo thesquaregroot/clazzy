@@ -35,11 +35,11 @@ void lang_cpp::initialize()
         // container types
         //types.add_type("array", "");
         //types.add_type("deque", "");
-        types.add_type("list", "vector", new string("<vector>"));
-        types.add_type("set", "set", new string("<set>"));
-        types.add_type("stack", "stack", new string("<stack>"));
-        types.add_type("queue", "queue", new string("<queue>"));
-        types.add_type("map", "map", new string("<map>"));
+        types.add_type("list", "std::vector", new string("<vector>"));
+        types.add_type("set", "std::set", new string("<set>"));
+        types.add_type("stack", "std::stack", new string("<stack>"));
+        types.add_type("queue", "std::queue", new string("<queue>"));
+        types.add_type("map", "std::map", new string("<map>"));
         //types.add_type("pointer", "");
 }
 
@@ -163,8 +163,8 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
                                 out << "const ";
                         }
                         out << types.convert(m.get_type());
-                        out << " " << m.get_name();
-                        out << ";" << endl;
+                        // no need for explicit initialization for non-pointer classes
+                        out << " " << m.get_name() << ";" << endl;
                 }
                 out << endl; // new line after access level
         }
@@ -221,10 +221,10 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
                 out << endl;
                 if (m.is_setter()) {
                     out << language::EIGHT_SPACES;
-                    out << m.get_setter_member()->get_name() << " = value;" << endl;
+                    out << m.get_member()->get_name() << " = value;" << endl;
                 }
                 else if (m.is_getter()) {
-                    out << language::EIGHT_SPACES << "return " << m.get_getter_member()->get_name() << ";" << endl;
+                    out << language::EIGHT_SPACES << "return " << m.get_member()->get_name() << ";" << endl;
                 }
                 else {
                     out << language::EIGHT_SPACES << "// TODO: implement" << endl;
@@ -240,6 +240,21 @@ void lang_cpp::create(
         ) const
 {
         for (class_def c : classes) {
+                for (design_pattern dp : c.get_design_patterns()) {
+                        if (dp == SINGLETON) {
+                                // create member
+                                member mem(type_hint(c.get_name()), "_instance");
+                                mem.set_getter(true, "get_instance");
+                                mem.set_static(true);
+                                mem.set_initialized(true);
+                                c.add_member(mem);
+                                // create private constructor
+                                constructor ctor;
+                                ctor.set_visibility(HIDDEN_ACCESS);
+                                c.add_constructor(ctor);
+                        }
+                }
+                // create file
                 debug("Creating code for class: " + c.get_name());
                 string base_dir = "./clazzy_cpp/";
                 if (!chk_mkdir(base_dir)) {

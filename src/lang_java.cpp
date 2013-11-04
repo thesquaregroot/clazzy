@@ -71,7 +71,22 @@ void lang_java::create(
                 }
         }
         // generate source files
-        for (const class_def c : classes) {
+        for (class_def c : classes) {
+                for (design_pattern dp : c.get_design_patterns()) {
+                        if (dp == SINGLETON) {
+                                // create member
+                                member mem(type_hint(c.get_name()), "instance");
+                                mem.set_getter(true, "getInstance");
+                                mem.set_static(true);
+                                mem.set_initialized(true);
+                                c.add_member(mem);
+                                // create private constructor
+                                constructor ctor;
+                                ctor.set_visibility(HIDDEN_ACCESS);
+                                c.add_constructor(ctor);
+                        }
+                }
+                
                 ofstream out;
                 open_file(dir + to_full_camel_case(c.get_name()) + ".java", out, "//");
                 // declare package
@@ -105,7 +120,12 @@ void lang_java::create(
                         }
                         // definition
                         out << types.convert_cc(m.get_type()) << " ";
-                        out << to_camel_case(m.get_name()) << ";" << endl;
+                        out << to_camel_case(m.get_name());
+                        if (m.is_initialized()) {
+                                out << " = new " << types.convert_cc(m.get_type()) << "();" << endl;
+                        } else {
+                                out << ";" << endl;
+                        }
                 }
                 // extra newline between members and constructors
                 if (c.get_members().size() > 0 && (c.get_constructors().size() > 0 || c.get_methods().size() > 0)) {
@@ -170,7 +190,13 @@ void lang_java::create(
                         out << ")" << endl;
                         // body shell
                         out << language::FOUR_SPACES << "{" << endl;
-                        out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                        if (m.is_getter()) {
+                                out << language::EIGHT_SPACES << "return " << m.get_member()->get_name() << ";" << endl;
+                        } else if (m.is_setter()) {
+                                out << language::EIGHT_SPACES << m.get_member()->get_name() << " = value;" << endl;
+                        } else {
+                                out << language::EIGHT_SPACES << "// TODO: implement" << endl;
+                        }
                         out << language::FOUR_SPACES << "}" << endl;
                         out << endl;
                 }

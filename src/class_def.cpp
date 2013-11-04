@@ -97,14 +97,14 @@ void class_def::add_method(const method &m)
 void class_def::add_member(const member &m)
 {
         if (m.has_setter()) {
-            method setter(m.get_type(), "set_"+m.get_name());
-            setter.set_setter(true, &m);
+            method setter(m.get_type(), m.get_setter_name());
+            setter.set_setter(&m);
             setter.add_parameter(m.get_type(), "value"); // name setter parameter "value", since it could be anything
             this->add_method(setter);
         }
         if (m.has_getter()) {
-            method getter(m.get_type(), "get_"+m.get_name());
-            getter.set_getter(true, &m);
+            method getter(m.get_type(), m.get_getter_name());
+            getter.set_getter(&m);
             this->add_method(getter);
         }
 
