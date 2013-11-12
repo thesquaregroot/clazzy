@@ -476,7 +476,7 @@ method parser::parse_action()
         return m;
 }
 
-void parser::parse_parameters(callable * const m)
+void parser::parse_parameters(parameterized * const m)
 {
         debug("Parsing parameters.");
         if (_lookahead != L_PAREN) {
@@ -498,7 +498,7 @@ void parser::parse_parameters(callable * const m)
         next_token();
 }
 
-void parser::parse_parameter_list(callable * const m)
+void parser::parse_parameter_list(parameterized * const m)
 {
         debug("Parsing parameter list.");
         type_hint t = parse_type_hint();
@@ -610,7 +610,7 @@ member parser::parse_member()
         if (_lookahead == CONSTANT) {
                 next_token();
                 member m = parse_member();
-                m.set_constant(true);
+                m.set_read_only(true);
                 return m;
         }
 
@@ -665,7 +665,7 @@ vector<type_hint> parser::parse_generic_type_list()
         return generics;
 }
 
-void parser::print_arguments(callable * const c) const {
+void parser::print_arguments(parameterized * const c) const {
         cout << "( ";
         for (auto &arg : c->get_parameters()) {
                 // parameter modifiers

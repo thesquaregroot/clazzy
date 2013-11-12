@@ -201,8 +201,8 @@ vector<T> class_def::get_static(const map<access_type,vector<T>> &m, const acces
         vector<T> v_tmp = get<T>(m, visibility);
         vector<T> s_tmp;
         for (T t : v_tmp) {
-                declarable *d = dynamic_cast<declarable*>(&t);
-                if (d != nullptr && d->is_static()) {
+                class_component *cc = dynamic_cast<class_component*>(&t);
+                if (cc != nullptr && cc->is_static()) {
                         s_tmp.push_back(t);
                 }
         }

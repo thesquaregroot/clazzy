@@ -1,21 +1,18 @@
 #ifndef __CLAZZY_MEMBER_H__
 #define __CLAZZY_MEMBER_H__
 
-#include "declarable.h"
+#include "class_component.h"
 #include "type_hint.h"
 #include <string>
 
 namespace clazzy {
-    class member : public declarable {
+    class member : public class_component {
         public:
             member(const type_hint &, const std::string &);
             member(const member&) = default;
 
             std::string get_name() const;
             type_hint get_type() const;
-
-            bool is_constant() const;
-            void set_constant(const bool);
 
             bool has_getter() const;
             std::string get_getter_name() const;
@@ -32,7 +29,6 @@ namespace clazzy {
         private:
             std::string _name;
             type_hint _type;
-            bool _is_constant = false;
 
             // automatically print getter and setters
             // 0: neither, 1: getter, 2: setter, 3: both

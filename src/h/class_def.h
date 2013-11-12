@@ -2,17 +2,16 @@
 #define __CLAZZY_CLASS_DEF_H__
 
 #include "constructor.h"
-#include "type_hint.h"
-#include "access_type.h"
-#include "member.h"
+#include "accessible.h"
 #include "method.h"
+#include "member.h"
 #include "design_pattern.h"
 #include <map>
 #include <vector>
 #include <string>
 
 namespace clazzy {
-    class class_def {
+    class class_def : public accessible {
         public:
             class_def() = default;
             class_def(const std::string&);
@@ -68,7 +67,7 @@ namespace clazzy {
             // helper method for returning store vectors
             template<class T>
             std::vector<T> get(const std::map<access_type,std::vector<T>>&, const access_type *) const;
-            template<class T = declarable>
+            template<class T>
             std::vector<T> get_static(const std::map<access_type,std::vector<T>>&, const access_type *) const;
     };
 }

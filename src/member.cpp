@@ -24,16 +24,6 @@ type_hint member::get_type() const
         return _type;
 }
 
-bool member::is_constant() const
-{
-        return _is_constant;
-}
-
-void member::set_constant(const bool val)
-{
-        _is_constant = val;
-}
-
 bool member::has_get_set() const
 {
         return (_getter_setter & _BOTH);

@@ -1,6 +1,5 @@
 
 #include "h/method.h"
-#include "h/type_hint.h"
 #include <map>
 #include <string>
 using namespace clazzy;
@@ -21,15 +20,16 @@ method::method(const method& original)
 {
         _return_type = original._return_type;
         _name = original._name;
-        _is_read_only = original._is_read_only;
+
         // copy inherited values
-        // from callable
+        // from parameterized
         for (auto param : original.get_parameters()) {
                 add_parameter(param.second, param.first);
         }
-        // from declarable
+        // from class_component
         set_visibility(original.get_visibility());
         set_static(original.is_static());
+        set_read_only(original.is_read_only());
 
         if (original._member != nullptr) _member = new member(*original._member);
         _is_getter = original._is_getter;
@@ -48,17 +48,6 @@ string method::get_name() const
 type_hint method::get_return_type() const
 {
         return _return_type;
-}
-
-// modifiers
-bool method::is_read_only() const
-{
-        return _is_read_only;
-}
-
-void method::set_read_only(const bool val)
-{
-        _is_read_only = val;
 }
 
 // getter-setter methods

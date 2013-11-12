@@ -115,9 +115,6 @@ void lang_java::create(
                         if (m.is_static()) {
                                 out << "static ";
                         }
-                        if (m.is_constant()) {
-                                out << "final ";
-                        }
                         // definition
                         out << types.convert_cc(m.get_type()) << " ";
                         out << to_camel_case(m.get_name());

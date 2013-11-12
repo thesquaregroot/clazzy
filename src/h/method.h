@@ -1,14 +1,14 @@
 #ifndef __CLAZZY_METHOD_H__
 #define __CLAZZY_METHOD_H__
 
-#include "declarable.h"
-#include "callable.h"
+#include "class_component.h"
+#include "parameterized.h"
 #include "member.h"
 #include <map>
 #include <string>
 
 namespace clazzy {
-    class method : public declarable, public callable {
+    class method : public class_component, public parameterized {
         public:
             method(type_hint, std::string);
             method(const method &);
@@ -16,9 +16,6 @@ namespace clazzy {
             
             std::string get_name() const;
             type_hint get_return_type() const;
-
-            bool is_read_only() const;
-            void set_read_only(const bool);
 
             bool is_getter() const;
             void set_getter(const member* const); // member* can be a dynamic variable; we don't store its address: it is copied.
@@ -29,7 +26,6 @@ namespace clazzy {
         private:
             std::string _name;
             type_hint _return_type;
-            bool _is_read_only = false; // think const keyword in C++
 
             // member underlying getter/setter (iff _member != nullptr, _is_getter matters)
             member* _member = nullptr;
