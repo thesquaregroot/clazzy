@@ -1999,7 +1999,6 @@ int main(int argc, char** argv)
         }
     }
 
-    
     parser *p;
     if (input == 0) {
         p = new parser(new yyFlexLexer());
@@ -2013,6 +2012,7 @@ int main(int argc, char** argv)
             exit(1);
         }
     }
+
     p->set_debug(debug);
     p->parse();
     p->write();
