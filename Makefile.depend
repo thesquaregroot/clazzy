@@ -46,7 +46,7 @@ obj/lex.yy.o: src/h/token.h src/h/parser.h src/h/class_def.h
 obj/lex.yy.o: src/h/constructor.h src/h/callable.h src/h/type_hint.h
 obj/lex.yy.o: src/h/access_type.h src/h/declarable.h src/h/member.h
 obj/lex.yy.o: src/h/method.h src/h/design_pattern.h src/h/type_util.h
-obj/lex.yy.o: src/h/type.h
+obj/lex.yy.o: src/h/type.h src/h/version.h
 obj/member.o: src/h/member.h
 obj/method.o: src/h/method.h src/h/type_hint.h
 obj/parser.o: src/h/parser.h src/h/class_def.h src/h/constructor.h

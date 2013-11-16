@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include "h/token.h"
 #include "h/parser.h"
+#include "h/version.h"
 using namespace clazzy;
 using namespace std;
 %}
@@ -59,10 +60,26 @@ using namespace std;
 
 %%
 
-void print_usage_error(char *arg0)
+void print_version()
 {
-    cout << "Usage: " << arg0 << " [--debug] [input-file]" << endl;
-    exit(1);
+    cout << "Clazzy, version " << CLAZZY_VERSION << endl;
+    cout << endl;
+    cout << "Copyright (C) 2013, Andrew Groot" << endl;
+    cout << "Licensed under the GNU GPL version 3" << endl;
+    cout << endl;
+    cout << "This is free software; you are free to change and redistribute it." << endl;
+    cout << "There is NO WARRANTY, to the extent permitted by law." << endl;
+}
+
+void print_usage(char *arg0)
+{
+    cout << "Usage: " << arg0 << " --version" << endl;
+    cout << "       " << arg0 << " --help" << endl;
+    cout << "       " << arg0 << " [--debug] [input-file]" << endl;
+    cout << endl;
+    cout << "  --version    Display the version of clazzy" << endl;
+    cout << "  --help       Display this help text" << endl;
+    cout << "  --debug      Enables verbose output" << endl;
 }
 
 int main(int argc, char** argv)
@@ -77,9 +94,16 @@ int main(int argc, char** argv)
             // some sort of option
             if (strcmp(arg, "--debug") == 0) {
                 debug = true;
+            } else if (strcmp(arg, "--version") == 0) {
+                print_version();
+                exit(0);
+            } else if (strcmp(arg, "--help") == 0) {
+                print_usage(argv[0]);
+                exit(1);
             } else {
                 cerr << "Unrecognized argument: " << arg << "." << endl;
-                print_usage_error(argv[0]);
+                print_usage(argv[0]);
+                exit(1);
             }
         } else {
             // no '-', must be file name
@@ -87,7 +111,6 @@ int main(int argc, char** argv)
         }
     }
 
-    
     parser *p;
     if (input == 0) {
         p = new parser(new yyFlexLexer());
@@ -97,9 +120,11 @@ int main(int argc, char** argv)
             p = new parser(new yyFlexLexer(in));
         } else {
             cerr << "Could not open file: " << input << "." << endl;
-            print_usage_error(argv[0]);
+            print_usage(argv[0]);
+            exit(1);
         }
     }
+
     p->set_debug(debug);
     p->parse();
     p->write();
