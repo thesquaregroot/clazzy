@@ -159,7 +159,7 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
                         if (m.is_static()) {
                                 out << "static ";
                         }
-                        if (m.is_constant()) {
+                        if (m.is_read_only()) {
                                 out << "const ";
                         }
                         out << types.convert(m.get_type());
@@ -265,9 +265,9 @@ void lang_cpp::create(
         }
 }
 
-void lang_cpp::print_parameters(ofstream &out, callable * const c) const
+void lang_cpp::print_parameters(ofstream &out, parameterized * const p) const
 {
-        map<string,type_hint> params = c->get_parameters();
+        map<string,type_hint> params = p->get_parameters();
         for (auto param_it = params.cbegin(); param_it != params.cend(); param_it++) {
                 // TODO: parameter modifiers
                 // map string -> type_hint

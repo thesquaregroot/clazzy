@@ -9,7 +9,7 @@
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 37
+#define YY_FLEX_SUBMINOR_VERSION 35
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
 #endif
@@ -154,7 +154,15 @@ typedef unsigned int flex_uint32_t;
 
 /* Size of default input buffer. */
 #ifndef YY_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k.
+ * Moreover, YY_BUF_SIZE is 2*YY_READ_BUF_SIZE in the general case.
+ * Ditto for the __ia64__ case accordingly.
+ */
+#define YY_BUF_SIZE 32768
+#else
 #define YY_BUF_SIZE 16384
+#endif /* __ia64__ */
 #endif
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
@@ -166,12 +174,7 @@ typedef unsigned int flex_uint32_t;
 typedef struct yy_buffer_state *YY_BUFFER_STATE;
 #endif
 
-#ifndef YY_TYPEDEF_YY_SIZE_T
-#define YY_TYPEDEF_YY_SIZE_T
-typedef size_t yy_size_t;
-#endif
-
-extern yy_size_t yyleng;
+extern int yyleng;
 
 #define EOB_ACT_CONTINUE_SCAN 0
 #define EOB_ACT_END_OF_FILE 1
@@ -208,6 +211,11 @@ extern yy_size_t yyleng;
 
 #define unput(c) yyunput( c, (yytext_ptr)  )
 
+#ifndef YY_TYPEDEF_YY_SIZE_T
+#define YY_TYPEDEF_YY_SIZE_T
+typedef size_t yy_size_t;
+#endif
+
 #ifndef YY_STRUCT_YY_BUFFER_STATE
 #define YY_STRUCT_YY_BUFFER_STATE
 struct yy_buffer_state
@@ -226,7 +234,7 @@ struct yy_buffer_state
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
 	 */
-	yy_size_t yy_n_chars;
+	int yy_n_chars;
 
 	/* Whether we "own" the buffer - i.e., we know we created it,
 	 * and can realloc() it to grow it, and should free() it to
@@ -630,9 +638,10 @@ static yyconst flex_int32_t yy_rule_can_match_eol[38] =
 #include <cstdlib>
 #include "h/token.h"
 #include "h/parser.h"
+#include "h/version.h"
 using namespace clazzy;
 using namespace std;
-#line 636 "src/lex.yy.cpp"
+#line 645 "src/lex.yy.cpp"
 
 #define INITIAL 0
 
@@ -662,7 +671,12 @@ static int yy_flex_strlen (yyconst char * );
 
 /* Amount of stuff to slurp up with each read. */
 #ifndef YY_READ_BUF_SIZE
+#ifdef __ia64__
+/* On IA-64, the buffer size is 16k, not 8k */
+#define YY_READ_BUF_SIZE 16384
+#else
 #define YY_READ_BUF_SIZE 8192
+#endif /* __ia64__ */
 #endif
 
 /* Copy whatever the last rule matched to the standard output. */
@@ -732,10 +746,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 14 "src/clazzy.lex"
+#line 15 "src/clazzy.lex"
 
 
-#line 739 "src/lex.yy.cpp"
+#line 753 "src/lex.yy.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -830,186 +844,186 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 16 "src/clazzy.lex"
+#line 17 "src/clazzy.lex"
 { return AT_SYMBOL; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 17 "src/clazzy.lex"
+#line 18 "src/clazzy.lex"
 { return PERCENT; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 18 "src/clazzy.lex"
+#line 19 "src/clazzy.lex"
 { return EQUAL; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 19 "src/clazzy.lex"
+#line 20 "src/clazzy.lex"
 { return L_PAREN; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 20 "src/clazzy.lex"
+#line 21 "src/clazzy.lex"
 { return R_PAREN; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 21 "src/clazzy.lex"
+#line 22 "src/clazzy.lex"
 { return L_BRACKET; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 22 "src/clazzy.lex"
+#line 23 "src/clazzy.lex"
 { return R_BRACKET; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 23 "src/clazzy.lex"
+#line 24 "src/clazzy.lex"
 { return COMMA; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 24 "src/clazzy.lex"
+#line 25 "src/clazzy.lex"
 { return SEMICOLON; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 25 "src/clazzy.lex"
+#line 26 "src/clazzy.lex"
 { return PERIOD; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 26 "src/clazzy.lex"
+#line 27 "src/clazzy.lex"
 { return CONSTRUCTOR; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 27 "src/clazzy.lex"
+#line 28 "src/clazzy.lex"
 { return CONSTRUCTOR; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 28 "src/clazzy.lex"
+#line 29 "src/clazzy.lex"
 { return DESTRUCTOR; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 29 "src/clazzy.lex"
+#line 30 "src/clazzy.lex"
 { return DESTRUCTOR; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 30 "src/clazzy.lex"
+#line 31 "src/clazzy.lex"
 { return INDEFINITE_ARTICLE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 31 "src/clazzy.lex"
+#line 32 "src/clazzy.lex"
 { return IS; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 32 "src/clazzy.lex"
+#line 33 "src/clazzy.lex"
 { return HAS; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 33 "src/clazzy.lex"
+#line 34 "src/clazzy.lex"
 { return CAN; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 34 "src/clazzy.lex"
+#line 35 "src/clazzy.lex"
 { return WITH; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 35 "src/clazzy.lex"
+#line 36 "src/clazzy.lex"
 { return AND; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 36 "src/clazzy.lex"
+#line 37 "src/clazzy.lex"
 { return CONSTANT; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 37 "src/clazzy.lex"
+#line 38 "src/clazzy.lex"
 { return STATIC; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 38 "src/clazzy.lex"
+#line 39 "src/clazzy.lex"
 { return REFERENCE; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 39 "src/clazzy.lex"
+#line 40 "src/clazzy.lex"
 { return READ_ONLY; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 40 "src/clazzy.lex"
+#line 41 "src/clazzy.lex"
 { return GETTER; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 41 "src/clazzy.lex"
+#line 42 "src/clazzy.lex"
 { return SETTER; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 42 "src/clazzy.lex"
+#line 43 "src/clazzy.lex"
 { return GET_SET; }
 	YY_BREAK
 /* access modifiers */
 case 28:
 YY_RULE_SETUP
-#line 44 "src/clazzy.lex"
+#line 45 "src/clazzy.lex"
 { return VISIBLE; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 45 "src/clazzy.lex"
+#line 46 "src/clazzy.lex"
 { return HIDDEN; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 46 "src/clazzy.lex"
+#line 47 "src/clazzy.lex"
 { return CHILD_VISIBLE; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 47 "src/clazzy.lex"
+#line 48 "src/clazzy.lex"
 { return ASSEMBLY_VISIBLE; }
 	YY_BREAK
 /* Describers */
 /* free-text */
 case 32:
 YY_RULE_SETUP
-#line 50 "src/clazzy.lex"
+#line 51 "src/clazzy.lex"
 { return IDENTIFIER; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 51 "src/clazzy.lex"
+#line 52 "src/clazzy.lex"
 { return PROPERTY; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 52 "src/clazzy.lex"
+#line 53 "src/clazzy.lex"
 /* skip # comments */
 	YY_BREAK
 case 35:
 /* rule 35 can match eol */
 YY_RULE_SETUP
-#line 53 "src/clazzy.lex"
+#line 54 "src/clazzy.lex"
 /* skip whitespace */
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 54 "src/clazzy.lex"
+#line 55 "src/clazzy.lex"
 {
                                 //handle token errors
                                 cout << "ERROR [Line " << yylineno << "]: illegal token \"" << yytext << "\"." << endl;
@@ -1018,10 +1032,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 60 "src/clazzy.lex"
+#line 61 "src/clazzy.lex"
 ECHO;
 	YY_BREAK
-#line 1025 "src/lex.yy.cpp"
+#line 1039 "src/lex.yy.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1296,21 +1310,21 @@ int yyFlexLexer::yy_get_next_buffer()
 
 	else
 		{
-			yy_size_t num_to_read =
+			int num_to_read =
 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
 
 		while ( num_to_read <= 0 )
 			{ /* Not enough room in the buffer - grow it. */
 
 			/* just a shorter name for the current buffer */
-			YY_BUFFER_STATE b = YY_CURRENT_BUFFER_LVALUE;
+			YY_BUFFER_STATE b = YY_CURRENT_BUFFER;
 
 			int yy_c_buf_p_offset =
 				(int) ((yy_c_buf_p) - b->yy_ch_buf);
 
 			if ( b->yy_is_our_buffer )
 				{
-				yy_size_t new_size = b->yy_buf_size * 2;
+				int new_size = b->yy_buf_size * 2;
 
 				if ( new_size <= 0 )
 					b->yy_buf_size += b->yy_buf_size / 8;
@@ -1341,7 +1355,7 @@ int yyFlexLexer::yy_get_next_buffer()
 
 		/* Read in more data. */
 		YY_INPUT( (&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move]),
-			(yy_n_chars), num_to_read );
+			(yy_n_chars), (size_t) num_to_read );
 
 		YY_CURRENT_BUFFER_LVALUE->yy_n_chars = (yy_n_chars);
 		}
@@ -1436,7 +1450,7 @@ int yyFlexLexer::yy_get_next_buffer()
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 	yy_is_jam = (yy_current_state == 216);
 
-		return yy_is_jam ? 0 : yy_current_state;
+	return yy_is_jam ? 0 : yy_current_state;
 }
 
     void yyFlexLexer::yyunput( int c, register char* yy_bp)
@@ -1451,7 +1465,7 @@ int yyFlexLexer::yy_get_next_buffer()
 	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
 		{ /* need to shift things up to make room */
 		/* +2 for EOB chars. */
-		register yy_size_t number_to_move = (yy_n_chars) + 2;
+		register int number_to_move = (yy_n_chars) + 2;
 		register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
 					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
 		register char *source =
@@ -1498,7 +1512,7 @@ int yyFlexLexer::yy_get_next_buffer()
 
 		else
 			{ /* need more input */
-			yy_size_t offset = (yy_c_buf_p) - (yytext_ptr);
+			int offset = (yy_c_buf_p) - (yytext_ptr);
 			++(yy_c_buf_p);
 
 			switch ( yy_get_next_buffer(  ) )
@@ -1662,6 +1676,8 @@ int yyFlexLexer::yy_get_next_buffer()
 	yyfree((void *) b  );
 }
 
+extern "C" int isatty (int );
+
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
  * such as during a yyrestart() or at EOF.
@@ -1773,7 +1789,7 @@ void yyFlexLexer::yypop_buffer_state (void)
  */
 void yyFlexLexer::yyensure_buffer_stack(void)
 {
-	yy_size_t num_to_alloc;
+	int num_to_alloc;
     
 	if (!(yy_buffer_stack)) {
 
@@ -1928,14 +1944,30 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 60 "src/clazzy.lex"
+#line 61 "src/clazzy.lex"
 
 
 
-void print_usage_error(char *arg0)
+void print_version()
 {
-    cout << "Usage: " << arg0 << " [--debug] [input-file]" << endl;
-    exit(1);
+    cout << "Clazzy, version " << CLAZZY_VERSION << endl;
+    cout << endl;
+    cout << "Copyright (C) 2013, Andrew Groot" << endl;
+    cout << "Licensed under the GNU GPL version 3" << endl;
+    cout << endl;
+    cout << "This is free software; you are free to change and redistribute it." << endl;
+    cout << "There is NO WARRANTY, to the extent permitted by law." << endl;
+}
+
+void print_usage(char *arg0)
+{
+    cout << "Usage: " << arg0 << " --version" << endl;
+    cout << "       " << arg0 << " --help" << endl;
+    cout << "       " << arg0 << " [--debug] [input-file]" << endl;
+    cout << endl;
+    cout << "  --version    Display the version of clazzy" << endl;
+    cout << "  --help       Display this help text" << endl;
+    cout << "  --debug      Enables verbose output" << endl;
 }
 
 int main(int argc, char** argv)
@@ -1950,9 +1982,16 @@ int main(int argc, char** argv)
             // some sort of option
             if (strcmp(arg, "--debug") == 0) {
                 debug = true;
+            } else if (strcmp(arg, "--version") == 0) {
+                print_version();
+                exit(0);
+            } else if (strcmp(arg, "--help") == 0) {
+                print_usage(argv[0]);
+                exit(1);
             } else {
                 cerr << "Unrecognized argument: " << arg << "." << endl;
-                print_usage_error(argv[0]);
+                print_usage(argv[0]);
+                exit(1);
             }
         } else {
             // no '-', must be file name
@@ -1960,7 +1999,6 @@ int main(int argc, char** argv)
         }
     }
 
-    
     parser *p;
     if (input == 0) {
         p = new parser(new yyFlexLexer());
@@ -1970,9 +2008,11 @@ int main(int argc, char** argv)
             p = new parser(new yyFlexLexer(in));
         } else {
             cerr << "Could not open file: " << input << "." << endl;
-            print_usage_error(argv[0]);
+            print_usage(argv[0]);
+            exit(1);
         }
     }
+
     p->set_debug(debug);
     p->parse();
     p->write();

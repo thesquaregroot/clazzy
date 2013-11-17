@@ -1,5 +1,5 @@
-#ifndef __CALLABLE_H__
-#define __CALLABLE_H__
+#ifndef __PARAMETERS_H__
+#define __PARAMETERS_H__
 
 #include "type_hint.h"
 #include "access_type.h"
@@ -7,9 +7,9 @@
 #include <string>
 
 namespace clazzy {
-    class callable {
+    class parameterized {
         public:
-            void add_parameter(type_hint, std::string);
+            void add_parameter(const type_hint&, const std::string&);
             std::map<std::string, type_hint> get_parameters() const;
 
         private:

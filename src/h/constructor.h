@@ -1,11 +1,11 @@
 #ifndef __CONSTRUCTOR_H__
 #define __CONSTRUCTOR_H__
 
-#include "callable.h"
-#include "declarable.h"
+#include "parameterized.h"
+#include "accessible.h"
 
 namespace clazzy {
-    class constructor : public callable, public declarable {};
+    class constructor : public parameterized, public accessible {};
 }
 
 #endif
