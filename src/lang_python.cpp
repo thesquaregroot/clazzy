@@ -23,6 +23,7 @@ string lang_python::get_name() const
 
 void lang_python::initialize()
 {
+        types = type_convertor(static_cast<char>(0), static_cast<char>(0), type_convertor::NONE);
         types.add_type("byte", "");
         types.add_type("short", "");
         types.add_type("integer", "");
@@ -55,7 +56,22 @@ void lang_python::create(
                 error("Failure creating directory: " + base_dir);
         }
         // create class files
-        for (const class_def &c : classes) {
+        for (class_def c : classes) {
+                for (design_pattern dp : c.get_design_patterns()) {
+                        if (dp == SINGLETON) {
+                                // create member
+                                member mem(type_hint(c.get_name()), "instance");
+                                mem.set_getter(true, "get_instance");
+                                mem.set_static(true);
+                                mem.set_initialized(true);
+                                c.add_member(mem);
+                                // create private constructor
+                                constructor ctor;
+                                ctor.set_visibility(HIDDEN_ACCESS);
+                                c.add_constructor(ctor);
+                        }
+                }
+                
                 ofstream out;
                 string file_name = base_dir + to_full_camel_case(c.get_name()) + ".py";
                 if (!open_file(file_name, out, "#")) {
@@ -72,7 +88,7 @@ void lang_python::create(
                 // local classes
                 for (type_hint t : c.get_referenced_types()) {
                         string type = t.get_base_type();
-                        for (const class_def &c2 : classes) {
+                        for (class_def c2 : classes) {
                                 if (c2.get_name() != c.get_name() && type == c2.get_name()) {
                                         imports = true;
                                         out << "import " << to_full_camel_case(c2.get_name()) << endl;
@@ -99,6 +115,16 @@ void lang_python::create(
                 }
                 out << ":" << endl;
                 // static members
+                for (member m : c.get_static_members()) {
+                        if (m.is_initialized()) {
+                                out << language::TWO_SPACES << m.get_name()
+                                        << " = " << types.convert_cc(m.get_type())
+                                        << "()" << endl;
+                        }
+                }
+                if (c.get_static_members().size() > 0) {
+                        out << endl;
+                }
                 
                 // class body
                 // constructors/destructors
@@ -132,7 +158,13 @@ void lang_python::create(
                                 out << ", " << param.first;
                         }
                         out << "):" << endl;
-                        out << language::FOUR_SPACES << "# TODO: Implement" << endl;
+                        if (m.is_setter()) {
+                                out << language::FOUR_SPACES << "self." << m.get_member()->get_name() << " = " << class_def::SETTER_PARAMETER_NAME << endl;
+                        } else if (m.is_getter()) {
+                                out << language::FOUR_SPACES << "return self." << m.get_member()->get_name() << endl;
+                        } else {
+                                out << language::FOUR_SPACES << "# TODO: Implement" << endl;
+                        }
                         out << language::TWO_SPACES << endl;
                 }
                 out << endl;
