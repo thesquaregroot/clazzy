@@ -1,5 +1,5 @@
 
-%LANGUAGE=C++;
+%LANGUAGE=C++,Java,Python;
 
 A piece_of_bacon
     is a

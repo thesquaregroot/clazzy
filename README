@@ -97,13 +97,32 @@ method:
 member:
     Represenets a class member, with type and access information.
 
-callable:
-    A programming structure that accepts parameters (inherited by constrcutor
-    and method).
+accessible:
+    A programming structure that is encapsulated.
 
-declarable:
-    A programming structure that has an access level (inherited by constructor,
-    method, member, etc.).
+parameterized:
+    A programming structure that accepts parameters (inherited by constructor and method).
+
+class_component:
+    A programming structure that has basic access restrictions, such as
+    static or read-only access (inherited by method and member).
+
+The following type heirarchy is relevant to the above classes, with parents at the top and children
+beneath.  Note that multiple inheritance is used to reduce code redundacy and to reflect the nature
+of the types at a symbolic level.
+
+          accessible   parameterized
+         /    |    \     /    |
+        /     |     \   /     |
+  class_def   |  constructor  |
+              |               |
+              |              /
+       class_component      /
+            /   \          /
+           /     \        /
+          /       \      /
+       member      method
+                                        
 
 -----------
  Languages

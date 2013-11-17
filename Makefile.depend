@@ -1,67 +1,75 @@
 # DO NOT DELETE
 
-obj/callable.o: src/h/callable.h src/h/type_hint.h src/h/access_type.h
-obj/class_def.o: src/h/class_def.h src/h/constructor.h src/h/callable.h
-obj/class_def.o: src/h/type_hint.h src/h/access_type.h src/h/declarable.h
-obj/class_def.o: src/h/member.h src/h/method.h src/h/design_pattern.h
-obj/constructor.o: src/h/constructor.h src/h/callable.h src/h/type_hint.h
-obj/constructor.o: src/h/access_type.h src/h/declarable.h
-obj/declarable.o: src/h/declarable.h src/h/access_type.h
+obj/accessible.o: src/h/accessible.h src/h/access_type.h
+obj/class_component.o: src/h/class_component.h src/h/accessible.h
+obj/class_component.o: src/h/access_type.h
+obj/class_def.o: src/h/class_def.h src/h/constructor.h src/h/parameterized.h
+obj/class_def.o: src/h/type_hint.h src/h/access_type.h src/h/accessible.h
+obj/class_def.o: src/h/method.h src/h/class_component.h src/h/member.h
+obj/class_def.o: src/h/design_pattern.h
+obj/constructor.o: src/h/constructor.h src/h/parameterized.h
+obj/constructor.o: src/h/type_hint.h src/h/access_type.h src/h/accessible.h
 obj/design_pattern.o: src/h/design_pattern.h
 obj/io_functions.o: src/h/io_functions.h
 obj/lang_c.o: src/h/lang_c.h src/h/language.h src/h/class_def.h
-obj/lang_c.o: src/h/constructor.h src/h/callable.h src/h/type_hint.h
-obj/lang_c.o: src/h/access_type.h src/h/declarable.h src/h/member.h
-obj/lang_c.o: src/h/method.h src/h/design_pattern.h src/h/type_convertor.h
-obj/lang_c.o: src/h/class_def.h src/h/method.h src/h/member.h
+obj/lang_c.o: src/h/constructor.h src/h/parameterized.h src/h/type_hint.h
+obj/lang_c.o: src/h/access_type.h src/h/accessible.h src/h/method.h
+obj/lang_c.o: src/h/class_component.h src/h/member.h src/h/design_pattern.h
+obj/lang_c.o: src/h/type_convertor.h src/h/class_def.h src/h/method.h
+obj/lang_c.o: src/h/member.h
 obj/lang_cpp.o: src/h/lang_cpp.h src/h/language.h src/h/class_def.h
-obj/lang_cpp.o: src/h/constructor.h src/h/callable.h src/h/type_hint.h
-obj/lang_cpp.o: src/h/access_type.h src/h/declarable.h src/h/member.h
-obj/lang_cpp.o: src/h/method.h src/h/design_pattern.h src/h/type_convertor.h
-obj/lang_cpp.o: src/h/class_def.h src/h/method.h src/h/member.h
-obj/lang_cpp.o: src/h/io_functions.h
+obj/lang_cpp.o: src/h/constructor.h src/h/parameterized.h src/h/type_hint.h
+obj/lang_cpp.o: src/h/access_type.h src/h/accessible.h src/h/method.h
+obj/lang_cpp.o: src/h/class_component.h src/h/member.h src/h/design_pattern.h
+obj/lang_cpp.o: src/h/type_convertor.h src/h/class_def.h src/h/method.h
+obj/lang_cpp.o: src/h/member.h src/h/io_functions.h
 obj/lang_java.o: src/h/lang_java.h src/h/language.h src/h/class_def.h
-obj/lang_java.o: src/h/constructor.h src/h/callable.h src/h/type_hint.h
-obj/lang_java.o: src/h/access_type.h src/h/declarable.h src/h/member.h
-obj/lang_java.o: src/h/method.h src/h/design_pattern.h src/h/type_convertor.h
+obj/lang_java.o: src/h/constructor.h src/h/parameterized.h src/h/type_hint.h
+obj/lang_java.o: src/h/access_type.h src/h/accessible.h src/h/method.h
+obj/lang_java.o: src/h/class_component.h src/h/member.h
+obj/lang_java.o: src/h/design_pattern.h src/h/type_convertor.h
 obj/lang_java.o: src/h/io_functions.h src/h/string_functions.h
 obj/lang_python.o: src/h/lang_python.h src/h/language.h src/h/class_def.h
-obj/lang_python.o: src/h/constructor.h src/h/callable.h src/h/type_hint.h
-obj/lang_python.o: src/h/access_type.h src/h/declarable.h src/h/member.h
-obj/lang_python.o: src/h/method.h src/h/design_pattern.h
-obj/lang_python.o: src/h/type_convertor.h src/h/io_functions.h
-obj/lang_python.o: src/h/string_functions.h
+obj/lang_python.o: src/h/constructor.h src/h/parameterized.h
+obj/lang_python.o: src/h/type_hint.h src/h/access_type.h src/h/accessible.h
+obj/lang_python.o: src/h/method.h src/h/class_component.h src/h/member.h
+obj/lang_python.o: src/h/design_pattern.h src/h/type_convertor.h
+obj/lang_python.o: src/h/io_functions.h src/h/string_functions.h
 obj/language.o: src/h/language.h src/h/class_def.h src/h/constructor.h
-obj/language.o: src/h/callable.h src/h/type_hint.h src/h/access_type.h
-obj/language.o: src/h/declarable.h src/h/member.h src/h/method.h
-obj/language.o: src/h/design_pattern.h
+obj/language.o: src/h/parameterized.h src/h/type_hint.h src/h/access_type.h
+obj/language.o: src/h/accessible.h src/h/method.h src/h/class_component.h
+obj/language.o: src/h/member.h src/h/design_pattern.h
 obj/language_factory.o: src/h/language_factory.h src/h/language.h
 obj/language_factory.o: src/h/class_def.h src/h/constructor.h
-obj/language_factory.o: src/h/callable.h src/h/type_hint.h
-obj/language_factory.o: src/h/access_type.h src/h/declarable.h src/h/member.h
-obj/language_factory.o: src/h/method.h src/h/design_pattern.h
-obj/language_factory.o: src/h/lang_cpp.h src/h/type_convertor.h
-obj/language_factory.o: src/h/lang_c.h src/h/lang_java.h src/h/lang_python.h
+obj/language_factory.o: src/h/parameterized.h src/h/type_hint.h
+obj/language_factory.o: src/h/access_type.h src/h/accessible.h src/h/method.h
+obj/language_factory.o: src/h/class_component.h src/h/member.h
+obj/language_factory.o: src/h/design_pattern.h src/h/lang_cpp.h
+obj/language_factory.o: src/h/type_convertor.h src/h/lang_c.h
+obj/language_factory.o: src/h/lang_java.h src/h/lang_python.h
 obj/lex.yy.o: src/h/token.h src/h/parser.h src/h/class_def.h
-obj/lex.yy.o: src/h/constructor.h src/h/callable.h src/h/type_hint.h
-obj/lex.yy.o: src/h/access_type.h src/h/declarable.h src/h/member.h
-obj/lex.yy.o: src/h/method.h src/h/design_pattern.h src/h/type_util.h
-obj/lex.yy.o: src/h/type.h src/h/version.h
+obj/lex.yy.o: src/h/constructor.h src/h/parameterized.h src/h/type_hint.h
+obj/lex.yy.o: src/h/access_type.h src/h/accessible.h src/h/method.h
+obj/lex.yy.o: src/h/class_component.h src/h/member.h src/h/design_pattern.h
+obj/lex.yy.o: src/h/type_util.h src/h/type.h src/h/version.h
 obj/member.o: src/h/member.h
-obj/method.o: src/h/method.h src/h/type_hint.h
+obj/method.o: src/h/method.h
+obj/parameterized.o: src/h/parameterized.h src/h/type_hint.h
+obj/parameterized.o: src/h/access_type.h
 obj/parser.o: src/h/parser.h src/h/class_def.h src/h/constructor.h
-obj/parser.o: src/h/callable.h src/h/type_hint.h src/h/access_type.h
-obj/parser.o: src/h/declarable.h src/h/member.h src/h/method.h
-obj/parser.o: src/h/design_pattern.h src/h/type_util.h src/h/type.h
-obj/parser.o: src/h/class_def.h src/h/method.h src/h/member.h src/h/token.h
-obj/parser.o: src/h/language.h src/h/language_factory.h src/h/language.h
-obj/parser.o: src/h/type_hint.h src/h/access_type.h src/h/validator.h
+obj/parser.o: src/h/parameterized.h src/h/type_hint.h src/h/access_type.h
+obj/parser.o: src/h/accessible.h src/h/method.h src/h/class_component.h
+obj/parser.o: src/h/member.h src/h/design_pattern.h src/h/type_util.h
+obj/parser.o: src/h/type.h src/h/class_def.h src/h/method.h src/h/member.h
+obj/parser.o: src/h/token.h src/h/language.h src/h/language_factory.h
+obj/parser.o: src/h/language.h src/h/type_hint.h src/h/access_type.h
+obj/parser.o: src/h/validator.h
 obj/string_functions.o: src/h/string_functions.h
 obj/type_convertor.o: src/h/type_convertor.h src/h/type_hint.h
 obj/type_convertor.o: src/h/string_functions.h
 obj/type_hint.o: src/h/type_hint.h
 obj/type_util.o: src/h/type_util.h src/h/type.h src/h/type.h
 obj/validator.o: src/h/validator.h src/h/class_def.h src/h/constructor.h
-obj/validator.o: src/h/callable.h src/h/type_hint.h src/h/access_type.h
-obj/validator.o: src/h/declarable.h src/h/member.h src/h/method.h
-obj/validator.o: src/h/design_pattern.h
+obj/validator.o: src/h/parameterized.h src/h/type_hint.h src/h/access_type.h
+obj/validator.o: src/h/accessible.h src/h/method.h src/h/class_component.h
+obj/validator.o: src/h/member.h src/h/design_pattern.h

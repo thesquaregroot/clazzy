@@ -47,8 +47,8 @@ namespace clazzy {
             void parse_parent(class_def&);
             void parse_action_list(class_def&);
             method parse_action();
-            void parse_parameters(callable * const);
-            void parse_parameter_list(callable * const);
+            void parse_parameters(parameterized * const);
+            void parse_parameter_list(parameterized * const);
             void parse_attribute_list(class_def&);
             void parse_attribute(class_def&);
             constructor parse_constructor();
@@ -56,7 +56,7 @@ namespace clazzy {
             type_hint parse_type_hint();
             std::vector<type_hint> parse_generic_type_list();
 
-            void print_arguments(callable * const) const;
+            void print_arguments(parameterized * const) const;
 
             bool is_access_type(const int) const;
             access_type get_access_type(const int) const;
