@@ -9,7 +9,6 @@ namespace clazzy {
     class member : public class_component {
         public:
             member(const type_hint &, const std::string &);
-            member(const member&) = default;
 
             std::string get_name() const;
             type_hint get_type() const;
@@ -20,13 +19,18 @@ namespace clazzy {
             bool has_setter() const;
             std::string get_setter_name() const;
             void set_setter(const bool, const std::string& = "");
-            bool has_get_set() const;        // True IFF both get && set
-            void set_get_set(const bool, const std::string& = "", const std::string& = "");   // Sets both get && set
+            // True IFF both getter and setter
+            bool has_get_set() const;
+            // sets both getter and setter
+            void set_get_set(const bool, const std::string& = "", const std::string& = "");
 
             bool is_initialized() const;
             void set_initialized(const bool);
 
         private:
+            void set_getter_name(const std::string&);
+            void set_setter_name(const std::string&);
+
             std::string _name;
             type_hint _type;
 

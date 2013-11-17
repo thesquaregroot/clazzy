@@ -15,7 +15,8 @@ namespace clazzy {
             };
 
             type_convertor() = default;
-            type_convertor(char gstart, char gend, case_conversion cc = NONE) : _generic_start(gstart),
+            type_convertor(char gstart, char gend, case_conversion cc = NONE) :
+                                                                        _generic_start(gstart),
                                                                         _generic_end(gend),
                                                                         _default_case(cc) {};
 

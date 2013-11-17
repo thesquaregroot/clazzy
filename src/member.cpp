@@ -6,7 +6,8 @@ using namespace std;
 
 // string _name
 // type_hint _type
-// bool _is_reference
+// string _getter_name
+// string _setter_name
 
 member::member(const type_hint &type, const string& name)
 {
@@ -29,14 +30,14 @@ bool member::has_get_set() const
         return (_getter_setter & _BOTH);
 }
 
-void member::set_get_set(bool val, const string &get_name, const string &set_name)
+void member::set_get_set(bool val, const string &getter_name, const string &setter_name)
 {
         if (val) {
-                _getter_setter |= _BOTH;
-                _getter_name = get_name;
-                _setter_name = set_name;
+                _getter_setter = _BOTH;
+                set_getter_name(getter_name);
+                set_setter_name(setter_name);
         } else {
-                _getter_setter &= _BOTH^0xFF;
+                _getter_setter = _NEITHER;
         }
 }
 
@@ -54,11 +55,7 @@ void member::set_getter(bool val, const string &name)
 {
         if (val) {
                 _getter_setter |= _GETTER;
-                if (name != "") {
-                        _getter_name = name;
-                } else {
-                        _setter_name = "get_" + _name;
-                }
+                set_getter_name(name);
         } else {
                 _getter_setter &= _GETTER^0xFF;
         }
@@ -78,11 +75,7 @@ void member::set_setter(bool val, const string &name)
 {
         if (val) {
                 _getter_setter |= _SETTER;
-                if (name != "") {
-                        _setter_name = name;
-                } else {
-                        _setter_name = "get_" + _name;
-                }
+                set_setter_name(name);
         } else {
                 _getter_setter &= _SETTER^0xFF;
         }
@@ -96,5 +89,23 @@ bool member::is_initialized() const
 void member::set_initialized(const bool val)
 {
         _is_initialized = val;
+}
+
+void member::set_getter_name(const string& name)
+{
+        if (name != "") {
+                _getter_name = name;
+        } else {
+                _getter_name = "get_" + _name;
+        }
+}
+
+void member::set_setter_name(const string& name)
+{
+        if (name != "") {
+                _setter_name = name;
+        } else {
+                _setter_name = "set_" + _name;
+        }
 }
 

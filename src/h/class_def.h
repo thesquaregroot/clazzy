@@ -46,6 +46,9 @@ namespace clazzy {
             void add_design_pattern(const design_pattern&);
             std::vector<design_pattern> get_design_patterns() const;
 
+            // the name of the parameter for a 'setter'
+            static const char * SETTER_PARAMETER_NAME;
+
         private:
             std::string _name;
             // stores constructors/destructors
