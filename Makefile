@@ -14,6 +14,9 @@ DEPEND_FILE = Makefile.depend
 .PHONY : makefiles
 all : generated_files makefiles $(EXE)
 
+install : $(EXE)
+	install clazzy /usr/bin/
+
 generated_files : $(GENERATED_FILES)
 makefiles : Makefile $(BUILD_FILE) $(DEPEND_FILE)
 
