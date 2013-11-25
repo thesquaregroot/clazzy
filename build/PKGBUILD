@@ -1,7 +1,6 @@
 # Maintainer: Andrew Groot <groot.andrew@gmail.com>
 pkgname=clazzy
-pkgver=0.1
-pkgsubver=alpha
+pkgver=0.1a
 pkgrel=1
 pkgdesc="Generate object oriented source code skeletons based on plaintext input."
 arch=('i686' 'x86_64')
@@ -18,16 +17,16 @@ backup=()
 options=()
 install=
 changelog=
-source=(http://clazzy.org/downloads/$pkgname-$pkgver-$pkgsubver.tar.gz)
+source=(http://clazzy.org/downloads/$pkgname-$pkgver.tar.gz)
 noextract=()
-md5sums=('35861e97d49db6d5260f5dff5cd5bbc2')
+md5sums=('e75057d5ebeaa151148dd24a509ddd2c')
 
 build() {
-  cd "$srcdir/$pkgname-$pkgver-$pkgsubver/"
+  cd "$srcdir/$pkgname-$pkgver/"
   make
 }
 
 package() {
-  cd "$srcdir/$pkgname-$pkgver-$pkgsubver/"
+  cd "$srcdir/$pkgname-$pkgver/"
   make install
 }
