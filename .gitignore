@@ -18,8 +18,5 @@ Makefile.bak
 # Executable
 clazzy
 
-clazzy_c/
-clazzy_cpp/
-clazzy_java/
-clazzy_python/
+clazzy_*/
 
