@@ -1,0 +1,19 @@
+
+-------------------------------------------------------------------------------
+ Building and Installing clazzy
+-------------------------------------------------------------------------------
+
+To install clazzy, ensure that you have a recent version of g++ (or a C++ 
+compiler with C++11 support) and the make utility.
+
+Run the following commands as root:
+
+    make
+    make install
+
+Alternatively, if you have makepkg available, you can simple use build/PKGBUILD
+to make and install clazzy:
+
+    cd build/
+    makepkg
+

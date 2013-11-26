@@ -1,6 +1,7 @@
-=================
+
+==============
  About Clazzy
-=================
+==============
 
 Clazzy is a code generation platform, which focuses on handling 
 class definition syntax for the user in a variety of programming langauges.
@@ -14,6 +15,28 @@ having to shift between language syntaxes for the boiler-plate class
 definitions.  This avoids typos between projects, prevents compile-time errors
 for simple syntax issues, and most importantly saves time.
 
+============
+ Installing
+============
+
+For instructions on building and installing clazzy, see the INSTALL file.
+
+Code-distribution-wise, you should theoretically be able to compile clazzy
+with recent versions of g++ and Gnu Make.  
+
+If you run into issues, or would like to do development on clazzy, you may
+need to install flex/flex++ and makedepend.  However, for simple edits, only
+g++ and make should be necessary.
+
+Clazzy is officially developed only in a GNU/Linux environment and portability
+is not guaranteed though the vast majority of the code base should be fairly
+portable.
+
+===========
+ Licensing
+===========
+
+For information on licensing and copying, see the file called LICENSE.
 
 ===============
  Functionality
@@ -36,24 +59,11 @@ For a more complete list of clazzy's features, see:
 
     http://wiki.clazzy.org/index.php/Feature_List
 
-===========
- Compiling
-===========
-
-Code-distribution-wise, you should theoretically be able to compile clazzy
-with recent versions of g++ and Gnu Make.  
-
-If you run into issues, or would like to do development on clazzy, you may
-need to install flex/flex++ and makedepend.  However, for simple edits, only
-g++ and make should be necessary.
-
-Clazzy is officially developed only in a GNU/Linux environment and portability
-is not guaranteed, though the vast majority of the code base should be fairly
-portable.
-
 =========
  Classes
 =========
+
+All source files can be found in the src/ and src/h/ directories.
 
 ------------------
  Input Processing
@@ -246,4 +256,14 @@ type-hint:  IDENTIFIER "<" generic-type-list ">"
 
 generic-type-list:  type-hint "," generic-type-list
                 |   type-hint
+
+==========
+ Contacts
+==========
+
+For bug reporting, or any other correspondence, use one of the following vectors:
+
+    - GitHub:       https://github.com/thesquaregroot/clazzy
+    - Clazzy Wiki:  https://wiki.clazzy.org/index.php/Main_Page
+    - Email:        Andrew Groot <andrew@clazzy.org>
 
