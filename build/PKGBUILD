@@ -19,7 +19,7 @@ install=
 changelog=
 source=(http://clazzy.org/downloads/$pkgname-$pkgver.tar.gz)
 noextract=()
-md5sums=('e75057d5ebeaa151148dd24a509ddd2c')
+md5sums=('SKIP')
 
 build() {
   cd "$srcdir/$pkgname-$pkgver/"
