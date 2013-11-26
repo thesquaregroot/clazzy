@@ -15,7 +15,7 @@ DEPEND_FILE = Makefile.depend
 all : generated_files makefiles $(EXE)
 
 install : $(EXE)
-	install clazzy /usr/bin/
+	install clazzy ${DESTDIR}/usr/bin/clazzy
 
 generated_files : $(GENERATED_FILES)
 makefiles : Makefile $(BUILD_FILE) $(DEPEND_FILE)
