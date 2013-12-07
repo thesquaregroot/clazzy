@@ -23,7 +23,7 @@ string lang_python::get_name() const
 
 void lang_python::initialize()
 {
-        types = type_convertor(static_cast<char>(0), static_cast<char>(0), type_convertor::NONE);
+        types = type_convertor('\0', '\0', type_convertor::NONE);
         types.add_type("byte", "");
         types.add_type("short", "");
         types.add_type("integer", "");

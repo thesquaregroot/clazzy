@@ -40,7 +40,7 @@ string type_convertor::convert_with_case(const type_hint &in_type, case_conversi
         } else {
                 out_type = it->second;
         }
-        if (_generic_start != 0 && _generic_end != 0) {
+        if (_generic_start != '\0' && _generic_end != '\0') {
                 // actually need to print generics
                 vector<type_hint> generics = in_type.get_generic_types();
                 if (generics.size() > 0) {
