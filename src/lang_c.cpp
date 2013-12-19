@@ -25,17 +25,17 @@ string lang_c::get_name() const
 
 void lang_c::initialize()
 {
-        // TODO: create mappings and add any additional
-        types.add_type("byte", "");
-        types.add_type("short", "");
-        types.add_type("integer", "");
-        types.add_type("long", "");
-        types.add_type("character", "");
-        types.add_type("string", "");
-        types.add_type("float", "");
-        types.add_type("double", "");
-        types.add_type("boolean", "");
-        types.add_type("void", "");
+        // create mappings and add any additional
+        types.add_type("byte", "char");
+        types.add_type("short", "short");
+        types.add_type("integer", "int");
+        types.add_type("long", "long");
+        types.add_type("character", "char");
+        types.add_type("string", "char *");
+        types.add_type("float", "float");
+        types.add_type("double", "double");
+        types.add_type("boolean", "bool");
+        types.add_type("void", "void");
         // container types
         types.add_type("array", "");
         types.add_type("deque", "");
