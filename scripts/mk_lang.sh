@@ -31,7 +31,7 @@ echo >> $header_file
 echo "namespace clazzy {" >> $header_file
 echo "    class ${class_name} : public language {" >> $header_file
 echo "        public:" >> $header_file
-echo "            ${class_name}(std::mutex *io, bool debug) : language(io, debug) { initialize(); }" >> $header_file
+echo "            ${class_name}(std::mutex *io, bool debug_enabled) : language(io, debug_enabled) { initialize(); }" >> $header_file
 echo >> $header_file
 echo "            std::string get_name() const;" >> $header_file
 echo "            void create(" >> $header_file
