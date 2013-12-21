@@ -48,8 +48,8 @@ void lang_c::initialize()
 }
 
 void lang_c::create(
-                        const vector<class_def> &classes,
-                        const map<string,string> &properties
+                        const vector<class_def>& /* classes: not yet used */,
+                        const map<string,string>& /* properties: not used */
         ) const
 {
         // TODO: Implement code generation

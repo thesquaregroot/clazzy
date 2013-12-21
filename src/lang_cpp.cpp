@@ -235,8 +235,8 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
 }
 
 void lang_cpp::create(
-                        const vector<class_def> &classes,
-                        const map<string,string> &properties
+                        const vector<class_def>& classes,
+                        const map<string,string>& /* properties: not used */
         ) const
 {
         for (class_def c : classes) {

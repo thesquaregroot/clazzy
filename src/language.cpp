@@ -15,9 +15,9 @@ const char language::TWO_SPACES[] = "  ";
 const char language::FOUR_SPACES[] = "    ";
 const char language::EIGHT_SPACES[] = "        ";
 
-language::language(mutex *io, bool debug) {
+language::language(mutex *io, bool debug_enabled) {
         _io_mutex = io;
-        _debug_enabled = debug;
+        _debug_enabled = debug_enabled;
 }
 
 void language::debug(const string &s) const {

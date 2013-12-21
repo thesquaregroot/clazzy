@@ -27,14 +27,15 @@ string type_convertor::convert_with_case(const type_hint &in_type, case_conversi
         if (it == _mappings.end()) {
                 // could not find type, use given clazzy type
                 switch (cc) {
-                case NONE:
-                        out_type = in_type.get_base_type();
-                        break;
                 case LOWER:
                         out_type = to_lower_case(in_type.get_base_type());
                         break;
                 case CAMEL:
                         out_type = to_full_camel_case(in_type.get_base_type());
+                        break;
+                case NONE:
+                        // default to NONE
+                        out_type = in_type.get_base_type();
                         break;
                 }
         } else {

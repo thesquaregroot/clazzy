@@ -46,8 +46,8 @@ void lang_python::initialize()
 }
 
 void lang_python::create(
-                        const vector<class_def> &classes,
-                        const map<string,string> &properties
+                        const vector<class_def>& classes,
+                        const map<string,string>& /* properties: not used */
         ) const
 {
         // create directory

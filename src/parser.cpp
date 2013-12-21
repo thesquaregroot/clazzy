@@ -42,9 +42,9 @@ parser::~parser()
         }
 }
 
-void parser::set_debug(bool debug)
+void parser::set_debug(bool debug_enabled)
 {
-        _debug_enabled = debug;
+        _debug_enabled = debug_enabled;
 }
 
 void parser::parse()
@@ -179,7 +179,6 @@ void parser::parse()
                 // additional newline
                 cout << endl;
         }
-        
         // validate
         validator v;
         string errors = v.validate(_classes);
@@ -191,13 +190,13 @@ void parser::parse()
 }
 
 // for threading langauge implementation of paser::write()
-// not a member method
-void write_langauge(
+// private static method
+void parser::write_langauge(
                         const language *lang,
                         const vector<class_def> &classes,
                         const map<string, string> &properties,
                         mutex *io_mutex
-        )        
+        )
 {
         io_mutex->lock();
         cout << "Writing " << lang->get_name() << " code..." << endl;
