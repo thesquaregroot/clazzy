@@ -29,13 +29,8 @@ and features.
 
 Dependencies
 ------------
-Clazzy is written in C++11 and has no external dependancies. Some of 
-the code is generated with flex++, a lexical analyser, but the generated 
-code should compile with any C++11 compiler.
+Clazzy is written in C++11 and depends upon flex (or flex++) for lexical
+analysis and cmake for its build process.
 
-Though the Makefile used is fairly general, the build process is still 
-somewhat geared more for a UNIX-based system, and only officially tested 
-in a GNU/Linux environment.
-
-Clazzy also makes use of makedepend for class dependancy tracking.
+For more information see the README file.
 
