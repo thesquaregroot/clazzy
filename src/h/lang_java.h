@@ -11,7 +11,7 @@
 namespace clazzy {
     class lang_java : public language {
         public:
-            lang_java(std::mutex *io, bool debug) : language(io, debug) { initialize(); }
+            lang_java(std::mutex *io, bool debug_enabled) : language(io, debug_enabled) { initialize(); }
 
             std::string get_name() const override;
             void create(

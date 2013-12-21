@@ -27,20 +27,21 @@ string type_convertor::convert_with_case(const type_hint &in_type, case_conversi
         if (it == _mappings.end()) {
                 // could not find type, use given clazzy type
                 switch (cc) {
-                case NONE:
-                        out_type = in_type.get_base_type();
-                        break;
                 case LOWER:
                         out_type = to_lower_case(in_type.get_base_type());
                         break;
                 case CAMEL:
                         out_type = to_full_camel_case(in_type.get_base_type());
                         break;
+                case NONE:
+                        // default to NONE
+                        out_type = in_type.get_base_type();
+                        break;
                 }
         } else {
                 out_type = it->second;
         }
-        if (_generic_start != 0 && _generic_end != 0) {
+        if (_generic_start != '\0' && _generic_end != '\0') {
                 // actually need to print generics
                 vector<type_hint> generics = in_type.get_generic_types();
                 if (generics.size() > 0) {

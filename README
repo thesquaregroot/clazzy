@@ -21,16 +21,16 @@ for simple syntax issues, and most importantly saves time.
 
 For instructions on building and installing clazzy, see the INSTALL file.
 
-Code-distribution-wise, you should theoretically be able to compile clazzy
-with recent versions of g++ and Gnu Make.  
+The following dependencies are required to compile clazzy:
 
-If you run into issues, or would like to do development on clazzy, you may
-need to install flex/flex++ and makedepend.  However, for simple edits, only
-g++ and make should be necessary.
+    cmake
+    flex (or flex++)
+    gnu make or some other cmake-supported build tool
 
 Clazzy is officially developed only in a GNU/Linux environment and portability
-is not guaranteed though the vast majority of the code base should be fairly
-portable.
+is not guaranteed.  However, due to the portability provided by cmake and my
+best attempts at making the code portable, the vast majority of the code base
+should at least be condusive to porting to another system.
 
 ===========
  Licensing
@@ -72,7 +72,7 @@ All source files can be found in the src/ and src/h/ directories.
 parser:
     Implements functions corresponding to the grammar rules below (in 
     recusive descent fashion) that uses FlexParser to read input.
-    
+
     Contains a vector of class-def's and an array of languages it will 
     generate.
 

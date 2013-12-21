@@ -20,7 +20,7 @@ namespace clazzy {
         public:
             parser(FlexLexer *lexer);
             ~parser();
-            
+
             void set_debug(bool);
             void parse();
             void write() const;
@@ -34,7 +34,7 @@ namespace clazzy {
             std::map<std::string, std::string>  _properties;
             std::mutex                          *_io_mutex;
             type_util                           _types;
-            
+
             void next_token(bool exit_on_eof = true);
             std::string token_text() const;
 
@@ -56,11 +56,16 @@ namespace clazzy {
             type_hint parse_type_hint();
             std::vector<type_hint> parse_generic_type_list();
 
+            static void write_langauge(const language*,
+                                        const std::vector<class_def>&,
+                                        const std::map<std::string, std::string>&,
+                                        std::mutex *io_mutex);
+
             void print_arguments(parameterized * const) const;
 
             bool is_access_type(const int) const;
             access_type get_access_type(const int) const;
-            
+
             void debug(std::string) const;
             void error(std::string) const;
     };
