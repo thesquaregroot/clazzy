@@ -22,6 +22,11 @@ string lang_c::get_name() const
         return "C";
 }
 
+string lang_c::get_simple_name() const
+{
+        return "c";
+}
+
 void lang_c::initialize()
 {
         // create mappings and add any additional

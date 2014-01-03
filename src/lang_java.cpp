@@ -43,6 +43,11 @@ string lang_java::get_name() const
         return "Java";
 }
 
+string lang_java::get_simple_name() const
+{
+        return "java";
+}
+
 void lang_java::create(
                         const vector<class_def> &classes,
                         const map<string,string> &properties

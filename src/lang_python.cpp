@@ -21,6 +21,11 @@ string lang_python::get_name() const
         return "Python";
 }
 
+string lang_python::get_simple_name() const
+{
+        return "python";
+}
+
 void lang_python::initialize()
 {
         types = type_convertor(static_cast<char>(0), static_cast<char>(0), type_convertor::NONE);

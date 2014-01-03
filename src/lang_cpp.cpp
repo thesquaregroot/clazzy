@@ -48,6 +48,11 @@ string lang_cpp::get_name() const
         return "C++";
 }
 
+string lang_cpp::get_simple_name() const
+{
+        return "cpp";
+}
+
 string lang_cpp::write_header(string base_dir, class_def &c) const
 {
         string header_dir = base_dir + "h/";

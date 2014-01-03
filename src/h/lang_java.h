@@ -14,6 +14,7 @@ namespace clazzy {
             lang_java(std::mutex *io, bool debug) : language(io, debug) { initialize(); }
 
             std::string get_name() const override;
+            std::string get_simple_name() const override;
             void create(
                         const std::vector<class_def>&,
                         const std::map<std::string,std::string>&

@@ -35,7 +35,7 @@ void lang_c_style::create(
                 }
                 // create file
                 debug("Creating code for class: " + c.get_name());
-                string base_dir = "./clazzy_" + get_name() + "/";
+                string base_dir = "./clazzy_" + get_simple_name() + "/";
                 if (!chk_mkdir(base_dir)) {
                         error("Could not create directory: " + base_dir);
                 }

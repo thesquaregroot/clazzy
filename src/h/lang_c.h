@@ -14,16 +14,17 @@ namespace clazzy {
             lang_c(std::mutex* io, bool debug) : lang_c_style(io, debug) { initialize(); }
 
             std::string get_name() const override;
+            std::string get_simple_name() const override;
 
         protected:
             // returns the path a cpp file can use to include this class
             virtual std::string write_header(std::string /* base directory */, class_def&) const override;
             virtual void write_source(std::string /* base directory */, class_def&, std::string /* header path */) const override;
 
-            static std::map<access_type, std::string> access_prefixes;
-
         private:
             void initialize();
+
+            static std::map<access_type, std::string> access_prefixes;
     };
 }
 

@@ -33,7 +33,8 @@ echo "    class ${class_name} : public language {" >> $header_file
 echo "        public:" >> $header_file
 echo "            ${class_name}(std::mutex *io, bool debug) : language(io, debug) { initialize(); }" >> $header_file
 echo >> $header_file
-echo "            std::string get_name() const;" >> $header_file
+echo "            std::string get_name() const override;" >> $header_file
+echo "            std::string get_simple_name() const override;" >> $header_file
 echo "            void create(" >> $header_file
 echo "                        const std::vector<class_def>&," >> $header_file
 echo "                        const std::map<std::string,std::string>&" >> $header_file
@@ -43,7 +44,7 @@ echo "        private:" >> $header_file
 echo "            void initialize();" >> $header_file
 echo >> $header_file
 echo "            static std::map<access_type,std::string> access_prefixes;" >> $header_file
-echo "            type_convertor types;" >> $header_file
+echo >> $header_file
 echo "    };" >> $header_file
 echo "}" >> $header_file
 echo >> $header_file
@@ -73,6 +74,11 @@ echo >> $code_file
 echo "string ${class_name}::get_name() const" >> $code_file
 echo "{" >> $code_file
 echo "        return \"${language}\";" >> $code_file
+echo "}" >> $code_file
+echo >> $code_file
+echo "string ${class_name}::get_simple_name() const" >> $code_file
+echo "{" >> $code_file
+echo "        return \"${code_name}\";" >> $code_file
 echo "}" >> $code_file
 echo >> $code_file
 echo "void ${class_name}::initialize()" >> $code_file

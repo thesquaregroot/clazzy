@@ -15,6 +15,7 @@ namespace clazzy {
             virtual ~language() {}
 
             virtual std::string get_name() const = 0;
+            virtual std::string get_simple_name() const = 0;
             virtual void create(
                                 const std::vector<class_def>&,
                                 const std::map<std::string,std::string>&
