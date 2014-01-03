@@ -11,7 +11,6 @@ using namespace clazzy;
 using namespace std;
 
 map<access_type,string> lang_c::access_prefixes = {
-        // TODO: create mappings
         {VISIBLE_ACCESS, ""},
         {HIDDEN_ACCESS, ""},
         {CHILD_VISIBLE_ACCESS, ""},
@@ -47,11 +46,12 @@ void lang_c::initialize()
         types.add_type("pointer", "");
 }
 
-void lang_c::create(
-                        const vector<class_def> &classes,
-                        const map<string,string> &properties
-        ) const
+string lang_c::write_header(string base_dir, class_def &c) const
 {
-        // TODO: Implement code generation
+        
 }
 
+void lang_c::write_source(string base_dir, class_def &c, string header_file) const
+{
+        
+}

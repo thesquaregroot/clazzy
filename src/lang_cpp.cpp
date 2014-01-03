@@ -177,7 +177,7 @@ string lang_cpp::write_header(string base_dir, class_def &c) const
         return include_path;
 }
 
-void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) const
+void lang_cpp::write_source(string base_dir, class_def &c, string header_file) const
 {
         string path = base_dir + c.get_name() + ".cpp";
         ofstream out;
@@ -234,47 +234,4 @@ void lang_cpp::write_cpp(string base_dir, class_def &c, string header_file) cons
         }
 }
 
-void lang_cpp::create(
-                        const vector<class_def> &classes,
-                        const map<string,string> &properties
-        ) const
-{
-        for (class_def c : classes) {
-                for (design_pattern dp : c.get_design_patterns()) {
-                        if (dp == SINGLETON) {
-                                // create member
-                                member mem(type_hint(c.get_name()), "_instance");
-                                mem.set_getter(true, "get_instance");
-                                mem.set_static(true);
-                                mem.set_initialized(true);
-                                c.add_member(mem);
-                                // create private constructor
-                                constructor ctor;
-                                ctor.set_visibility(HIDDEN_ACCESS);
-                                c.add_constructor(ctor);
-                        }
-                }
-                // create file
-                debug("Creating code for class: " + c.get_name());
-                string base_dir = "./clazzy_cpp/";
-                if (!chk_mkdir(base_dir)) {
-                        error("Could not create directory: " + base_dir);
-                }
-                string header_name = write_header(base_dir, c);
-                write_cpp(base_dir, c, header_name);
-        }
-}
-
-void lang_cpp::print_parameters(ofstream &out, parameterized * const p) const
-{
-        map<string,type_hint> params = p->get_parameters();
-        for (auto param_it = params.cbegin(); param_it != params.cend(); param_it++) {
-                // TODO: parameter modifiers
-                // map string -> type_hint
-                out << types.convert(param_it->second) << " " << param_it->first;
-                if (param_it != --params.cend()) {
-                        out << ", ";
-                }
-        }
-}
 
