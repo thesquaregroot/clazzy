@@ -1,7 +1,7 @@
 
-#include "h/lang_python.h"
-#include "h/io_functions.h"
-#include "h/string_functions.h"
+#include "lang_python.h"
+#include "io_functions.h"
+#include "string_functions.h"
 #include <vector>
 #include <map>
 #include <string>

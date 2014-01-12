@@ -1,11 +1,11 @@
 %{
+#include "clazzy.h"
+#include "token.h"
+#include "parser.h"
+#include "version.h"
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
-#include "h/token.h"
-#include "h/parser.h"
-#include "h/version.h"
-#include "h/clazzy.h"
 using namespace clazzy;
 using namespace std;
 %}

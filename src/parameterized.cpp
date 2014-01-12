@@ -1,4 +1,5 @@
-#include "h/parameterized.h"
+
+#include "parameterized.h"
 using namespace clazzy;
 using namespace std;
 

@@ -1,15 +1,15 @@
 
 // for parsing
-#include "h/parser.h"
-#include "h/class_def.h"
-#include "h/method.h"
-#include "h/member.h"
-#include "h/token.h"
-#include "h/language.h"
-#include "h/language_factory.h"
-#include "h/type_hint.h"
-#include "h/access_type.h"
-#include "h/validator.h"
+#include "parser.h"
+#include "class_def.h"
+#include "method.h"
+#include "member.h"
+#include "token.h"
+#include "language.h"
+#include "language_factory.h"
+#include "type_hint.h"
+#include "access_type.h"
+#include "validator.h"
 // system headers
 #include <FlexLexer.h>
 #include <vector>

@@ -1,6 +1,6 @@
 
-#include "h/type_util.h"
-#include "h/type.h"
+#include "type_util.h"
+#include "type.h"
 using namespace clazzy;
 using namespace std;
 

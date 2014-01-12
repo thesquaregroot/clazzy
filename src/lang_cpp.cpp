@@ -1,9 +1,9 @@
 
-#include "h/lang_cpp.h"
-#include "h/class_def.h"
-#include "h/method.h"
-#include "h/member.h"
-#include "h/io_functions.h"
+#include "lang_cpp.h"
+#include "class_def.h"
+#include "method.h"
+#include "member.h"
+#include "io_functions.h"
 #include <unordered_set>
 #include <vector>
 #include <map>

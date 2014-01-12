@@ -1,5 +1,5 @@
 
-#include "h/type_hint.h"
+#include "type_hint.h"
 using namespace clazzy;
 using namespace std;
 

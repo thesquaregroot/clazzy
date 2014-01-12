@@ -1,5 +1,5 @@
 
-#include "h/string_functions.h"
+#include "string_functions.h"
 #include <cctype>
 using namespace std;
 

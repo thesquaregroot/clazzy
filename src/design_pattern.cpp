@@ -1,5 +1,5 @@
 
-#include "h/design_pattern.h"
+#include "design_pattern.h"
 using namespace clazzy;
 using namespace std;
 

@@ -1,5 +1,5 @@
 
-#include "h/method.h"
+#include "method.h"
 #include <map>
 #include <string>
 using namespace clazzy;

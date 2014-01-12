@@ -3,11 +3,11 @@
 // DO NOT ADD NEW LANGUAGES HERE - USE mk_lang.sh
 //
 
-#include "h/language_factory.h"
-#include "h/lang_cpp.h"
-#include "h/lang_c.h"
-#include "h/lang_java.h"
-#include "h/lang_python.h"
+#include "language_factory.h"
+#include "lang_cpp.h"
+#include "lang_c.h"
+#include "lang_java.h"
+#include "lang_python.h"
 // ### Language Includes ###
 using namespace clazzy;
 using namespace std;

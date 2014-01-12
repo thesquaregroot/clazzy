@@ -1,5 +1,5 @@
 
-#include "h/class_component.h"
+#include "class_component.h"
 using namespace clazzy;
 using namespace std;
 

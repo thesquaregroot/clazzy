@@ -1,8 +1,8 @@
 
-#include "h/lang_c.h"
-#include "h/class_def.h"
-#include "h/method.h"
-#include "h/member.h"
+#include "lang_c.h"
+#include "class_def.h"
+#include "method.h"
+#include "member.h"
 #include <vector>
 #include <map>
 #include <string>

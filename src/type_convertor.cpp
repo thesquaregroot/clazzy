@@ -1,6 +1,6 @@
 
-#include "h/type_convertor.h"
-#include "h/string_functions.h"
+#include "type_convertor.h"
+#include "string_functions.h"
 #include <unordered_set>
 using namespace clazzy;
 using namespace std;
