@@ -1,0 +1,43 @@
+
+.TH clazzy 1 "July 2014" Linux "User Manuals"
+.SH NAME
+clazzy \- Object-oriented source code generator
+.SH SYNOPSIS
+.SY clazzy
+.B \-\-help
+.
+.SY clazzy
+.B \-\-version
+.
+.SY clazzy
+.OP \-\-debug
+.OP \-\-c
+.OP \-\-cpp
+.OP \-\-java
+.OP \-\-python
+.RI [ input_file ...]
+.SH DESCRIPTION
+.B clazzy
+generates shells of object-oriented source code based on a near-english description of the design.
+The descriptions are meant to be programming langauge agnostic so that one or more output languages
+can be selected at run-time.
+.PP
+The generated source code should contain all the necessary components aside from method
+implementations, which will be filled in with "TODO" comments.  Any necessary or inferrable
+references (e.g. 'import' or 'include' statements) will be included in the source code and all
+efforts will be made to conform to the most prevalent coding standards of each output language,
+including capitalization, whitespace, and file naming.
+.PP
+By default, input will be read from stdout.  If one or more input files are specified they will be
+parsed and used to generate source-code in all of the specified languages.
+.SH OPTIONS
+.TP
+.BR \-\-help
+Prints usage information.
+.TP
+.B \-\-version
+Prints version and licensing information.
+.TP
+.B \-\-debug
+Enables debug for the duration of execution.
+
