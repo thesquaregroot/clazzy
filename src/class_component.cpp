@@ -8,21 +8,21 @@ using namespace std;
 
 bool class_component::is_static() const
 {
-        return _is_static;
+    return _is_static;
 }
 
 void class_component::set_static(const bool val)
 {
-        _is_static = val;
+    _is_static = val;
 }
 
 bool class_component::is_read_only() const
 {
-        return _is_read_only;
+    return _is_read_only;
 }
 
 void class_component::set_read_only(const bool val)
 {
-        _is_read_only = val;
+    _is_read_only = val;
 }
 

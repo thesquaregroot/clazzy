@@ -76,17 +76,23 @@ void print_usage(char *arg0)
 {
     cout << "Usage: " << arg0 << " --version" << endl;
     cout << "       " << arg0 << " --help" << endl;
-    cout << "       " << arg0 << " [--debug] [input-file]" << endl;
+    cout << "       " << arg0 << " [--c --cpp --java --python] [--debug] [input-file]" << endl;
     cout << endl;
     cout << "  --version    Display the version of clazzy" << endl;
     cout << "  --help       Display this help text" << endl;
     cout << "  --debug      Enables verbose output" << endl;
+    cout << endl;
+    cout << "  --c          Generates C output" << endl;
+    cout << "  --cpp        Generates C++ output" << endl;
+    cout << "  --java       Generates Java output" << endl;
+    cout << "  --python     Generates Python output" << endl;
 }
 
 int main(int argc, char** argv)
 {
     char *input = 0;
     bool debug = false;
+    int languages = 0;
 
     for (int i=1; i<argc; i++) {
         // get argument
@@ -95,6 +101,14 @@ int main(int argc, char** argv)
             // some sort of option
             if (strcmp(arg, "--debug") == 0) {
                 debug = true;
+            } else if (strcmp(arg, "--c") == 0) {
+                languages |= parser::LANG_C;
+            } else if (strcmp(arg, "--cpp") == 0) {
+                languages |= parser::LANG_CPP;
+            } else if (strcmp(arg, "--java") == 0) {
+                languages |= parser::LANG_JAVA;
+            } else if (strcmp(arg, "--python") == 0) {
+                languages |= parser::LANG_PYTHON;
             } else if (strcmp(arg, "--version") == 0) {
                 print_version();
                 exit(0);
@@ -128,6 +142,6 @@ int main(int argc, char** argv)
 
     p->set_debug(debug);
     p->parse();
-    p->write();
+    p->write(languages);
 }
 

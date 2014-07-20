@@ -16,27 +16,27 @@ const char language::FOUR_SPACES[] = "    ";
 const char language::EIGHT_SPACES[] = "        ";
 
 language::language(mutex *io, bool debug_enabled) {
-        _io_mutex = io;
-        _debug_enabled = debug_enabled;
+    _io_mutex = io;
+    _debug_enabled = debug_enabled;
 }
 
 void language::debug(const string &s) const {
-        if (_debug_enabled) {
-                _io_mutex->lock();
-                cout << "[DEBUG:" << this->get_name() << "] " << s << endl;
-                _io_mutex->unlock();
-        }
+    if (_debug_enabled) {
+        _io_mutex->lock();
+        cout << "[DEBUG:" << this->get_name() << "] " << s << endl;
+        _io_mutex->unlock();
+    }
 }
 
 void language::warn(const string &s) const {
-        _io_mutex->lock();
-        cout << "[WARN:" << this->get_name() << "] " << s << endl;
-        _io_mutex->unlock();
+    _io_mutex->lock();
+    cout << "[WARN:" << this->get_name() << "] " << s << endl;
+    _io_mutex->unlock();
 }
 
 void language::error(const string &s) const {
-        _io_mutex->lock();
-        cerr << "[ERROR:" << this->get_name() << "] " << s << endl;
-        _io_mutex->unlock();
+    _io_mutex->lock();
+    cerr << "[ERROR:" << this->get_name() << "] " << s << endl;
+    _io_mutex->unlock();
 }
 
