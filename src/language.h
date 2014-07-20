@@ -11,7 +11,7 @@
 namespace clazzy {
     class language {
         public:
-            language(std::mutex*, bool = false);
+            language(std::mutex*, bool debug = false);
             virtual ~language() {}
 
             virtual std::string get_name() const = 0;

@@ -1,5 +1,6 @@
 #!/bin/bash
 
-rm -r build/
-rm -r clazzy_*/
+rm -rf build/
+rm -rf clazzy_*/
+rm -f clazzy
 

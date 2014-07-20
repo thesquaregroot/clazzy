@@ -18,19 +18,23 @@ namespace clazzy {
 
     class parser {
         public:
+            static const unsigned int LANG_C;
+            static const unsigned int LANG_CPP;
+            static const unsigned int LANG_JAVA;
+            static const unsigned int LANG_PYTHON;
+
             parser(FlexLexer *lexer);
             ~parser();
 
             void set_debug(bool);
             void parse();
-            void write() const;
+            void write(unsigned int languages) const;
 
         private:
             bool                                _debug_enabled = false;
             int                                 _lookahead;
             FlexLexer                           *_lex;
             std::vector<class_def>              _classes;
-            std::vector<language*>              _langs;
             std::map<std::string, std::string>  _properties;
             std::mutex                          *_io_mutex;
             type_util                           _types;

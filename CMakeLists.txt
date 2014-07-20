@@ -10,7 +10,6 @@ add_executable(clazzy ${SRC_DIR}/clazzy.cpp ${SRCS})
 
 # flex
 find_package(FLEX REQUIRED)
-set(LIBRARIES ${LIBRARIES} ${FLEX_LIBRARIES})
 flex_target(ClazzyScanner ${SRC_DIR}/clazzy.lex ${SRC_DIR}/clazzy.cpp COMPILE_FLAGS -+)
 
 # threading

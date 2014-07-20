@@ -6,11 +6,11 @@ using namespace std;
 
 void accessible::set_visibility(const access_type visibility)
 {
-        _visibility = visibility;
+    _visibility = visibility;
 }
 
 access_type accessible::get_visibility() const
 {
-        return _visibility;
+    return _visibility;
 }
 
