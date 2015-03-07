@@ -6,7 +6,7 @@ project(libclazzy)
 # get all source files
 set(SRC_DIR "${PROJECT_SOURCE_DIR}/libclazzy")
 file(GLOB SRCS ${SRC_DIR}/*.cpp)
-add_library(libclazzy.a OBJECT ${SRCS})
+add_library(clazzy STATIC ${SRCS})
 
 # C++11
 set(CMAKE_CXX_FLAGS -std=c++11)

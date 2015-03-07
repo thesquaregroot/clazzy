@@ -83,6 +83,7 @@ translated as a part of language implementations:
         - queue
         - set
         - stack
+        - user defined
     - Primitive Types:
         - boolean
         - byte
@@ -167,13 +168,14 @@ Default values should only apply to primitive types and should abide by standard
 representations of such values (e.g. 1, 589, "test").  '"null"' would denote a
 string value, while 'null' (no quotes) would denotes a null pointer/reference.
 
-=======
- Types
-=======
+=========================
+ Types & Design Patterns
+=========================
 
 Generic Types:
     "array", "deque", "list", "set",
-    "stack", "queue", "map", "pointer" 
+    "stack", "queue", "map", "pointer",
+    "user_defined"
 
 Primitive Types:
     "byte", "short", "integer", "long",

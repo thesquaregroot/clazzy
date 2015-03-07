@@ -1,6 +1,7 @@
 
 #include "string_helpers.h"
 #include <cctype>
+using namespace clazzy;
 using namespace std;
 
 string clazzy::to_lower_case(const string& text) {

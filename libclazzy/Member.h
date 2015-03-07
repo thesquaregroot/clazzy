@@ -9,7 +9,7 @@ namespace clazzy {
 
     class Member {
     public:
-        Member(const std::string& name);
+        Member(const Type& type, const std::string& name);
 
         //// High Level Definition
         std::string get_name() const;
@@ -20,7 +20,7 @@ namespace clazzy {
         void set_static(bool);
 
         bool is_read_only() const;
-        void set_read_only();
+        void set_read_only(bool);
 
         bool is_final() const;
         void set_final(bool);
@@ -40,14 +40,14 @@ namespace clazzy {
         void        set_doc_detail(const std::string&);
 
     private:
-        std::string             _name;
-        bool                    _is_static;
-        bool                    _is_read_only;
-        bool                    _is_final;
-        AccessLevel             _access_level;
-        Type                    _type;
-        std::string             _doc_short;
-        std::string             _doc_detail;
+        std::string _name;
+        bool        _is_static;
+        bool        _is_read_only;
+        bool        _is_final;
+        AccessLevel _access_level;
+        Type        _type;
+        std::string _doc_short;
+        std::string _doc_detail;
     };
 
 }

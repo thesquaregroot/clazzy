@@ -1,18 +1,22 @@
 
 #include "io_helpers.h"
 #include <sys/stat.h>
+using namespace clazzy;
 using namespace std;
 
-bool clazzy::write(std::vector<Class> classes, const std::string& file, bool overwrite = true) {
+bool clazzy::write(vector<Class> classes, const string& file, bool overwrite) {
     // TODO: implement
+    return true;
 }
 
-vector<Class> clazzy::read(const std::string& file) {
+vector<Class> clazzy::read(const string& file) {
     // TODO: implement
+    vector<Class> classes;
+    return classes;
 }
 
 
-bool clazzy::chk_mkdir(const string &dir_name)
+bool clazzy::chk_mkdir(const string& dir_name)
 {
     struct stat sb;
     if (stat(dir_name.c_str(), &sb) != 0 && !S_ISDIR(sb.st_mode)) {
@@ -22,7 +26,7 @@ bool clazzy::chk_mkdir(const string &dir_name)
     }
 }
 
-bool clazzy::open_file(const string &path, ofstream &out, const string &comment_chars)
+bool clazzy::open_file(const string& path, ofstream& out, const string& comment_chars)
 {
     out.open(path);
     if (!out.is_open()) {

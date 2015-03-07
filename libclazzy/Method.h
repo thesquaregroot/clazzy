@@ -24,7 +24,7 @@ namespace clazzy {
         void set_static(bool);
 
         bool is_read_only() const;
-        void set_read_only();
+        void set_read_only(bool);
 
         bool is_final() const;
         void set_final(bool);

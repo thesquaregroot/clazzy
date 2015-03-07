@@ -62,16 +62,16 @@ namespace clazzy {
 
     private:
         std::string                 _name;
-        std::vector<Type>           _parents = new std::vector<Type>();
-        std::vector<DesignPattern>  _design_patterns = new std::vector<DesignPattern>();
+        std::vector<Type>           _parents;
+        std::vector<DesignPattern>  _design_patterns;
         bool                        _is_final = false;
-        AccessLevel                 _access_level = AccessLevel.PUBLIC;
-        std::string                 _namespace = "";
-        std::string                 _package = "";
-        std::vector<Method>         _methods = new std::vector<Method>();
-        std::vector<Member>         _members = new std::vector<Member>();
-        std::string                 _doc_short = "";
-        std::string                 _doc_detail = "";
+        AccessLevel                 _access_level = AccessLevel::PUBLIC;
+        std::string                 _namespace;
+        std::string                 _package;
+        std::vector<Method>         _methods;
+        std::vector<Member>         _members;
+        std::string                 _doc_short;
+        std::string                 _doc_detail;
     };
 
 }
