@@ -1,10 +1,11 @@
 
-#include "string_functions.h"
+#include "string_helpers.h"
 #include <cctype>
 using namespace std;
 
-string clazzy::to_lower_case(const string &text) {
+string clazzy::to_lower_case(const string& text) {
     string output;
+    // check first character
     if (isupper(text[0])) {
         output = tolower(text[0]);
     } else {
@@ -21,8 +22,9 @@ string clazzy::to_lower_case(const string &text) {
     return output;
 }
 
-string clazzy::to_camel_case(const string &text) {
+string clazzy::to_camel_case(const string& text) {
     string output;
+    // copy first character
     output += text[0];
     // turn subsequent underscores followed by chars to just the upper case
     for (unsigned int i=1; i<text.size(); i++) {
@@ -36,7 +38,8 @@ string clazzy::to_camel_case(const string &text) {
     return output;
 }
 
-string clazzy::to_full_camel_case(const string &text) {
+string clazzy::to_full_camel_case(const string& text) {
+    // convert to camel case
     string output = to_camel_case(text);
     // convert first char as well
     if (islower(text[0])) {

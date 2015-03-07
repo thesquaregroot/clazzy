@@ -1,5 +1,0 @@
-%LANGUAGE=C++;
-
-A simple_class
-    can
-        void execute.

@@ -66,6 +66,7 @@ determine how these devolve/expand for languages which have fewer modifiers:
     - public
 
 Also included in "Accessibility" above:
+    - abstract
     - static
     - read-only (i.e. const/final)
     - final     (i.e. non-virtual) [methods only]
@@ -153,6 +154,7 @@ table:
     | public    |   p   |
     | private   |   v   |
     | protected |   t   |
+    | abstract  |   a   |
     | static    |   s   |
     | read-only |   r   |
     | final     |   f   |

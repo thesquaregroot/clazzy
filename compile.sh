@@ -4,7 +4,7 @@ mkdir -p build/
 cd build/
 cmake ..
 make
-if [[ -f ./clazzy ]]; then
-    cp ./clazzy ../clazzy
+if [[ -f ./libclazzy.a ]]; then
+    cp ./libclazzy.a ..
 fi
 

@@ -1,7 +1,16 @@
 
-#include "io_functions.h"
+#include "io_helpers.h"
 #include <sys/stat.h>
 using namespace std;
+
+bool clazzy::write(std::vector<Class> classes, const std::string& file, bool overwrite = true) {
+    // TODO: implement
+}
+
+vector<Class> clazzy::read(const std::string& file) {
+    // TODO: implement
+}
+
 
 bool clazzy::chk_mkdir(const string &dir_name)
 {
