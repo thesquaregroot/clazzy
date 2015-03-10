@@ -28,6 +28,9 @@ namespace clazzy {
     //// For Language Files:
     //////////////////////////
 
+    // returns true iff the given file exists
+    bool file_exists(const std::string&);
+
     // returns true iff:
     // - the path already exists and is a directory
     // - the path did not exist and a directory was created

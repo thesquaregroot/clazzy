@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace clazzy {
-    enum BaseType {
+    enum class BaseType {
         // Generic Types
         ARRAY,
         DEQUE,
@@ -27,14 +27,19 @@ namespace clazzy {
         STRING,
         VOID
     };
+    // BaseType helper methods
+    std::string to_string(const BaseType&);
+    BaseType    to_base_type(const std::string&);
 
     class Type {
     public:
         // creates a default user type without a name
+        //  equivalent to Type(USER_DEFINED[, ""]);
         Type();
         // creates a new type with the given base
-        Type(const BaseType& type);
-        // creates a new type for a user defined type denoted by "name".
+        //  for a user type, a name can also be specified
+        Type(const BaseType& type, const std::string& user_type_name = "");
+        // creates a new type from a serialization string (see to_string)
         Type(const std::string& name);
 
         BaseType get_base_type() const;
@@ -45,6 +50,8 @@ namespace clazzy {
 
         std::vector<Type> get_generic_types() const;
         void              add_generic_type(const Type&);
+
+        std::string to_string() const;
 
         bool operator==(const Type&);
         bool operator!=(const Type&);

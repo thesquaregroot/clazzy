@@ -60,6 +60,14 @@ void Member::set_type(const Type& type) {
     _type = type;
 }
 
+string Member::get_default_value() const {
+    return _default_value;
+}
+
+void Member::set_default_value(const string& value) {
+    _default_value = value;
+}
+
 //// Documentation methods
 string Member::get_doc_short() const {
     return _doc_short;

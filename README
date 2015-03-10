@@ -153,8 +153,8 @@ table:
     | modifier  | char  |
     |-----------+-------+
     | public    |   p   |
-    | private   |   v   |
     | protected |   t   |
+    | private   |   v   |
     | abstract  |   a   |
     | static    |   s   |
     | read-only |   r   |

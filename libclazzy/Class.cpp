@@ -66,6 +66,14 @@ bool Class::is_interface() const {
     return true;
 }
 
+int Class::get_generics_count() const {
+    return _generics_count;
+}
+
+void Class::set_generics_count(int count) {
+    _generics_count = count;
+}
+
 //// Access
 bool Class::is_final() const {
     return _is_final;

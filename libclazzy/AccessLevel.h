@@ -2,7 +2,7 @@
 #define CLAZZY_ACCESS_LEVEL_H
 
 namespace clazzy {
-    enum AccessLevel {
+    enum class AccessLevel {
         PRIVATE,
         PROTECTED,
         PUBLIC

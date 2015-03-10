@@ -32,6 +32,9 @@ namespace clazzy {
         //   - constructors or destructors
         bool is_interface() const;
 
+        int  get_generics_count() const;
+        void set_generics_count(int);
+
         //// Access
         bool is_final() const;
         void set_final(bool);
@@ -68,6 +71,7 @@ namespace clazzy {
         AccessLevel                 _access_level = AccessLevel::PUBLIC;
         std::string                 _namespace;
         std::string                 _package;
+        int                         _generics_count;
         std::vector<Method>         _methods;
         std::vector<Member>         _members;
         std::string                 _doc_short;

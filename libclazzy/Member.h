@@ -32,6 +32,9 @@ namespace clazzy {
         Type get_type() const;
         void set_type(const Type&);
 
+        std::string get_default_value() const;
+        void        set_default_value(const std::string&);
+
         //// Documentation methods
         std::string get_doc_short() const;
         void        set_doc_short(const std::string&);
@@ -46,6 +49,7 @@ namespace clazzy {
         bool        _is_final;
         AccessLevel _access_level;
         Type        _type;
+        std::string _default_value;
         std::string _doc_short;
         std::string _doc_detail;
     };
