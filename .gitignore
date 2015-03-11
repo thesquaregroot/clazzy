@@ -30,4 +30,8 @@ clazzy.cpp
 
 clazzy_*/
 build/
+test/*
+!test/*.cpp
+!test/Makefile
+
 
