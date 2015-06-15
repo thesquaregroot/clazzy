@@ -11,9 +11,9 @@ than directly translating high-level code in binary, clazzy operates by
 generating an intermediate representation that can be used as a bridge between
 various forms of input and output.
 
-Clazzy is an free (as in speech) C++11 program licensed under the GNU 
-General Public License (GPL) version 3.  It is important to note that although
-any derivative works of this program must also be free (per the GPL),
+Clazzy is an free (as in speech) C++11 library licensed under the GNU 
+Lesser General Public License (LGPL) version 2.1.  It is important to note that
+although any derivative works of this program must also be free (per the GPL),
 any generated code belongs to the copy-right holder of the input (i.e.
 the user).
 
